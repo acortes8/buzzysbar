@@ -48,6 +48,5 @@ Members:
   listing (which shows up only for that specific member), and search for
   beverages by name or category.
 
-General page flow: 
-![alt text](buzzysbar_pageflow.drawio.png)
-S
+General page flow:
+![alt text](buzzysbar_pageflow.png)
