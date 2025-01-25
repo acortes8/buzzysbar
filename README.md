@@ -25,6 +25,11 @@ Things you may want to cover:
 
 Initial specification (01/24/2025)
 
+This section is an initial specification to roughly plot out what Buzzy's Bar
+will be and will need. These initial guesses are likely to off as the
+application develops iteratively, making these rough specifications early allows
+us to to focus on what to work on first and how to sequence our iterations. 
+
 What Buzzy’s Bar does
 
 Actors:
@@ -48,5 +53,8 @@ Members:
   listing (which shows up only for that specific member), and search for
   beverages by name or category.
 
-General page flow:
+Rudimentary page flow:
 ![alt text](buzzysbar_pageflow.png)
+
+Rudimentary data:
+![alt text](buzzysbar_data.png)
