@@ -1,0 +1,2 @@
+class Beverage < ApplicationRecord
+end
