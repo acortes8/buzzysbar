@@ -3,4 +3,6 @@
     <strong class="block font-medium mb-1">Title:</strong>
     <%= beverage.title %>
   </p>
+  <%= image_tag beverage.featured_image if 
+    beverage.featured_image.attached? %>
 </div>
