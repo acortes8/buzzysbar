@@ -5,4 +5,16 @@
   </p>
   <%= image_tag beverage.featured_image if 
     beverage.featured_image.attached? %>
+
+  <div class="prose">
+      <%= beverage.ingredient_section %>
+  </div>
+
+  <div class="prose">
+      <%= beverage.instruction_section %>
+  </div>
+
+  <div class="prose">
+      <%= beverage.description %>
+  </div>
 </div>

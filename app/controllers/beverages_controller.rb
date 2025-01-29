@@ -65,6 +65,7 @@ class BeveragesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def beverage_params
-      params.expect(beverage: [ :title, :featured_image ])
+      params.expect(beverage: [ :title, :featured_image, :ingredient_section,
+      :instruction_section, :description ])
     end
 end

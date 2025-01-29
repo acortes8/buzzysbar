@@ -21,6 +21,21 @@
     <%= form.file_field :featured_image, accept: "image/*", class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": beverage.errors[:featured_image].none?, "border-red-400 focus:outline-red-600": beverage.errors[:featured_image].any?}] %>
   </div>
 
+  <div class="my-5">
+    <%= form.label :ingredient_section %>
+    <%= form.rich_textarea :ingredient_section, class: ["prose block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": beverage.errors[:featured_image].none?, "border-red-400 focus:outline-red-600": beverage.errors[:featured_image].any?}] %>
+  </div>
+
+    <div class="my-5">
+    <%= form.label :instruction_section, style: "display: block" %>
+    <%= form.rich_textarea :instruction_section, class: ["prose"] %>
+  </div>
+
+    <div class="my-5">
+    <%= form.label :description %>
+    <%= form.rich_textarea :description, class: ["prose"] %>
+  </div>
+
   <div class="inline">
     <%= form.submit class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
   </div>
