@@ -2,24 +2,59 @@
 
 <div class="w-full">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium
+              rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Beverages</h1>
-    <%= link_to "New beverage", new_beverage_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    <%= link_to "New beverage",
+                new_beverage_path,
+                class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500
+                        text-white block font-medium" %>
   </div>
 
   <div id="beverages" class="min-w-full">
     <% if @beverages.any? %>
       <% @beverages.each do |beverage| %>
-        <%= render beverage %>
-        <p>
-          <%= link_to "Show this beverage", beverage, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-        </p>
+        <div class="rounded-lg border shadow-sm overflow-hidden bg-white
+                  border-stone-200 shadow-stone-950/5 flex h-full w-full
+                  max-w-[48rem] flex-row">
+          <div class="rounded m-0 h-full w-2/5 shrink-0 rounded-r-none">
+            <%= image_tag beverage.featured_image,
+                          alt: "card-image",
+                          class: "h-full w-full object-cover"%>
+          </div>
+          <div class="w-full h-max rounded p-4">
+            <small class="font-sans antialiased text-sm mb-4 font-bold uppercase
+                        text-stone-600">beverages</small>
+            <h5 class="font-sans antialiased font-bold text-lg md:text-xl
+                      lg:text-2xl text-current mb-2">
+                      <%= beverage.title %></h5>
+            <p class="font-sans antialiased text-base mb-8 text-stone-600">
+              <%= truncate beverage.description.to_plain_text, length: 300 %>
+            </p>
+            <%= link_to "Show this beverage", beverage, class: "justify-center
+              border align-middle select-none font-sans font-medium text-center
+              duration-300 ease-in disabled:opacity-50 disabled:shadow-none
+              disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4
+              shadow-sm hover:shadow-md bg-stone-800 hover:bg-stone-700 relative
+              bg-gradient-to-b from-stone-700 to-stone-800 border-stone-900
+              text-stone-50 rounded-lg hover:bg-gradient-to-b
+              hover:from-stone-800 hover:to-stone-800 hover:border-stone-900
+              after:absolute after:inset-0 after:rounded-[inherit]
+              after:box-shadow
+              after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.25),inset_0_-2px_0px_rgba(0,0,0,0.35)]
+              after:pointer-events-none transition antialiased mb-2 flex w-fit
+              items-center gap-2" %>
+          </div>
+        </div>
       <% end %>
     <% else %>
       <p class="text-center my-10">No beverages found.</p>
     <% end %>
   </div>
 </div>
+
+
+
