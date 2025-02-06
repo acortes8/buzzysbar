@@ -1,20 +1,22 @@
-<div id="<%= dom_id beverage %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Title:</strong>
+<div id="<%= dom_id beverage %>" class="flex flex-col gap-4">
+  <p class="mx-auto font-sans antialiased font-bold text-4xl md:text-5xl lg:text-6xl text-current">
     <%= beverage.title %>
   </p>
-  <%= image_tag beverage.featured_image if 
+  <%= image_tag beverage.featured_image, class: "h-96 w-full rounded-lg object-cover object-center shadow-lg shadow-black/25" if 
     beverage.featured_image.attached? %>
 
-  <div class="prose">
-      <%= beverage.ingredient_section %>
+  <div class="mx-auto prose">
+    <div class="text-center"><strong class="font-sans antialiased font-bold text-3xl md:text-4xl lg:text-5xl text-current">Ingredients</strong></div>
+    <%= beverage.ingredient_section %>
+  </div>
+
+  <div class="mx-auto prose">
+    <div class="text-center"><strong class="font-sans antialiased font-bold text-3xl md:text-4xl lg:text-5xl text-current">Steps</strong></div>
+    <%= beverage.instruction_section %>
   </div>
 
   <div class="prose">
-      <%= beverage.instruction_section %>
-  </div>
-
-  <div class="prose">
-      <%= beverage.description %>
+      <div class="text-center"><strong class="font-sans antialiased font-bold text-3xl md:text-4xl lg:text-5xl text-current">Description</strong></div>
+    <%= beverage.description %>
   </div>
 </div>
