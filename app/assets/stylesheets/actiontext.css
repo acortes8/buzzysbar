@@ -21,6 +21,7 @@ trix-toolbar .trix-button-row {
 
 trix-toolbar .trix-button-group {
   display: flex;
+  background-color: white;
   margin-bottom: 10px;
   border: 1px solid #bbb;
   border-top-color: #ccc;
