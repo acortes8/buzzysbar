@@ -2,3 +2,23 @@
 #   record: name_of_fixture (ClassOfFixture)
 #   name: content
 #   body: <p>In a <i>million</i> stars!</p>
+
+mai_tai_ingredient_section:
+  record: mai_tai (Beverage)
+  name: ingredient_section
+  body: "<ul><li>4 ounces black blended or black pot-still rum</li><li>2 ounces lemon juice, freshly squeezed</li><li>2 ounces passion fruit syrup</li><li>Garnish: lemon wheel</li><li>Garnish: cocktail umbrella</li></ul>"
+
+mai_tai_instruction_section:
+  record: mai_tai (Beverage)
+  name: instruction_section
+  body:
+  
+mai_tai_description:
+  record: mai_tai (Beverage)
+  name: description
+  body:
+
+pearl_diver_rich_texts:
+  record:
+  name:
+  body:

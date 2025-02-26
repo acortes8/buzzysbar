@@ -6,7 +6,7 @@
               rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex justify-between items-center">
+  <div class="flex justify-between items-center mb-5">
     <h1 class="font-bold text-4xl">Beverages</h1>
     <%= link_to "New beverage",
                 new_beverage_path,
@@ -19,7 +19,7 @@
       <% @beverages.each do |beverage| %>
         <div class="rounded-lg border shadow-sm overflow-hidden bg-white
                   border-stone-200 shadow-stone-950/5 flex h-full w-full
-                  max-w-[48rem] flex-row">
+                  max-w-[48rem] flex-row mb-5">
           <div class="rounded m-0 h-full w-2/5 shrink-0 rounded-r-none">
             <%= image_tag beverage.featured_image,
                           alt: "card-image",
