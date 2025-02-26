@@ -12,13 +12,15 @@
       data-dui-accordion-toggle
       data-dui-accordion-target="#allOpenAccordion1"
       aria-expanded="true">
-      What is David UI?
+      Ingredients
       <svg data-dui-accordion-icon width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-4 w-4 rotate-180">
         <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
       </svg>
     </div>
     <div id="allOpenAccordion1" class="overflow-hidden transition-all duration-300 border-b border-stone-200 dark:border-stone-700">
-      <p class="mb-5 text-sm text-stone-500 dark:text-stone-400">David UI is a comprehensive UI library built with Tailwind CSS, offering modern and customizable components for web development.</p>
+      <div class="mb-5 text-sm text-stone-500 dark:text-stone-400">
+        <%= beverage.ingredient_section %>
+      </div>
     </div>
   
     <div 
@@ -26,29 +28,31 @@
       data-dui-accordion-toggle
       data-dui-accordion-target="#allOpenAccordion2"
       aria-expanded="true">
-      Why choose David UI?
+      Instructions
       <svg data-dui-accordion-icon width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-4 w-4">
         <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
       </svg>
     </div>
     <div id="allOpenAccordion2" class="overflow-hidden transition-all duration-300 border-b border-stone-200 dark:border-stone-700">
-      <p class="mb-5 text-sm text-stone-500 dark:text-stone-400">David UI provides an extensive collection of ready-to-use components with seamless integration and excellent developer experience.</p>
+      <div class="mb-5 text-sm text-stone-500 dark:text-stone-400">
+        <%= beverage.instruction_section %>
+      </div>
     </div>
-  </div>
 
-
-  <div class="mx-auto prose">
-    <div class="text-center"><strong class="font-sans antialiased font-bold text-3xl md:text-4xl lg:text-5xl text-current">Ingredients</strong></div>
-    <%= beverage.ingredient_section %>
-  </div>
-
-  <div class="mx-auto prose">
-    <div class="text-center"><strong class="font-sans antialiased font-bold text-3xl md:text-4xl lg:text-5xl text-current">Steps</strong></div>
-    <%= beverage.instruction_section %>
-  </div>
-
-  <div class="prose">
-      <div class="text-center"><strong class="font-sans antialiased font-bold text-3xl md:text-4xl lg:text-5xl text-current">Description</strong></div>
-    <%= beverage.description %>
+    <div 
+      class="flex items-center justify-between w-full py-5 text-left font-medium dark:text-white text-stone-800 cursor-pointer"
+      data-dui-accordion-toggle
+      data-dui-accordion-target="#allOpenAccordion3"
+      aria-expanded="true">
+      Description
+      <svg data-dui-accordion-icon width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-4 w-4">
+        <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
+      </svg>
+    </div>
+    <div id="allOpenAccordion3" class="overflow-hidden transition-all duration-300 border-b border-stone-200 dark:border-stone-700">
+      <div class="mb-5 text-sm text-stone-500 dark:text-stone-400">
+        <%= beverage.description %>
+      </div>
+    </div>
   </div>
 </div>
