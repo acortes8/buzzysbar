@@ -1,7 +1,16 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
-@config '../../../config/tailwind.config.js';
+@theme {
+  --color-tropical-green: #28A745;
+  --color-bright-orange: #FF5733;
+  --color-deep-blue: #007BFF;
+  --color-soft-beige: #F5F5F5;
+  --color-golden-yellow: #FFC107;
+  --font-heading: Pacifico, cursive;
+  --font-body: Inter, sans-serif;
+  --drop-shadow-text: 0 1.2px 1.2px rgba(0,0,0,0.8);
+}
 
 /*
 
