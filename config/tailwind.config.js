@@ -10,7 +10,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-//         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        heading: ["Pacifico", "cursive"],
+        body: ["Inter", "sans-serif"]
+//      sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         'tropical-green': '#28A745',
