@@ -10,7 +10,7 @@
 
 Beverage.delete_all
 
-beverage_1 = Beverage.create!(
+beverage_1 = Beverage.new(
  title: 'Saturn',
  ingredient_section:
   '<ul>
@@ -43,7 +43,9 @@ beverage_1.featured_image.attach(io:
   filename: 'saturn.png',
   content_type: 'image/png')
 
-beverage_2 = Beverage.create!(
+beverage_1.save
+
+beverage_2 = Beverage.new(
  title: 'Hurricane',
  ingredient_section:
   '<ul>
@@ -76,7 +78,9 @@ beverage_2.featured_image.attach(io:
   filename: 'hurricane.png',
   content_type: 'image/png')
 
-beverage_3 = Beverage.create!(
+beverage_2.save
+
+beverage_3 = Beverage.new(
   title: "Smuggler's Cove Hurricane",
   ingredient_section:
     '<ul>
@@ -104,3 +108,5 @@ beverage_3.featured_image.attach(io:
   File.open('app/assets/images/smugglers_cove_hurricane.png'),
   filename: 'smugglers_cove_hurricane.png',
   content_type: 'image/png')
+
+beverage_3.save
