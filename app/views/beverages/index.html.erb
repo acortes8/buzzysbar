@@ -10,8 +10,15 @@
     <h1 class="font-bold text-4xl">Beverages</h1>
     <%= link_to "New beverage",
                 new_beverage_path,
-                class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500
-                        text-white block font-medium" %>
+                class: "inline-flex items-center justify-center align-middle select-none font-sans font-medium
+                        text-center duration-300 ease-in disabled:opacity-50 disabled:shadow-none 0
+                        disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4 shadow-sm
+                        hover:shadow-md bg-amber-500 hover:bg-warning-light relative bg-gradient-to-b
+                        from-orange-500 to-orange-600 border-orange-600 text-stone-50 rounded-lg
+                        hover:bg-gradient-to-b hover:from-orange-600 hover:to-orange-600 hover:border-orange-600
+                        after:absolute after:inset-0 after:rounded-[inherit] after:box-shadow
+                        after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),inset_0_-2px_0px_rgba(0,0,0,0.18)]
+                        after:pointer-events-none transition antialiased" %>
   </div>
 
   <div id="beverages" class="min-w-full">
@@ -19,7 +26,7 @@
       <% @beverages.each do |beverage| %>
         <div class="rounded-lg border shadow-sm overflow-hidden bg-soft-beige
                   border-stone-200 shadow-stone-950/5 flex h-full w-full
-                  max-w-[48rem] flex-row mb-5">
+                  flex-row mb-5">
           <div class="rounded m-0 h-full w-2/5 shrink-0 rounded-r-none">
             <%= image_tag beverage.featured_image,
                           alt: "card-image",
@@ -34,19 +41,17 @@
             <p class="font-sans antialiased text-base mb-8 text-stone-600">
               <%= truncate beverage.description.to_plain_text, length: 300 %>
             </p>
-            <%= link_to "Show this beverage", beverage, class: "justify-center
-              border align-middle select-none font-sans font-medium text-center
-              duration-300 ease-in disabled:opacity-50 disabled:shadow-none
-              disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4
-              shadow-sm hover:shadow-md bg-stone-800 hover:bg-stone-700 relative
-              bg-gradient-to-b from-stone-700 to-stone-800 border-stone-900
-              text-stone-50 rounded-lg hover:bg-gradient-to-b
-              hover:from-stone-800 hover:to-stone-800 hover:border-stone-900
-              after:absolute after:inset-0 after:rounded-[inherit]
-              after:box-shadow
-              after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.25),inset_0_-2px_0px_rgba(0,0,0,0.35)]
-              after:pointer-events-none transition antialiased mb-2 flex w-fit
-              items-center gap-2" %>
+            <%= link_to "Show this beverage",
+                        beverage,
+                        class: "inline-flex items-center justify-center align-middle select-none font-sans font-medium
+                        text-center duration-300 ease-in disabled:opacity-50 disabled:shadow-none 0
+                        disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4 shadow-sm
+                        hover:shadow-md bg-amber-500 hover:bg-warning-light relative bg-gradient-to-b
+                        from-orange-500 to-orange-600 border-orange-600 text-stone-50 rounded-lg
+                        hover:bg-gradient-to-b hover:from-orange-600 hover:to-orange-600 hover:border-orange-600
+                        after:absolute after:inset-0 after:rounded-[inherit] after:box-shadow
+                        after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),inset_0_-2px_0px_rgba(0,0,0,0.18)]
+                        after:pointer-events-none transition antialiased" %>
           </div>
         </div>
       <% end %>
