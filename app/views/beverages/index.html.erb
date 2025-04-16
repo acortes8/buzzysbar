@@ -2,9 +2,11 @@
 
 <div class="w-full">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium
+    <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium
               rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
+
+
 
   <div class="flex justify-between items-center mb-5">
     <h1 class="font-bold text-4xl">Beverages</h1>
@@ -24,7 +26,7 @@
   <div id="beverages" class="min-w-full">
     <% if @beverages.any? %>
       <% @beverages.each do |beverage| %>
-        <div class="rounded-lg border shadow-sm overflow-hidden bg-soft-beige
+        <div class="rounded-lg border shadow-sm overflow-hidden bg-ablescent-white
                   border-stone-200 shadow-stone-950/5 flex h-full w-full
                   flex-row mb-5">
           <div class="rounded m-0 h-full w-2/5 shrink-0 rounded-r-none">

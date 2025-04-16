@@ -2,6 +2,12 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
+  --color-neptune: #82bdbb;
+  --color-elm: #20767e;
+  --color-ablescent-white: #f5d8ce;
+  --color-punch: #dc4825;
+
+
   --color-tropical-green: #28A745;
   --color-bright-orange: #FF5733;
   --color-deep-blue: #007BFF;
