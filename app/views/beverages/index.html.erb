@@ -6,8 +6,8 @@
               rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-
-
+  
+  <!--
   <div class="flex justify-between items-center mb-5">
     <h1 class="font-bold text-4xl">Beverages</h1>
     <%= link_to "New beverage",
@@ -22,8 +22,45 @@
                         after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),inset_0_-2px_0px_rgba(0,0,0,0.18)]
                         after:pointer-events-none transition antialiased" %>
   </div>
+  -->
+  
+  <table id="beverages" class="mx-auto">
 
-  <div id="beverages" class="min-w-full">
+    <tbody>
+      <% @beverages.each do |beverage| %>
+        <tr class="<%= cycle 'bg-ablescent-white', 'bg-parchment' %>">
+
+          <td class="px-2 py-3 w-1/2">
+            <%= image_tag beverage.featured_image %>
+          </td>
+
+          <td>
+            <h1 class=" text-punch text-xl font-bold mb-3"><%= beverage.title %>
+            <p class="text-elm">
+              <%= truncate strip_tags(beverage.description), length: 100 %>
+            </p>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="3">
+          <div class="mt-8">
+            <%= link_to 'New beverage',
+                        new_beverage_path,
+                        class: "inline rounded-lg py-3 px-5 bg-ablescent-white
+                                text-punch block font-medium" %>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+
+    <!--
     <% if @beverages.any? %>
       <% @beverages.each do |beverage| %>
         <div class="rounded-lg border shadow-sm overflow-hidden bg-ablescent-white
@@ -60,6 +97,8 @@
     <% else %>
       <p class="text-center my-10">No beverages found.</p>
     <% end %>
+    -->
+
   </div>
 </div>
 
