@@ -5,40 +5,46 @@
     <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium
               rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
-
   
-  <!--
-  <div class="flex justify-between items-center mb-5">
-    <h1 class="font-bold text-4xl">Beverages</h1>
-    <%= link_to "New beverage",
-                new_beverage_path,
-                class: "inline-flex items-center justify-center align-middle select-none font-sans font-medium
-                        text-center duration-300 ease-in disabled:opacity-50 disabled:shadow-none 0
-                        disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4 shadow-sm
-                        hover:shadow-md bg-amber-500 hover:bg-warning-light relative bg-gradient-to-b
-                        from-orange-500 to-orange-600 border-orange-600 text-stone-50 rounded-lg
-                        hover:bg-gradient-to-b hover:from-orange-600 hover:to-orange-600 hover:border-orange-600
-                        after:absolute after:inset-0 after:rounded-[inherit] after:box-shadow
-                        after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),inset_0_-2px_0px_rgba(0,0,0,0.18)]
-                        after:pointer-events-none transition antialiased" %>
-  </div>
-  -->
-  
-  <table id="beverages" class="mx-auto">
+  <table id="beverages" class="mx-auto border-separate border-spacing-y-5">
 
     <tbody>
       <% @beverages.each do |beverage| %>
         <tr class="<%= cycle 'bg-ablescent-white', 'bg-parchment' %>">
 
-          <td class="px-2 py-3 w-1/2">
-            <%= image_tag beverage.featured_image %>
+          <td class="px-2 py-3 w-1/2 rounded-l-md">
+            <%= image_tag beverage.featured_image, class: 'rounded-md shadow-xl' %>
           </td>
 
-          <td>
-            <h1 class=" text-punch text-xl font-bold mb-3"><%= beverage.title %>
+          <td class="rounded-r-md">
+            <h1 class="text-punch text-xl font-bold mb-3"><%= beverage.title %>
             <p class="text-elm">
               <%= truncate strip_tags(beverage.description), length: 100 %>
             </p>
+          </td>
+
+          <td class="px-1 bg-neptune">
+          </td>
+
+          <td class="px-3 rounded-md">
+            <ul>
+              <li>
+                <%= link_to 'Show',
+                            beverage,
+                            class: 'text-xl font-bold hover:underline text-punch' %>
+              </li>
+              <li>
+                <%= link_to 'Edit',
+                            edit_beverage_path(beverage),
+                            class: 'text-xl font-bold hover:underline text-punch'%>
+              </li>
+              <li>
+                <%= link_to 'Destroy',
+                            beverage,
+                            class: 'text-xl font-bold hover:underline text-punch',
+                            data: { turbo_method: :delete,
+                                    turbo_confirm: "Are you sure?" } %>
+              </li>
           </td>
 
         </tr>
@@ -52,53 +58,12 @@
             <%= link_to 'New beverage',
                         new_beverage_path,
                         class: "inline rounded-lg py-3 px-5 bg-ablescent-white
-                                text-punch block font-medium" %>
+                                text-punch text-xl font-bold hover:underline" %>
           </div>
         </td>
       </tr>
     </tfoot>
   </table>
-
-
-    <!--
-    <% if @beverages.any? %>
-      <% @beverages.each do |beverage| %>
-        <div class="rounded-lg border shadow-sm overflow-hidden bg-ablescent-white
-                  border-stone-200 shadow-stone-950/5 flex h-full w-full
-                  flex-row mb-5">
-          <div class="rounded m-0 h-full w-2/5 shrink-0 rounded-r-none">
-            <%= image_tag beverage.featured_image,
-                          alt: "card-image",
-                          class: "h-full w-full object-cover"%>
-          </div>
-          <div class="w-full h-max rounded p-4">
-            <small class="font-sans antialiased text-sm mb-4 font-bold uppercase
-                        text-stone-600">beverages</small>
-            <h5 class="font-sans antialiased font-bold text-lg md:text-xl
-                      lg:text-2xl text-current mb-2">
-                      <%= beverage.title %></h5>
-            <p class="font-sans antialiased text-base mb-8 text-stone-600">
-              <%= truncate beverage.description.to_plain_text, length: 300 %>
-            </p>
-            <%= link_to "Show this beverage",
-                        beverage,
-                        class: "inline-flex items-center justify-center align-middle select-none font-sans font-medium
-                        text-center duration-300 ease-in disabled:opacity-50 disabled:shadow-none 0
-                        disabled:cursor-not-allowed focus:shadow-none text-sm py-2 px-4 shadow-sm
-                        hover:shadow-md bg-amber-500 hover:bg-warning-light relative bg-gradient-to-b
-                        from-orange-500 to-orange-600 border-orange-600 text-stone-50 rounded-lg
-                        hover:bg-gradient-to-b hover:from-orange-600 hover:to-orange-600 hover:border-orange-600
-                        after:absolute after:inset-0 after:rounded-[inherit] after:box-shadow
-                        after:shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),inset_0_-2px_0px_rgba(0,0,0,0.18)]
-                        after:pointer-events-none transition antialiased" %>
-          </div>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No beverages found.</p>
-    <% end %>
-    -->
-
   </div>
 </div>
 
