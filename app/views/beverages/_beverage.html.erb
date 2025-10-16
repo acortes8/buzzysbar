@@ -1,14 +1,14 @@
-<div id="<%= dom_id beverage %>" class="flex flex-col gap-4">
-  <p class="mx-auto font-sans antialiased font-bold text-4xl md:text-5xl lg:text-6xl text-current">
+<div id="<%= dom_id beverage %>" class="bg-ablescent-white px-2 py-3 rounded-md flex flex-col gap-4">
+  <p class="mx-auto text-center font-sans antialiased font-bold text-4xl md:text-5xl lg:text-6xl text-punch">
     <%= beverage.title %>
   </p>
-  <%= image_tag beverage.featured_image, class: "h-96 w-full rounded-lg object-cover object-center shadow-lg shadow-black/25" if 
+  <%= image_tag beverage.featured_image, class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-white object-center shadow-lg shadow-black/25" if 
     beverage.featured_image.attached? %>
 
   
   <div class="group block w-full" aria-disabled="false" data-dui-accordion-container data-dui-accordion-mode="all-open">
     <div 
-      class="flex items-center justify-between w-full py-5 text-left font-medium text-stone-800 cursor-pointer"
+      class="flex items-center justify-between w-full p-5 py-5 text-left font-bold text-punch text-xl cursor-pointer"
       data-dui-accordion-toggle
       data-dui-accordion-target="#allOpenAccordion1"
       aria-expanded="true">
@@ -17,14 +17,14 @@
         <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
       </svg>
     </div>
-    <div id="allOpenAccordion1" class="overflow-hidden transition-all duration-300 border-b border-stone-200">
-      <div class="prose mb-5 text-sm text-stone-500">
+    <div id="allOpenAccordion1" class="overflow-hidden transition-all duration-300 border-b border-elm">
+      <div class="prose p-5 ml-5 mb-5 text-elm">
         <%= beverage.ingredient_section %>
       </div>
     </div>
   
     <div 
-      class="flex items-center justify-between w-full py-5 text-left font-medium text-stone-800 cursor-pointer"
+      class="flex items-center justify-between w-full p-5 py-5 text-left font-bold text-punch text-xl cursor-pointer"
       data-dui-accordion-toggle
       data-dui-accordion-target="#allOpenAccordion2"
       aria-expanded="true">
@@ -33,14 +33,14 @@
         <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
       </svg>
     </div>
-    <div id="allOpenAccordion2" class="overflow-hidden transition-all duration-300 border-b border-stone-200">
-      <div class="prose mb-5 text-sm text-stone-500">
+    <div id="allOpenAccordion2" class="overflow-hidden transition-all duration-300 border-b border-elm">
+      <div class="prose p-5 ml-5 mb-5 text-elm">
         <%= beverage.instruction_section %>
       </div>
     </div>
 
     <div 
-      class="flex items-center justify-between w-full py-5 text-left font-medium text-stone-800 cursor-pointer"
+      class="flex items-center justify-between w-full p-5 py-5 text-left font-bold text-punch text-xl cursor-pointer"
       data-dui-accordion-toggle
       data-dui-accordion-target="#allOpenAccordion3"
       aria-expanded="true">
@@ -49,8 +49,8 @@
         <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
       </svg>
     </div>
-    <div id="allOpenAccordion3" class="overflow-hidden transition-all duration-300 border-b border-stone-200">
-      <div class="prose mb-5 text-sm text-stone-500">
+    <div id="allOpenAccordion3" class="overflow-hidden transition-all duration-300">
+      <div class="prose p-5 ml-5 mb-5 text-elm">
         <%= beverage.description %>
       </div>
     </div>

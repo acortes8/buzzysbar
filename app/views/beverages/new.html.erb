@@ -1,9 +1,9 @@
 <% content_for :title, "New beverage" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New beverage</h1>
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
+  <h1 class="font-bold text-4xl text-punch">New beverage</h1>
 
   <%= render "form", beverage: @beverage %>
 
-  <%= link_to "Back to beverages", beverages_path, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <%= link_to "Back to beverages", beverages_path, class: "m-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
 </div>

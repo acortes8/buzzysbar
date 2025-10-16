@@ -3,6 +3,12 @@
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16"
+    "@tailwindcss/typography": "^0.5.16",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.7.0"
+  },
+  "prettier": {
+    "plugins": ["prettier-plugin-tailwindcss"],
+    "tailwindStylesheet": "./app/assets/tailwind/application.css"
   }
 }
