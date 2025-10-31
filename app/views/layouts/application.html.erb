@@ -32,7 +32,7 @@
     <header class="bg-neptune sticky top-0 z-10 pt-4 px-4 mb-4">
       <div class="flex justify-around items-center p-4 bg-ablescent-white rounded-full shadow-lg relative">
 
-        <h1 class="text-4xl tracking-tight font-heading text-punch antialiased hover:opacity-75">
+        <h1 class="text-4xl header-link">
           <%= link_to "Buzzy's Bar", beverages_path %>
         </h1>
 
@@ -42,18 +42,18 @@
           </svg>
         </button>
 
-        <nav class="hidden sm:flex gap-6 text-punch font-heading text-2xl tracking-tight antialiased" aria-label="main">
-          <%= link_to "Beverages", beverages_path, class: "hover:opacity-75"%>
-          <%= link_to "Collections", beverages_path, class: "hover:opacity-75"%>
-          <%= link_to "Contact Us", beverages_path, class: "hover:opacity-75"%>
+        <nav class="hidden sm:flex gap-6" aria-label="main">
+          <%= link_to "Beverages", beverages_path, class: "text-2xl header-link"%>
+          <%= link_to "Collections", beverages_path, class: "text-2xl header-link"%>
+          <%= link_to "Contact Us", beverages_path, class: "text-2xl header-link"%>
         </nav>
 
       </div>
 
-      <div id="mobile-menu" class="absolute top-full right-4 max-h-0 opacity-0 bg-ablescent-white text-punch font-heading text-3xl tracking-tight antialiased items-center overflow-hidden sm:hidden flex flex-col gap-4 px-4 py-2  mt-2 rounded-2xl shadow-lg transition-all duration-300 ease-in-out">
-          <%= link_to "Beverages", beverages_path, class: "hover:opacity-75"%>
-          <%= link_to "Collections", beverages_path, class: "hover:opacity-75"%>
-          <%= link_to "Contact Us", beverages_path, class: "hover:opacity-75"%>
+      <div id="mobile-menu" class="absolute top-full right-4 max-h-0 opacity-0 bg-ablescent-white items-center overflow-hidden sm:hidden flex flex-col gap-4 px-4 py-2  mt-2 rounded-2xl shadow-lg transition-all duration-300 ease-in-out">
+          <%= link_to "Beverages", beverages_path, class: "text-3xl header-link"%>
+          <%= link_to "Collections", beverages_path, class: "text-3xl header-link"%>
+          <%= link_to "Contact Us", beverages_path, class: "text-3xl header-link"%>
         </div>
 
 
