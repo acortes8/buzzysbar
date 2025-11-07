@@ -5,7 +5,7 @@
             rounded-md inline-block" id="notice"><%= notice %></p>
 <% end %>
 
-<section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+<section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
   <% @beverages.each do |beverage| %>
     <div class="bg-ablescent-white rounded-md shadow-lg hover:shadow-2xl transform hover:scale-[1.01] transition-transform duration-200 flex flex-col gap-4 overflow-hidden h-full">
 
@@ -23,7 +23,7 @@
       </div>
 
       <div class="text-center px-4 pb-4 mt-auto">
-        <div class="flex justify-center gap-3">
+        <div class="flex justify-center">
           <%= link_to 'Show', beverage, class: 'body-link inline-block px-3 py-1 rounded-md' %>
           <%= link_to 'Edit', edit_beverage_path(beverage), class: 'body-link inline-block px-3 py-1 rounded-md' %>
           <%= link_to 'Destroy', beverage, class: 'body-link inline-block px-3 py-1 rounded-md', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
