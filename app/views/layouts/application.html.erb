@@ -29,7 +29,7 @@
 
   <body class="flex flex-col min-h-screen bg-neptune">
     
-    <header class="bg-neptune sticky top-0 z-10 pt-4 px-4 mb-4">
+    <header class="bg-neptune sticky top-0 z-10 pt-4 px-4 mb-8">
       <div class="flex justify-around items-center p-4 bg-ablescent-white rounded-full shadow-lg relative">
 
         <h1 class="text-4xl header-link">
@@ -59,8 +59,12 @@
 
     </header>
     
-    <main class="flex-grow mx-auto max-w-4xl">
+    <main class="flex-grow mx-16 space-y-8">
       <%= yield %>
     </main>
+
+    <div class="bg-amber-500 text-center text-sm text-amber-200 py-6 mt-8">
+      S&copy 2025 Buzzy's Bar. All rights reserved.
+    </div>
   </body>
 </html>

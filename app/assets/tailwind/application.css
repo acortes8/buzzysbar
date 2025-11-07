@@ -52,4 +52,7 @@
   .header-link {
     @apply text-punch font-heading tracking-tight antialiased hover:opacity-75;
   }
+  .body-link {
+    @apply text-punch font-bold text-lg tracking-tight hover:opacity-75;
+  }
 }

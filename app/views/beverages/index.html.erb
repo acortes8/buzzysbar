@@ -1,71 +1,40 @@
 <% content_for :title, "Beverages" %>
 
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-ablescent-white my-5 text-elm text-xl font-bold
-              rounded-md inline-block" id="notice"><%= notice %></p>
+<% if notice.present? %>
+  <p class="py-2 px-3 bg-ablescent-white mb-8 text-elm text-xl font-bold
+            rounded-md inline-block" id="notice"><%= notice %></p>
+<% end %>
+
+<section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+  <% @beverages.each do |beverage| %>
+    <div class="bg-ablescent-white rounded-md shadow-lg hover:shadow-2xl transform hover:scale-[1.01] transition-transform duration-200 flex flex-col gap-4 overflow-hidden h-full">
+
+
+  <%= image_tag beverage.featured_image, alt: beverage.title, class: 'w-full aspect-square object-cover rounded-t-md shadow-xl' %>
+
+      <div class="px-4">
+        <h1 class="text-punch text-center text-xl tracking-tight font-bold mb-2 line-clamp-2 min-h-[3rem] overflow-hidden leading-snug">
+          <%= beverage.title %>
+        </h1>
+
+        <p class="text-elm font-semibold tracking-tight text-sm line-clamp-3">
+          <%= truncate strip_tags(beverage.description), length: 240 %>
+        </p>
+      </div>
+
+      <div class="text-center px-4 pb-4 mt-auto">
+        <div class="flex justify-center gap-3">
+          <%= link_to 'Show', beverage, class: 'body-link inline-block px-3 py-1 rounded-md' %>
+          <%= link_to 'Edit', edit_beverage_path(beverage), class: 'body-link inline-block px-3 py-1 rounded-md' %>
+          <%= link_to 'Destroy', beverage, class: 'body-link inline-block px-3 py-1 rounded-md', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        </div>
+      </div>
+    </div>
   <% end %>
-  
-  <table id="beverages" class="mx-auto border-separate border-spacing-y-5">
+</section>
 
-    <tbody>
-      <% @beverages.each do |beverage| %>
-        <tr class="<%= cycle 'bg-ablescent-white', 'bg-parchment' %>">
-
-          <td class="px-2 py-3 w-1/2 rounded-l-md">
-            <%= image_tag beverage.featured_image, class: 'rounded-md shadow-xl' %>
-          </td>
-
-          <td class="rounded-r-md">
-            <h1 class="text-punch text-xl font-bold mb-3"><%= beverage.title %>
-            <p class="text-elm">
-              <%= truncate strip_tags(beverage.description), length: 100 %>
-            </p>
-          </td>
-
-          <td class="px-1 bg-neptune">
-          </td>
-
-          <td class="px-3 rounded-md">
-            <ul>
-              <li>
-                <%= link_to 'Show',
-                            beverage,
-                            class: 'text-xl font-bold hover:underline text-punch' %>
-              </li>
-              <li>
-                <%= link_to 'Edit',
-                            edit_beverage_path(beverage),
-                            class: 'text-xl font-bold hover:underline text-punch'%>
-              </li>
-              <li>
-                <%= link_to 'Destroy',
-                            beverage,
-                            class: 'text-xl font-bold hover:underline text-punch',
-                            data: { turbo_method: :delete,
-                                    turbo_confirm: "Are you sure?" } %>
-              </li>
-          </td>
-
-        </tr>
-      <% end %>
-    </tbody>
-
-    <tfoot>
-      <tr>
-        <td colspan="3">
-          <div class="my-5">
-            <%= link_to 'New beverage',
-                        new_beverage_path,
-                        class: "inline rounded-lg py-3 px-5 bg-ablescent-white
-                                text-punch text-xl font-bold hover:underline" %>
-          </div>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
-  </div>
+<div>
+  <%= link_to 'New beverage',
+    new_beverage_path,
+    class: "text-punch text-xl font-bold bg-ablescent-white p-4 rounded hover:opacity-75" %>
 </div>
-
-
-
