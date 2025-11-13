@@ -85,14 +85,12 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
+  url: <%= ENV['DATABASE_URL'] %>
   primary: &primary_production
     <<: *default
-    database: cocktail_app_production
-    username: cocktail_app
-    password: <%= ENV["COCKTAIL_APP_DATABASE_PASSWORD"] %>
-    # database: <%= Rails.application.credentials.DB_NAME.prod_db %>
-    # username: <%= Rails.application.credentials.DB_USERNAME.prod_db %>
-    # password: <%= Rails.application.credentials.DB_PASSWORD.prod_db %>
+    database: <%= Rails.application.credentials.DB_NAME.prod_db %>
+    username: <%= Rails.application.credentials.DB_USERNAME.prod_db %>
+    password: <%= Rails.application.credentials.DB_PASSWORD.prod_db %>
   cache:
     <<: *primary_production
     database: buzzysbar_production_cache
