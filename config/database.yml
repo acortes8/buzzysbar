@@ -15,6 +15,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: localhost
+  port: 5432
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -22,7 +24,9 @@ default: &default
 
 development:
   <<: *default
-  database: buzzysbar_development
+  database: <%= Rails.application.credentials.DB_NAME.dev_db %>
+  username: <%= Rails.application.credentials.DB_USERNAME.dev_db %>
+  password: <%= Rails.application.credentials.DB_PASSWORD.dev_db %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -56,7 +60,9 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: buzzysbar_test
+  database: <%= Rails.application.credentials.DB_NAME.test_db %>
+  username: <%= Rails.application.credentials.DB_USERNAME.test_db %>
+  password: <%= Rails.application.credentials.DB_PASSWORD.test_db %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,9 +87,9 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: buzzysbar_production
-    username: buzzysbar
-    password: <%= ENV["BUZZYSBAR_DATABASE_PASSWORD"] %>
+    database: <%= Rails.application.credentials.DB_NAME.prod_db %>
+    username: <%= Rails.application.credentials.DB_USERNAME.prod_db %>
+    password: <%= Rails.application.credentials.DB_PASSWORD.prod_db %>
   cache:
     <<: *primary_production
     database: buzzysbar_production_cache
