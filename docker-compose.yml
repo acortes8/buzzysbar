@@ -1,0 +1,34 @@
+services:
+  web:
+    build: .
+    volumes:
+      - ./log:/rails/log
+      - ./storage:/rails/storage
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/buzzysbar_development
+    command: ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+    secrets:
+      - source: master_key
+        target: /rails/config/master.key
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: buzzysbar_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+
+secrets:
+  master_key:
+    file: ./config/master.key

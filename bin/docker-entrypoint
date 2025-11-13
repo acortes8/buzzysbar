@@ -6,8 +6,34 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
+# Wait for PostgreSQL to be ready before running migrations
+if [ -n "$DATABASE_URL" ]; then
+  echo "Waiting for PostgreSQL to be ready..."
+  # Extract host and port from DATABASE_URL
+  DB_HOST=$(echo "$DATABASE_URL" | sed -n 's|.*@\([^:]*\).*|\1|p')
+  DB_PORT=$(echo "$DATABASE_URL" | sed -n 's|.*:\([0-9]*\)/.*|\1|p' || echo "5432")
+  
+  # Wait for the database to accept connections (max 30 attempts)
+  max_attempts=30
+  attempt=0
+  while [ $attempt -lt $max_attempts ]; do
+    if pg_isready -h "$DB_HOST" -p "$DB_PORT" > /dev/null 2>&1; then
+      echo "PostgreSQL is ready!"
+      break
+    fi
+    attempt=$((attempt + 1))
+    echo "PostgreSQL not ready yet... waiting (attempt $attempt/$max_attempts)"
+    sleep 1
+  done
+  
+  if [ $attempt -eq $max_attempts ]; then
+    echo "PostgreSQL failed to start within 30 seconds"
+    exit 1
+  fi
+fi
+
 # If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+if echo "$*" | grep -qE '\bserver\b'; then
   ./bin/rails db:prepare
 fi
 
