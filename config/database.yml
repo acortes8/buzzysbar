@@ -87,7 +87,10 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: <%= ENV['DATABASE_URL'] %>
+    database: cocktail_app_production
+    username: cocktail_app
+    password: <%= ENV["COCKTAIL_APP_DATABASE_PASSWORD"] %>
+    # database: <%= Rails.application.credentials.DB_NAME.prod_db %>
     # username: <%= Rails.application.credentials.DB_USERNAME.prod_db %>
     # password: <%= Rails.application.credentials.DB_PASSWORD.prod_db %>
   cache:
