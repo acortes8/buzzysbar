@@ -1,5 +1,8 @@
 <% content_for :title, "Beverages" %>
 
+<%= turbo_stream_from "beverages" %>
+<%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
 <% if notice.present? %>
   <p class="py-2 px-3 bg-ablescent-white mb-8 text-elm text-xl font-bold
             rounded-md inline-block" id="notice"><%= notice %></p>
