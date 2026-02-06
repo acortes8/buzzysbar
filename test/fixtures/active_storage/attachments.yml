@@ -1,0 +1,9 @@
+mai_tai:
+  record: mai_tai (Beverage)
+  name: featured_image
+  blob: blob_mai_tai
+
+pearl_diver:
+  record: pearl_diver (Beverage)
+  name: featured_image
+  blob: blob_pearl_diver

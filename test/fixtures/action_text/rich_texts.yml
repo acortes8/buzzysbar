@@ -2,3 +2,33 @@
 #   record: name_of_fixture (ClassOfFixture)
 #   name: content
 #   body: <p>In a <i>million</i> stars!</p>
+
+mai_tai_ingredient_section:
+  record: mai_tai (Beverage)
+  name: ingredient_section
+  body: "<ul><li>1 1/2 ounces white rum</li><li>3/4 ounce orange curaçao</li><li>3/4 ounce lime juice, freshly squeezed</li><li>1/2 ounce orgeat</li><li>1/2 ounce dark rum</li><li>Garnish: lime wheel</li><li>Garnish: mint sprig</li></ul>"
+
+mai_tai_instruction_section:
+  record: mai_tai (Beverage)
+  name: instruction_section
+  body: "<ul><li>1 1/2 ounces white rum</li><li>3/4 ounce orange curaçao</li><li>3/4 ounce lime juice, freshly squeezed</li><li>1/2 ounce orgeat</li><li>1/2 ounce dark rum</li><li>Garnish: lime wheel</li><li>Garnish: mint sprig</li></ul>"
+
+mai_tai_description:
+  record: mai_tai (Beverage)
+  name: description
+  body: "<ul><li>1 1/2 ounces white rum</li><li>3/4 ounce orange curaçao</li><li>3/4 ounce lime juice, freshly squeezed</li><li>1/2 ounce orgeat</li><li>1/2 ounce dark rum</li><li>Garnish: lime wheel</li><li>Garnish: mint sprig</li></ul>"
+
+pearl_diver_ingredient_section:
+  record: pearl_diver (Beverage)
+  name: ingredient_section
+  body: "<ul><li>1 1/2 ounces white rum</li><li>3/4 ounce orange curaçao</li><li>3/4 ounce lime juice, freshly squeezed</li><li>1/2 ounce orgeat</li><li>1/2 ounce dark rum</li><li>Garnish: lime wheel</li><li>Garnish: mint sprig</li></ul>"
+
+pearl_diver_instruction_section:
+  record: pearl_diver (Beverage)
+  name: instruction_section
+  body: "<ul><li>1 1/2 ounces white rum</li><li>3/4 ounce orange curaçao</li><li>3/4 ounce lime juice, freshly squeezed</li><li>1/2 ounce orgeat</li><li>1/2 ounce dark rum</li><li>Garnish: lime wheel</li><li>Garnish: mint sprig</li></ul>"
+
+pearl_diver_description:
+  record: pearl_diver (Beverage)
+  name: description
+  body: "<ul><li>1 1/2 ounces white rum</li><li>3/4 ounce orange curaçao</li><li>3/4 ounce lime juice, freshly squeezed</li><li>1/2 ounce orgeat</li><li>1/2 ounce dark rum</li><li>Garnish: lime wheel</li><li>Garnish: mint sprig</li></ul>"

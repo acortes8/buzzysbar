@@ -1,0 +1,2 @@
+blob_mai_tai: <%= ActiveStorage::FixtureSet.blob filename: 'mai_tai.jpg' %>
+blob_pearl_diver: <%= ActiveStorage::FixtureSet.blob filename: 'pearl_diver.jpg' %>
