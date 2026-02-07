@@ -22,7 +22,7 @@ default: &default
 
 development:
   <<: *default
-  url: <%= ENV.fetch("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/buzzysbar_development") %>
+  database: buzzysbar_development
 
   # The specified database role being used to connect to PostgreSQL.
   #schema_search_path: myapp,sharedapp,public
@@ -38,7 +38,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  url: <%= ENV.fetch("TEST_DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/buzzysbar_test") %>
+  database: buzzysbar_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -63,16 +63,20 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    url: <%= ENV.fetch("DATABASE_URL", "postgresql://buzzysbar@localhost:5432/buzzysbar_production") %>
+    database: buzzysbar_production
+    username: buzzysbar
+    password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
+    host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
+    port: <%= ENV.fetch("POSTGRES_PORT", "5432") %>
   cache:
     <<: *primary_production
-    url: <%= ENV.fetch("CACHE_DATABASE_URL", "postgresql://buzzysbar@localhost:5432/buzzysbar_production_cache") %>
+    database: buzzysbar_production_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    url: <%= ENV.fetch("QUEUE_DATABASE_URL", "postgresql://buzzysbar@localhost:5432/buzzysbar_production_queue") %>
+    database: buzzysbar_production_queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    url: <%= ENV.fetch("CABLE_DATABASE_URL", "postgresql://buzzysbar@localhost:5432/buzzysbar_production_cable") %>
+    database: buzzysbar_production_cable
     migrations_paths: db/cable_migrate
