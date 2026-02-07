@@ -65,7 +65,7 @@ production:
     <<: *default
     database: buzzysbar_production
     username: buzzysbar
-    password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
+    password: <%= ENV.fetch("POSTGRES_PASSWORD", "postgres") %>
     host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
     port: <%= ENV.fetch("POSTGRES_PORT", "5432") %>
   cache:
