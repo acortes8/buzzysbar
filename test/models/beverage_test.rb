@@ -13,4 +13,10 @@ class BeverageTest < ActiveSupport::TestCase
     assert beverage.errors[:instruction_section].any?
     assert beverage.errors[:description].any?
   end
+
+  test "beverage is not valid without a unique title" do
+    beverage = Beverage.new(title:  beverages(:mai_tai).title)
+    assert beverage.invalid?
+    assert_equal [ I18n.translate("errors.messages.taken") ], beverage.errors[:title]
+  end
 end
