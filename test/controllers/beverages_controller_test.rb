@@ -4,6 +4,7 @@ class BeveragesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @beverage = beverages(:mai_tai)
     @title = "The Great Drink #{rand(1000)}"
+    login_as users(:one)
   end
 
   test "should get index" do

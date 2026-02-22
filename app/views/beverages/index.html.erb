@@ -21,7 +21,7 @@
         </h1>
 
         <p class="text-elm font-semibold tracking-tight text-sm line-clamp-3">
-          <%= truncate strip_tags(beverage.description), length: 240 %>
+          <%= truncate strip_tags(beverage.description.body.to_s), length: 240 %>
         </p>
       </div>
 
