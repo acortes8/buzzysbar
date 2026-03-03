@@ -7,13 +7,9 @@
   --color-ablescent-white: #f5d8ce;
   --color-parchment: #ddc2b9;
   --color-punch: #dc4825;
+  --color-barrel-brown: #6A3E37;
+  --color-ocean-navy: #8ea7ac;
 
-
-  --color-tropical-green: #28A745;
-  --color-bright-orange: #FF5733;
-  --color-deep-blue: #007BFF;
-  --color-soft-beige: #F5F5F5;
-  --color-golden-yellow: #FFC107;
   --font-heading: Pacifico, cursive;
   --font-sans: InterVariable, sans-serif;
   --drop-shadow-text: 0 1.2px 1.2px rgba(0,0,0,0.8);
@@ -54,5 +50,14 @@
   }
   .body-link {
     @apply text-punch font-bold text-lg tracking-tight hover:opacity-75;
+  }
+  .button-primary {
+    @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 bg-punch hover:opacity-90 text-white inline-block font-medium cursor-pointer;
+  }
+   .button-secondary {
+    @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 bg-neutral-50 hover:opacity-90 text-black inline-block font-medium cursor-pointer;
+  }
+  .button-tertiary {
+    @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 outline-4 -outline-offset-4 outline-punch bg-transparent hover:opacity-90 text-punch inline-block font-medium cursor-pointer;
   }
 }

@@ -1,5 +1,5 @@
 <% content_for :title, "Showing beverage" %>
-<div class="mx-auto">
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
   <div class="mx-auto md:w-2/3 w-full mb-5">
     <% if notice.present? %>
       <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
@@ -7,10 +7,8 @@
 
     <%= render @beverage %>
 
-    <%= link_to "Edit this beverage", edit_beverage_path(@beverage), class: "mt-2 rounded-md px-3.5 py-2.5 bg-ablescent-white text-punch hover:opacity-75 inline-block font-medium" %>
-    <%= link_to "Back to beverages", beverages_path, class: "ml-2 rounded-md px-3.5 py-2.5 bg-ablescent-white text-punch hover:opacity-75 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this beverage", @beverage, method: :delete, class: "mt-2 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
-    </div>
+    <%= link_to "Back to beverages", beverages_path, class: "button-primary" %>
+    <%= link_to "Edit this beverage", edit_beverage_path(@beverage), class: "button-secondary" %>
+    <%= link_to "Destroy this beverage", @beverage, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "button-tertiary" %>
   </div>
 </div>

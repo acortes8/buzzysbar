@@ -1,12 +1,12 @@
-<div id="<%= dom_id beverage %>" class="bg-ablescent-white px-2 py-3 rounded-md flex flex-col gap-4">
-  <p class="mx-auto text-center font-sans antialiased font-bold text-4xl md:text-5xl lg:text-6xl text-punch">
+<div id="<%= dom_id beverage %>">
+  <p class="text-center font-bold text-4xl text-punch mb-5">
     <%= beverage.title %>
   </p>
+
   <%= image_tag beverage.featured_image, class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-white object-center shadow-lg shadow-black/25" if 
     beverage.featured_image.attached? %>
-
   
-  <div class="group block w-full" aria-disabled="false" data-dui-accordion-container data-dui-accordion-mode="all-open">
+  <div class="group block w-full my-5" aria-disabled="false" data-dui-accordion-container data-dui-accordion-mode="all-open">
     <div 
       class="flex items-center justify-between w-full p-5 py-5 text-left font-bold text-punch text-xl cursor-pointer"
       data-dui-accordion-toggle
