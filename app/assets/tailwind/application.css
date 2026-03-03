@@ -60,4 +60,10 @@
   .button-tertiary {
     @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 outline-4 -outline-offset-4 outline-punch bg-transparent hover:opacity-90 text-punch inline-block font-medium cursor-pointer;
   }
+  .notice {
+    @apply py-2 px-3 bg-ablescent-white mb-5 text-elm text-xl font-bold rounded-lg inline-block
+  }
+  .error-explanation {
+    @apply bg-ablescent-white outline-1 -outline-offset-1 text-punch px-3 py-2 font-bold rounded-lg mt-3
+  }
 }

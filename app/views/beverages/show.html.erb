@@ -1,14 +1,12 @@
 <% content_for :title, "Showing beverage" %>
 <div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
-  <div class="mx-auto md:w-2/3 w-full mb-5">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-    <% end %>
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
 
-    <%= render @beverage %>
+  <%= render @beverage %>
 
-    <%= link_to "Back to beverages", beverages_path, class: "button-primary" %>
-    <%= link_to "Edit this beverage", edit_beverage_path(@beverage), class: "button-secondary" %>
-    <%= link_to "Destroy this beverage", @beverage, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "button-tertiary" %>
-  </div>
+  <%= link_to "Back to beverages", beverages_path, class: "button-primary" %>
+  <%= link_to "Edit this beverage", edit_beverage_path(@beverage), class: "button-secondary" %>
+  <%= link_to "Destroy this beverage", @beverage, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "button-tertiary" %>
 </div>

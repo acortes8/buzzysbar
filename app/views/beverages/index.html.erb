@@ -4,8 +4,7 @@
 <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
 <% if notice.present? %>
-  <p class="py-2 px-3 bg-ablescent-white mb-8 text-elm text-xl font-bold
-            rounded-md inline-block" id="notice"><%= notice %></p>
+  <p class="notice" id="notice"><%= notice %></p>
 <% end %>
 
 <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
@@ -39,5 +38,5 @@
 <div>
   <%= link_to 'New beverage',
     new_beverage_path,
-    class: "text-punch text-xl font-bold bg-ablescent-white p-4 rounded hover:opacity-75" %>
+    class: "button-primary" %>
 </div>
