@@ -1,5 +1,6 @@
 class BeveragesController < ApplicationController
   before_action :set_beverage, only: %i[ show edit update destroy ]
+  allow_unauthenticated_access only: %i[ show index ]
 
   # GET /beverages or /beverages.json
   def index
