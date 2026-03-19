@@ -7,8 +7,7 @@
   --color-ablescent-white: #f5d8ce;
   --color-parchment: #ddc2b9;
   --color-punch: #dc4825;
-  --color-barrel-brown: #6A3E37;
-  --color-ocean-navy: #8ea7ac;
+
 
   --font-heading: Pacifico, cursive;
   --font-sans: InterVariable, sans-serif;
@@ -54,7 +53,7 @@
   .button-primary {
     @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 bg-punch hover:opacity-90 text-white inline-block font-medium cursor-pointer;
   }
-   .button-secondary {
+  .button-secondary {
     @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 bg-neutral-50 hover:opacity-90 text-black inline-block font-medium cursor-pointer;
   }
   .button-tertiary {
