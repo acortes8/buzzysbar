@@ -21,6 +21,19 @@
     <%= form.text_area :notes, rows: 2, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
   </div>
 
+  <div class="my-5">
+    <%= form.label :photo %>
+    <% if tasting.photo.attached? && tasting.photo.persisted? %>
+      <div class="flex items-center gap-4 mt-2">
+        <%= image_tag tasting.photo.variant(:thumb), alt: "Current photo", class: "w-24 h-24 object-cover rounded-md" %>
+        <%= form.label :remove_photo, class: "flex items-center gap-2 text-sm" do %>
+          <%= form.check_box :remove_photo %> Remove photo
+        <% end %>
+      </div>
+    <% end %>
+    <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "block mt-2" %>
+  </div>
+
   <fieldset class="my-5">
     <legend class="font-medium">Ratings</legend>
     <% if tasting.ratings.empty? %>

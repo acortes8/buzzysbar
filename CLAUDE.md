@@ -47,6 +47,7 @@ Run the tests and RuboCop before calling a change done.
 - `Beverage`: title (unique), featured image, and rich-text description, ingredients, and instructions, all required. The index refreshes live via Turbo broadcasts (`broadcast_refresh_later_to "beverages"`). It becomes `Recipe` (belonging to a `Drink`) in phase 4; don't strip it down before then.
 - `User`: name and email (both unique), password, sessions. Login, logout, and password reset. No public sign-up; accounts are invite-only.
 - Phase 1 so far (branch `phase-1-logbook`): `Person` (optionally linked to a `User`), `Place` (bar or home), `Occasion` with `Attendance`, `Drink` (a unique name plus an optional description), and `Tasting` (a drink at an occasion) with per-person `Rating`s (1–5 in half points, only by people who came). Records with history (people, places, drinks) can't be deleted. The old `Review` model was removed.
+- Photos: occasions have many, tastings have one. Rules live in `PhotoAttachments` (JPEG, PNG, GIF, WebP, HEIC; 25 MB max), and `:thumb`/`:large` variants convert to JPEG. Resizing needs libvips: it's in the Dockerfile, and locally it's `brew install vips`. CI doesn't install it, so tests don't process variants.
 - Browsing beverages (`index`, `show`) is public; everything else requires login.
 
 ### Known issues

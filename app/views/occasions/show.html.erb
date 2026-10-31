@@ -24,6 +24,27 @@
     <% end %>
   </section>
 
+  <section class="my-5">
+    <h2 class="font-bold text-2xl text-punch">Photos</h2>
+    <% if alert.present? %>
+      <p class="py-2 px-3 bg-red-50 my-3 text-red-500 font-medium rounded-md inline-block" id="alert"><%= alert %></p>
+    <% end %>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 my-3">
+      <% @occasion.photos.each do |photo| %>
+        <div id="<%= dom_id photo %>" class="relative">
+          <%= link_to photo.variant(:large), target: "_blank" do %>
+            <%= image_tag photo.variant(:thumb), alt: "Photo from #{@occasion.title}", class: "w-full aspect-square object-cover rounded-md shadow" %>
+          <% end %>
+          <%= button_to "Remove", occasion_photo_path(@occasion, photo), method: :delete, form_class: "absolute top-2 right-2", class: "button-tertiary text-xs", data: { turbo_confirm: "Remove this photo?" } %>
+        </div>
+      <% end %>
+    </div>
+    <%= form_with url: occasion_photos_path(@occasion), class: "flex flex-wrap items-center gap-3" do |form| %>
+      <%= form.file_field :photos, multiple: true, accept: PhotoAttachments::CONTENT_TYPES.join(","), aria: { label: "Photos" } %>
+      <%= form.submit "Add photos", class: "button-secondary" %>
+    <% end %>
+  </section>
+
   <%= link_to "Edit this occasion", edit_occasion_path(@occasion), class: "button-primary" %>
   <%= link_to "Back to occasions", occasions_path, class: "button-secondary" %>
   <%= button_to "Destroy this occasion", @occasion, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>

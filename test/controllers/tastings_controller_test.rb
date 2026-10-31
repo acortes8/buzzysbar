@@ -30,6 +30,15 @@ class TastingsControllerTest < ActionDispatch::IntegrationTest
     assert_equal [ people(:guest) ], Tasting.last.ratings.map(&:person)
   end
 
+  test "should create tasting with a photo" do
+    post occasion_tastings_url(@occasion), params: { tasting: {
+      drink_id: drinks(:saturn).id, photo: fixture_file_upload("drink.heic", "image/heic")
+    } }
+
+    assert_redirected_to occasion_url(@occasion)
+    assert Tasting.last.photo.attached?
+  end
+
   test "should not create tasting without a drink" do
     assert_no_difference("Tasting.count") do
       post occasion_tastings_url(@occasion), params: { tasting: { drink_id: "" } }

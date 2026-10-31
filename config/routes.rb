@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :drinks
   resources :occasions do
     resources :tastings, only: %i[ new create edit update destroy ]
+    resources :photos, only: %i[ create destroy ], module: :occasions
   end
   resources :places
   resources :people

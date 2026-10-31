@@ -63,7 +63,7 @@ class DrinksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_drink
-      @drink = Drink.includes(tastings: [ { occasion: :place }, { ratings: :person } ]).find(params.expect(:id))
+      @drink = Drink.includes(tastings: [ { occasion: :place }, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

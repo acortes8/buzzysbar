@@ -1,6 +1,9 @@
 require "test_helper"
 
 class TastingTest < ActiveSupport::TestCase
+  include ActionDispatch::TestProcess::FixtureFile
+  include ActiveJob::TestHelper
+
   setup do
     @tasting = tastings(:mai_tai_at_tiki_night)
   end
@@ -9,6 +12,24 @@ class TastingTest < ActiveSupport::TestCase
     tasting = Tasting.new(occasion: occasions(:tiki_night))
     assert_not tasting.valid?
     assert_includes tasting.errors[:drink], "must exist"
+  end
+
+  test "rejects a photo that isn't an image" do
+    @tasting.photo.attach(fixture_file_upload("notes.txt", "text/plain"))
+    assert_not @tasting.valid?
+    assert_includes @tasting.errors[:photo], "must be a JPEG, PNG, GIF, WebP, or HEIC image"
+  end
+
+  test "remove_photo removes the photo" do
+    @tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+    perform_enqueued_jobs { @tasting.update!(remove_photo: true) }
+    assert_not @tasting.reload.photo.attached?
+  end
+
+  test "a new photo wins over remove_photo" do
+    @tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+    perform_enqueued_jobs { @tasting.update!(photo: fixture_file_upload("drink.heic", "image/heic"), remove_photo: true) }
+    assert_equal "drink.heic", @tasting.reload.photo.filename.to_s
   end
 
   test "average score is the mean of its ratings" do
