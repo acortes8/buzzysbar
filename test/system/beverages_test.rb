@@ -2,40 +2,36 @@ require "application_system_test_case"
 
 class BeveragesTest < ApplicationSystemTestCase
   setup do
-    @beverage = beverages(:one)
+    @beverage = beverages(:mai_tai)
   end
 
-  test "visiting the index" do
+  test "visitors can browse recipes without signing in" do
     visit beverages_url
-    assert_selector "h1", text: "Beverages"
-  end
+    assert_text @beverage.title
 
-  test "should create beverage" do
-    visit beverages_url
-    click_on "New beverage"
-
-    fill_in "Title", with: @beverage.title
-    click_on "Create Beverage"
-
-    assert_text "Beverage was successfully created"
-    click_on "Back"
-  end
-
-  test "should update Beverage" do
     visit beverage_url(@beverage)
-    click_on "Edit this beverage", match: :first
+    assert_selector "p", text: @beverage.title
+    assert_no_link "Log a drink"
+  end
 
-    fill_in "Title", with: @beverage.title
-    click_on "Update Beverage"
+  test "should update beverage" do
+    sign_in_as users(:one)
+    visit beverage_url(@beverage)
+    click_on "Edit this beverage"
+
+    fill_in "Title", with: "Mai Tai (1944)"
+    press "Update Beverage"
 
     assert_text "Beverage was successfully updated"
-    click_on "Back"
+    assert_text "Mai Tai (1944)"
   end
 
-  test "should destroy Beverage" do
+  test "should destroy beverage" do
+    sign_in_as users(:one)
     visit beverage_url(@beverage)
-    click_on "Destroy this beverage", match: :first
+    accept_confirm { click_on "Destroy this beverage" }
 
     assert_text "Beverage was successfully destroyed"
+    assert_no_text @beverage.title
   end
 end
