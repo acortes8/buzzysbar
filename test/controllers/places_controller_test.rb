@@ -41,9 +41,18 @@ class PlacesControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy place" do
     assert_difference("Place.count", -1) do
-      delete place_url(@place)
+      delete place_url(places(:home))
     end
 
     assert_redirected_to places_url
+  end
+
+  test "should not destroy place with occasions" do
+    assert_no_difference("Place.count") do
+      delete place_url(places(:bar))
+    end
+
+    assert_redirected_to place_url(places(:bar))
+    assert_equal "Can't be deleted while it has occasions", flash[:alert]
   end
 end

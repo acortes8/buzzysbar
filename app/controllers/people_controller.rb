@@ -49,11 +49,14 @@ class PeopleController < ApplicationController
 
   # DELETE /people/1 or /people/1.json
   def destroy
-    @person.destroy!
-
     respond_to do |format|
-      format.html { redirect_to people_path, notice: "Person was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+      if @person.destroy
+        format.html { redirect_to people_path, notice: "Person was successfully destroyed.", status: :see_other }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @person, alert: @person.errors.full_messages.to_sentence, status: :see_other }
+        format.json { render json: @person.errors, status: :unprocessable_entity }
+      end
     end
   end
 

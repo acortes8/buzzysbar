@@ -49,11 +49,14 @@ class PlacesController < ApplicationController
 
   # DELETE /places/1 or /places/1.json
   def destroy
-    @place.destroy!
-
     respond_to do |format|
-      format.html { redirect_to places_path, notice: "Place was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+      if @place.destroy
+        format.html { redirect_to places_path, notice: "Place was successfully destroyed.", status: :see_other }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @place, alert: @place.errors.full_messages.to_sentence, status: :see_other }
+        format.json { render json: @place.errors, status: :unprocessable_entity }
+      end
     end
   end
 

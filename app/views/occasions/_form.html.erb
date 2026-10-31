@@ -1,0 +1,41 @@
+<%= form_with(model: occasion, class: "contents") do |form| %>
+  <% if occasion.errors.any? %>
+    <div id="error_explanation" class="error-explanation">
+      <h2><%= pluralize(occasion.errors.count, "error") %> prohibited this occasion from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% occasion.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :place_id %>
+    <%= form.collection_select :place_id, Place.order(:name), :id, :name, { prompt: "Choose a place" }, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:place].none?, "border-red-400 focus:outline-red-600": occasion.errors[:place].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :occurred_on, "Date" %>
+    <%= form.date_field :occurred_on, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:occurred_on].none?, "border-red-400 focus:outline-red-600": occasion.errors[:occurred_on].any?}] %>
+  </div>
+
+  <fieldset class="my-5">
+    <legend>Who came</legend>
+    <div class="flex flex-wrap gap-x-6 gap-y-2 mt-2">
+      <%= form.collection_check_boxes :person_ids, Person.order(:name), :id, :name do |b| %>
+        <%= b.label(class: "flex items-center gap-2") { b.check_box + b.text } %>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <div class="my-5">
+    <%= form.label :notes %>
+    <%= form.text_area :notes, rows: 3, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:notes].none?, "border-red-400 focus:outline-red-600": occasion.errors[:notes].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "button-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,20 @@
+<div id="<%= dom_id occasion %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">Place:</strong>
+    <%= occasion.place.name %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Date:</strong>
+    <%= occasion.occurred_on.to_fs(:long_ordinal) %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Who came:</strong>
+    <%= occasion.people.map(&:name).to_sentence.presence || "Nobody recorded" %>
+  </div>
+  <% if occasion.notes.present? %>
+    <div>
+      <strong class="block font-medium mb-1">Notes:</strong>
+      <%= simple_format occasion.notes %>
+    </div>
+  <% end %>
+</div>

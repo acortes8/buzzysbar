@@ -41,9 +41,18 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy person" do
     assert_difference("Person.count", -1) do
-      delete person_url(@person)
+      delete person_url(people(:guest))
     end
 
     assert_redirected_to people_url
+  end
+
+  test "should not destroy person with occasions" do
+    assert_no_difference("Person.count") do
+      delete person_url(people(:one))
+    end
+
+    assert_redirected_to person_url(people(:one))
+    assert_equal "Can't be deleted while it has occasions", flash[:alert]
   end
 end

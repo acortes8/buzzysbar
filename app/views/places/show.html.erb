@@ -4,6 +4,9 @@
   <% if notice.present? %>
     <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
+  <% if alert.present? %>
+    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md inline-block" id="alert"><%= alert %></p>
+  <% end %>
 
   <h1 class="font-bold text-punch text-4xl"><%= @place.name %></h1>
 

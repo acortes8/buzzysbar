@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_31_025558) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_31_030135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,10 +52,29 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_025558) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "occasion_id", null: false
+    t.bigint "person_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["occasion_id", "person_id"], name: "index_attendances_on_occasion_id_and_person_id", unique: true
+    t.index ["occasion_id"], name: "index_attendances_on_occasion_id"
+    t.index ["person_id"], name: "index_attendances_on_person_id"
+  end
+
   create_table "beverages", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "occasions", force: :cascade do |t|
+    t.bigint "place_id", null: false
+    t.date "occurred_on", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_occasions_on_place_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -103,6 +122,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_025558) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "attendances", "occasions"
+  add_foreign_key "attendances", "people"
+  add_foreign_key "occasions", "places"
   add_foreign_key "people", "users"
   add_foreign_key "reviews", "users"
   add_foreign_key "sessions", "users"
