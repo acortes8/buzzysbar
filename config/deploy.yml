@@ -57,7 +57,9 @@ env:
   clear:
     RAILS_SERVE_STATIC_FILES: true
     RAILS_LOG_TO_STDOUT: true
-    POSTGRES_HOST: "172.18.0.3"
+    # The accessory's container name, resolved by Docker on the kamal network.
+    # Its IP changes when the container restarts, so don't hard-code one.
+    POSTGRES_HOST: "buzzysbar-postgres"
     POSTGRES_PORT: "5432"
   secret:
     - RAILS_MASTER_KEY

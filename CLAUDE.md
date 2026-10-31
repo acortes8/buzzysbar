@@ -32,9 +32,10 @@ In system tests, use the helpers in `test/application_system_test_case.rb` (`sig
 
 - Kamal 2 to a single Hetzner server (`config/deploy.yml`). Image builds on the server itself (remote builder over SSH), cached in Docker Hub.
 - Containers: web, a job runner (`solid_queue:start`), and Postgres as a Kamal accessory. kamal-proxy handles HTTPS for `buzzysbar.com` and `www.buzzysbar.com`.
-- The app reaches Postgres by container IP (`POSTGRES_HOST`), because the hostname did not resolve.
+- The app reaches Postgres by its container name, `buzzysbar-postgres` (`POSTGRES_HOST`), on the `kamal` Docker network. Don't use a container IP: it changes when the container restarts, which took the site down in October 2026.
+- Deploy secrets (`KAMAL_REGISTRY_PASSWORD`, `POSTGRES_PASSWORD`) are read from the macOS Keychain under the account `buzzysbar`; see `.kamal/secrets`.
 - Uploads persist on the `buzzysbar_storage` volume.
-- Secrets come from `.kamal/secrets` (`KAMAL_REGISTRY_PASSWORD`, `RAILS_MASTER_KEY`, `POSTGRES_PASSWORD`). Never commit secret values or `config/master.key`.
+- Secrets come from `.kamal/secrets`. Never commit secret values or `config/master.key`.
 
 ## The product
 
