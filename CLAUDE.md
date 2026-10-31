@@ -26,6 +26,8 @@ Alejandro is a recent CS graduate whose strongest stack is Ruby on Rails. Keep c
 
 Run the tests and RuboCop before calling a change done.
 
+In system tests, use the helpers in `test/application_system_test_case.rb` (`sign_in_as`, `enter`, `press`, `accept_confirm_dialog`) instead of `fill_in`, `click_on` and `accept_confirm`. Headless Chrome intermittently drops or delays native input, locally and in CI, so those helpers act through the DOM. CI runs on `ubuntu-24.04`, since `ubuntu-latest` has no prebuilt Ruby 3.4.2.
+
 ## Deployment
 
 - Kamal 2 to a single Hetzner server (`config/deploy.yml`). Image builds on the server itself (remote builder over SSH), cached in Docker Hub.
@@ -56,5 +58,5 @@ Run the tests and RuboCop before calling a change done.
 
 - `Beverage#acceptable_image` is defined but never registered (needs `validate :acceptable_image`). It also rejects HEIC, which iPhone photos use by default.
 - `UsersController#create` has a leftover `puts` debug line.
-- The old system tests (`test/system/beverages_test.rb`, `users_test.rb`) fail: beverage fixtures were renamed and users pages need a login. CI runs `test:system`, so it's red until they're fixed or removed. `test/system/logging_test.rb` passes.
+- Brakeman fails CI until Rails is upgraded to 8.1, because Rails 8.0 support ends on 2026-11-07.
 - `README.md` is still the Rails default plus the old spec, and it lists Ruby 3.4.1.
