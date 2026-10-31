@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :places
+  resources :people
   resources :reviews, only: %i[ index show new create ]
   resources :users
   resource :session

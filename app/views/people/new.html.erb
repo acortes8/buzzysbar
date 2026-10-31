@@ -1,0 +1,9 @@
+<% content_for :title, "New person" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
+  <h1 class="font-bold text-4xl text-punch">New person</h1>
+
+  <%= render "form", person: @person %>
+
+  <%= link_to "Back to people", people_path, class: "button-secondary" %>
+</div>
