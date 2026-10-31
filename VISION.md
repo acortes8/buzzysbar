@@ -75,7 +75,7 @@ This is an ongoing hobby. Each phase should be usable on its own.
 - **Kept:** the Rails 8 stack, authentication, the Kamal deployment, CI, and the buzzysbar.com domain.
 - **Repurposed:**
   - `Beverage` is really a recipe ("Hurricane" and "Smuggler's Cove Hurricane" are two recipes for one drink), so it becomes `Recipe` in phase 4, keeping its styled pages and seed recipes. `Drink` is a separate, lightweight model added in phase 1.
-  - `Review` becomes `Tasting`/`Rating`.
+  - `Review` was removed; `Tasting` and `Rating` replace it.
   - `User` stays as the login account, linked to a `Person`.
 - **Dropped:** the curator/member roles, public sign-up, collections, and comments and moderation. Accounts are invite-only.
 

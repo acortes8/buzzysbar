@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_31_031531) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -112,16 +112,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_031531) do
     t.index ["tasting_id"], name: "index_ratings_on_tasting_id"
   end
 
-  create_table "reviews", force: :cascade do |t|
-    t.string "title"
-    t.text "body"
-    t.integer "rating"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_reviews_on_user_id"
-  end
-
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "ip_address"
@@ -158,7 +148,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_031531) do
   add_foreign_key "people", "users"
   add_foreign_key "ratings", "people"
   add_foreign_key "ratings", "tastings"
-  add_foreign_key "reviews", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tastings", "drinks"
   add_foreign_key "tastings", "occasions"
