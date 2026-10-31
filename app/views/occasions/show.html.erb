@@ -12,7 +12,7 @@
   <section class="my-5">
     <div class="flex flex-wrap items-center justify-between gap-2">
       <h2 class="font-bold text-2xl text-punch">Drinks</h2>
-      <%= link_to "Add a drink", new_occasion_tasting_path(@occasion), class: "button-primary" %>
+      <%= link_to "Log another drink", new_log_path(occasion_id: @occasion.id), class: "button-primary" %>
     </div>
     <div class="divide-y divide-gray-200">
       <% @occasion.tastings.each do |tasting| %>

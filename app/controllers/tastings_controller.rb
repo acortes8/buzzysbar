@@ -2,27 +2,9 @@ class TastingsController < ApplicationController
   before_action :set_occasion
   before_action :set_tasting, only: %i[ edit update destroy ]
 
-  # GET /occasions/1/tastings/new
-  def new
-    @tasting = @occasion.tastings.build
-    @tasting.build_missing_ratings
-  end
-
   # GET /occasions/1/tastings/1/edit
   def edit
     @tasting.build_missing_ratings
-  end
-
-  # POST /occasions/1/tastings
-  def create
-    @tasting = @occasion.tastings.build(tasting_params)
-
-    if @tasting.save
-      redirect_to @occasion, notice: "#{@tasting.drink.name} was added."
-    else
-      @tasting.build_missing_ratings
-      render :new, status: :unprocessable_entity
-    end
   end
 
   # PATCH/PUT /occasions/1/tastings/1

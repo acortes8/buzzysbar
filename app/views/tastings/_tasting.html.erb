@@ -32,7 +32,7 @@
 
     <% if local_assigns[:actions] %>
       <div class="flex gap-2 mt-3">
-        <%= link_to "Edit", edit_occasion_tasting_path(tasting.occasion, tasting), class: "button-secondary" %>
+        <%= link_to "Rate or edit", edit_occasion_tasting_path(tasting.occasion, tasting), class: "button-secondary" %>
         <%= button_to "Remove", occasion_tasting_path(tasting.occasion, tasting), method: :delete, class: "button-tertiary", data: { turbo_confirm: "Remove this drink and its ratings?" } %>
       </div>
     <% end %>

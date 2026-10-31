@@ -6,6 +6,12 @@ class OccasionsControllerTest < ActionDispatch::IntegrationTest
     login_as users(:one)
   end
 
+  test "home page is the occasions list" do
+    get root_url
+    assert_response :success
+    assert_select "h1", "Occasions"
+  end
+
   test "should get index" do
     get occasions_url
     assert_response :success
