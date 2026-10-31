@@ -6,9 +6,9 @@ class LoggingTest < ApplicationSystemTestCase
   end
 
   test "logging a drink at a new bar with only its name" do
-    click_on "Log a drink"
-    fill_in "Drink", with: "Zombie"
-    fill_in "Where", with: "Lost Lake"
+    press "Log a drink"
+    enter "Drink", with: "Zombie"
+    enter "Where", with: "Lost Lake"
     press "Log it"
 
     assert_text "Zombie logged at Lost Lake."
@@ -17,8 +17,8 @@ class LoggingTest < ApplicationSystemTestCase
 
   test "logging another drink at the same occasion, then rating it" do
     visit occasion_url(occasions(:tiki_night))
-    click_on "Log another drink"
-    fill_in "Drink", with: "Saturn"
+    press "Log another drink"
+    enter "Drink", with: "Saturn"
     press "Log it"
 
     assert_text "Saturn logged at The Tiki Hut."
@@ -26,9 +26,9 @@ class LoggingTest < ApplicationSystemTestCase
     assert_selector "h3", text: "Mai Tai"
 
     within "##{dom_id(Tasting.find_by!(drink: drinks(:saturn)))}" do
-      click_on "Rate or edit"
+      press "Rate or edit"
     end
-    find("select[aria-label=\"One's score\"]").select("4.5")
+    enter "tasting[ratings_attributes][0][score]", with: "4.5"
     press "Update Tasting"
 
     assert_text "Saturn was updated."

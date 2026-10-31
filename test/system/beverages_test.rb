@@ -17,9 +17,9 @@ class BeveragesTest < ApplicationSystemTestCase
   test "should update beverage" do
     sign_in_as users(:one)
     visit beverage_url(@beverage)
-    click_on "Edit this beverage"
+    press "Edit this beverage"
 
-    fill_in "Title", with: "Mai Tai (1944)"
+    enter "Title", with: "Mai Tai (1944)"
     press "Update Beverage"
 
     assert_text "Beverage was successfully updated"
@@ -29,7 +29,7 @@ class BeveragesTest < ApplicationSystemTestCase
   test "should destroy beverage" do
     sign_in_as users(:one)
     visit beverage_url(@beverage)
-    accept_confirm { click_on "Destroy this beverage" }
+    accept_confirm_dialog("Are you sure?") { press "Destroy this beverage" }
 
     assert_text "Beverage was successfully destroyed"
     assert_no_text @beverage.title

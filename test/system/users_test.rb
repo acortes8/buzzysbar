@@ -12,12 +12,12 @@ class UsersTest < ApplicationSystemTestCase
 
   test "should create user" do
     visit users_url
-    click_on "New user"
+    press "New user"
 
-    fill_in "Name", with: "Sam"
-    fill_in "Email address", with: "sam@example.com"
-    fill_in "Password", with: "secret"
-    fill_in "Password confirmation", with: "secret"
+    enter "Name", with: "Sam"
+    enter "Email address", with: "sam@example.com"
+    enter "Password", with: "secret"
+    enter "Password confirmation", with: "secret"
     press "Create User"
 
     assert_text "User Sam was successfully created"
@@ -25,11 +25,11 @@ class UsersTest < ApplicationSystemTestCase
 
   test "should update user" do
     visit user_url(users(:two))
-    click_on "Edit this user"
+    press "Edit this user"
 
-    fill_in "Name", with: "Renamed"
-    fill_in "Password", with: "secret"
-    fill_in "Password confirmation", with: "secret"
+    enter "Name", with: "Renamed"
+    enter "Password", with: "secret"
+    enter "Password confirmation", with: "secret"
     press "Update User"
 
     assert_text "User Renamed was successfully updated"
@@ -37,7 +37,7 @@ class UsersTest < ApplicationSystemTestCase
 
   test "should destroy user" do
     visit user_url(users(:two))
-    accept_confirm { click_on "Destroy this user" }
+    accept_confirm_dialog("Are you sure?") { press "Destroy this user" }
 
     assert_text "User was successfully destroyed"
   end
