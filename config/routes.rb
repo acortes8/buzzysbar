@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
+  resources :drinks
+  resource :log, only: %i[ new create ]
+  resources :occasions do
+    resources :tastings, only: %i[ edit update destroy ]
+    resources :photos, only: %i[ create destroy ], module: :occasions
+  end
+  resources :places
+  resources :people
   resources :users
   resource :session
   resources :passwords, param: :token
   resources :beverages
-  root "beverages#index"
+  root "occasions#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

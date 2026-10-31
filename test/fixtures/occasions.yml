@@ -1,0 +1,6 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+tiki_night:
+  place: bar
+  occurred_on: 2026-10-01
+  notes: Tried three Mai Tais.

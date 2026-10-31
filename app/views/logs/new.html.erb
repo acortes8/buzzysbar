@@ -1,0 +1,77 @@
+<% content_for :title, "Log a drink" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
+  <h1 class="font-bold text-4xl text-punch">Log a drink</h1>
+
+  <%= form_with(model: @log, url: log_path, class: "contents") do |form| %>
+    <% if @log.errors.any? %>
+      <div id="error_explanation" class="error-explanation">
+        <h2><%= pluralize(@log.errors.count, "error") %> prohibited this drink from being logged:</h2>
+
+        <ul class="list-disc ml-6">
+          <% @log.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="my-5">
+      <%= form.label :drink_name, "Drink" %>
+      <%= form.text_field :drink_name, list: "drink-names", autocomplete: "off", autofocus: true, placeholder: "Mai Tai", class: ["block shadow-sm rounded-md border px-3 py-3 mt-2 w-full text-lg", {"border-gray-400 focus:outline-blue-600": @log.errors[:drink_name].none?, "border-red-400 focus:outline-red-600": @log.errors[:drink_name].any?}] %>
+      <datalist id="drink-names">
+        <% Drink.order(:name).pluck(:name).each do |name| %>
+          <option value="<%= name %>"></option>
+        <% end %>
+      </datalist>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :place_name, "Where" %>
+      <%= form.text_field :place_name, list: "place-names", autocomplete: "off", placeholder: "Bar name, or Home", class: ["block shadow-sm rounded-md border px-3 py-3 mt-2 w-full text-lg", {"border-gray-400 focus:outline-blue-600": @log.errors[:place_name].none?, "border-red-400 focus:outline-red-600": @log.errors[:place_name].any?}] %>
+      <datalist id="place-names">
+        <% Place.order(:name).pluck(:name).each do |name| %>
+          <option value="<%= name %>"></option>
+        <% end %>
+      </datalist>
+      <p class="text-sm mt-1">A new name adds a new bar.</p>
+    </div>
+
+    <details class="my-5" <%= "open" if @log.errors.any? %>>
+      <summary class="cursor-pointer font-medium">Date, who came, notes, photo</summary>
+
+      <div class="my-5">
+        <%= form.label :occurred_on, "Date" %>
+        <%= form.date_field :occurred_on, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <fieldset class="my-5">
+        <legend>Who came</legend>
+        <div class="flex flex-wrap gap-x-6 gap-y-2 mt-2">
+          <%= form.collection_check_boxes :person_ids, Person.order(:name), :id, :name do |b| %>
+            <%= b.label(class: "flex items-center gap-2") { b.check_box + b.text } %>
+          <% end %>
+        </div>
+      </fieldset>
+
+      <div class="my-5">
+        <%= form.label :other_people, "Anyone else" %>
+        <%= form.text_field :other_people, placeholder: "Names, separated by commas", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <div class="my-5">
+        <%= form.label :notes %>
+        <%= form.text_area :notes, rows: 2, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <div class="my-5">
+        <%= form.label :photo %>
+        <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "block mt-2" %>
+      </div>
+    </details>
+
+    <div class="inline">
+      <%= form.submit "Log it", class: "button-primary text-lg" %>
+    </div>
+  <% end %>
+</div>

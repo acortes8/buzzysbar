@@ -1,0 +1,8 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+mai_tai:
+  name: Mai Tai
+
+saturn:
+  name: Saturn
+  description: A gin-based tiki classic.

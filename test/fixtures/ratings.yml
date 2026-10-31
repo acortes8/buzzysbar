@@ -1,0 +1,7 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one_on_mai_tai:
+  tasting: mai_tai_at_tiki_night
+  person: one
+  score: 4.5
+  notes: Best one yet.

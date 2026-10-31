@@ -33,29 +33,39 @@
       <div class="flex justify-around items-center p-4 bg-ablescent-white rounded-full shadow-lg relative">
 
         <h1 class="text-4xl header-link">
-          <%= link_to "Buzzy's Bar", beverages_path %>
+          <%= link_to "Buzzy's Bar", root_path %>
         </h1>
 
-        <button id="mobile-menu-btn" class="sm:hidden text-punch cursor-pointer hover:opacity-75 relative z-20">
+        <button id="mobile-menu-btn" class="xl:hidden text-punch cursor-pointer hover:opacity-75 relative z-20">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24  24" xmlns="https://www.w3.org/2000/svg">
             <path class="" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
 
-        <nav class="hidden sm:flex gap-6" aria-label="main">
-          <%= link_to "Beverages", beverages_path, class: "text-2xl header-link"%>
-          <%= link_to "Collections", beverages_path, class: "text-2xl header-link"%>
-          <%= link_to "Contact Us", beverages_path, class: "text-2xl header-link"%>
+        <nav class="hidden xl:flex gap-6" aria-label="main">
+          <% if authenticated? %>
+            <%= link_to "Log a drink", new_log_path, class: "text-2xl header-link" %>
+            <%= link_to "Occasions", occasions_path, class: "text-2xl header-link" %>
+            <%= link_to "Drinks", drinks_path, class: "text-2xl header-link" %>
+            <%= link_to "People", people_path, class: "text-2xl header-link" %>
+            <%= link_to "Places", places_path, class: "text-2xl header-link" %>
+          <% end %>
+          <%= link_to "Recipes", beverages_path, class: "text-2xl header-link" %>
           <%= (link_to "Login", new_session_path, class: "text-2xl header-link") unless authenticated?%>
           <%= (button_to "Log out", session_path, class: "text-2xl header-link", method: :delete) if authenticated?%>
         </nav>
 
       </div>
 
-      <div id="mobile-menu" class="absolute top-full right-4 max-h-0 opacity-0 bg-ablescent-white items-center overflow-hidden sm:hidden flex flex-col gap-4 px-4 py-2  mt-2 rounded-2xl shadow-lg transition-all duration-300 ease-in-out">
-        <%= link_to "Beverages", beverages_path, class: "text-3xl header-link"%>
-        <%= link_to "Collections", beverages_path, class: "text-3xl header-link"%>
-        <%= link_to "Contact Us", beverages_path, class: "text-3xl header-link"%>
+      <div id="mobile-menu" class="absolute top-full right-4 max-h-0 opacity-0 bg-ablescent-white items-center overflow-hidden xl:hidden flex flex-col gap-4 px-4 py-2  mt-2 rounded-2xl shadow-lg transition-all duration-300 ease-in-out">
+        <% if authenticated? %>
+          <%= link_to "Log a drink", new_log_path, class: "text-3xl header-link" %>
+          <%= link_to "Occasions", occasions_path, class: "text-3xl header-link" %>
+          <%= link_to "Drinks", drinks_path, class: "text-3xl header-link" %>
+          <%= link_to "People", people_path, class: "text-3xl header-link" %>
+          <%= link_to "Places", places_path, class: "text-3xl header-link" %>
+        <% end %>
+        <%= link_to "Recipes", beverages_path, class: "text-3xl header-link" %>
         <%= (link_to "Login", new_session_path, class: "text-3xl header-link") unless authenticated?%>
         <%= (button_to "Log out", session_path, class: "text-3xl header-link", method: :delete) if authenticated?%>
       </div>

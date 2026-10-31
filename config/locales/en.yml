@@ -29,3 +29,11 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      person:
+        attendances: "occasions"
+    errors:
+      messages:
+        restrict_dependent_destroy:
+          has_many: "Can't be deleted while it has %{record}"

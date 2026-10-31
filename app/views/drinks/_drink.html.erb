@@ -1,0 +1,12 @@
+<div id="<%= dom_id drink %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">Name:</strong>
+    <%= drink.name %>
+  </div>
+  <% if drink.description.present? %>
+    <div>
+      <strong class="block font-medium mb-1">Description:</strong>
+      <%= simple_format drink.description %>
+    </div>
+  <% end %>
+</div>

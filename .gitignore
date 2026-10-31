@@ -37,3 +37,6 @@
 !/app/assets/builds/.keep
 
 /config/credentials/production.key
+
+# Personal project notes
+/PROJECT_SUMMARY.md

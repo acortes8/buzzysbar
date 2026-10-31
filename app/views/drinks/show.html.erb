@@ -1,0 +1,31 @@
+<% content_for :title, @drink.name %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+  <% if alert.present? %>
+    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md inline-block" id="alert"><%= alert %></p>
+  <% end %>
+
+  <h1 class="font-bold text-punch text-4xl"><%= @drink.name %></h1>
+
+  <div><%= render @drink %>
+
+  <section class="my-5">
+    <h2 class="font-bold text-2xl text-punch">Every time we've had it</h2>
+    <div class="divide-y divide-gray-200">
+      <% @drink.tastings.sort_by { |tasting| tasting.occasion.occurred_on }.reverse_each do |tasting| %>
+        <%= render tasting, heading: link_to(tasting.occasion.title, tasting.occasion) %>
+      <% end %>
+    </div>
+    <% if @drink.tastings.empty? %>
+      <p class="my-5">Not tried yet.</p>
+    <% end %>
+  </section>
+
+  <%= link_to "Edit this drink", edit_drink_path(@drink), class: "button-primary" %>
+  <%= link_to "Back to drinks", drinks_path, class: "button-secondary" %>
+  <%= button_to "Destroy this drink", @drink, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<% content_for :title, "Editing occasion" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
+  <h1 class="font-bold text-4xl text-punch">Editing occasion</h1>
+
+  <%= render "form", occasion: @occasion %>
+
+  <%= link_to "Show this occasion", @occasion, class: "button-secondary" %>
+  <%= link_to "Back to occasions", occasions_path, class: "button-secondary" %>
+</div>

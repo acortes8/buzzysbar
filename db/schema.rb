@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_21_054556) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,10 +52,64 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_21_054556) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "occasion_id", null: false
+    t.bigint "person_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["occasion_id", "person_id"], name: "index_attendances_on_occasion_id_and_person_id", unique: true
+    t.index ["occasion_id"], name: "index_attendances_on_occasion_id"
+    t.index ["person_id"], name: "index_attendances_on_person_id"
+  end
+
   create_table "beverages", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "drinks", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "lower((name)::text)", name: "index_drinks_on_lower_name", unique: true
+  end
+
+  create_table "occasions", force: :cascade do |t|
+    t.bigint "place_id", null: false
+    t.date "occurred_on", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_occasions_on_place_id"
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_people_on_user_id", unique: true
+  end
+
+  create_table "places", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "kind", default: "bar", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.bigint "tasting_id", null: false
+    t.bigint "person_id", null: false
+    t.decimal "score", precision: 2, scale: 1, null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_ratings_on_person_id"
+    t.index ["tasting_id", "person_id"], name: "index_ratings_on_tasting_id_and_person_id", unique: true
+    t.index ["tasting_id"], name: "index_ratings_on_tasting_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -65,6 +119,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_21_054556) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "tastings", force: :cascade do |t|
+    t.bigint "occasion_id", null: false
+    t.bigint "drink_id", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["drink_id"], name: "index_tastings_on_drink_id"
+    t.index ["occasion_id"], name: "index_tastings_on_occasion_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -78,5 +142,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_21_054556) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "attendances", "occasions"
+  add_foreign_key "attendances", "people"
+  add_foreign_key "occasions", "places"
+  add_foreign_key "people", "users"
+  add_foreign_key "ratings", "people"
+  add_foreign_key "ratings", "tastings"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tastings", "drinks"
+  add_foreign_key "tastings", "occasions"
 end
