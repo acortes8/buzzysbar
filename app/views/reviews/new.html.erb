@@ -1,0 +1,7 @@
+<% content_for :title, "New Review" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
+  <h1 class="text-punch text-2xl font-bold mb-6">Write a Review</h1>
+  <%= render "form", review: @review %>
+  <%= link_to "Back to Reviews", reviews_path, class: "button-primary mt-4 inline-block" %>
+</div>

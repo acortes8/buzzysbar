@@ -45,6 +45,7 @@
         <nav class="hidden sm:flex gap-6" aria-label="main">
           <%= link_to "Beverages", beverages_path, class: "text-2xl header-link"%>
           <%= link_to "Collections", beverages_path, class: "text-2xl header-link"%>
+          <%= link_to "Bar Reviews", reviews_path, class: "text-2xl header-link"%>
           <%= link_to "Contact Us", beverages_path, class: "text-2xl header-link"%>
           <%= (link_to "Login", new_session_path, class: "text-2xl header-link") unless authenticated?%>
           <%= (button_to "Log out", session_path, class: "text-2xl header-link", method: :delete) if authenticated?%>
@@ -55,6 +56,7 @@
       <div id="mobile-menu" class="absolute top-full right-4 max-h-0 opacity-0 bg-ablescent-white items-center overflow-hidden sm:hidden flex flex-col gap-4 px-4 py-2  mt-2 rounded-2xl shadow-lg transition-all duration-300 ease-in-out">
         <%= link_to "Beverages", beverages_path, class: "text-3xl header-link"%>
         <%= link_to "Collections", beverages_path, class: "text-3xl header-link"%>
+        <%= link_to "Bar Reviews", reviews_path, class: "text-3xl header-link"%>        
         <%= link_to "Contact Us", beverages_path, class: "text-3xl header-link"%>
         <%= (link_to "Login", new_session_path, class: "text-3xl header-link") unless authenticated?%>
         <%= (button_to "Log out", session_path, class: "text-3xl header-link", method: :delete) if authenticated?%>
