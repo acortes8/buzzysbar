@@ -41,9 +41,18 @@ class DrinksControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy drink" do
     assert_difference("Drink.count", -1) do
-      delete drink_url(@drink)
+      delete drink_url(drinks(:saturn))
     end
 
     assert_redirected_to drinks_url
+  end
+
+  test "should not destroy drink with tastings" do
+    assert_no_difference("Drink.count") do
+      delete drink_url(drinks(:mai_tai))
+    end
+
+    assert_redirected_to drink_url(drinks(:mai_tai))
+    assert_equal "Can't be deleted while it has tastings", flash[:alert]
   end
 end

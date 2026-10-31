@@ -1,7 +1,10 @@
 class Occasion < ApplicationRecord
   belongs_to :place
   has_many :attendances, dependent: :destroy
-  has_many :people, through: :attendances
+  # dependent: :destroy makes unchecking someone destroy their attendance with
+  # callbacks (deleting their ratings) instead of a bare SQL delete.
+  has_many :people, through: :attendances, dependent: :destroy
+  has_many :tastings, dependent: :destroy
 
   attribute :occurred_on, default: -> { Date.current }
 

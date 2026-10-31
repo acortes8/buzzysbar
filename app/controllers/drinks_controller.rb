@@ -49,18 +49,21 @@ class DrinksController < ApplicationController
 
   # DELETE /drinks/1 or /drinks/1.json
   def destroy
-    @drink.destroy!
-
     respond_to do |format|
-      format.html { redirect_to drinks_path, notice: "Drink was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+      if @drink.destroy
+        format.html { redirect_to drinks_path, notice: "Drink was successfully destroyed.", status: :see_other }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @drink, alert: @drink.errors.full_messages.to_sentence, status: :see_other }
+        format.json { render json: @drink.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_drink
-      @drink = Drink.find(params.expect(:id))
+      @drink = Drink.includes(tastings: [ { occasion: :place }, { ratings: :person } ]).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

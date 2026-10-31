@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_31_031235) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_31_031531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -100,6 +100,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_031235) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.bigint "tasting_id", null: false
+    t.bigint "person_id", null: false
+    t.decimal "score", precision: 2, scale: 1, null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_ratings_on_person_id"
+    t.index ["tasting_id", "person_id"], name: "index_ratings_on_tasting_id_and_person_id", unique: true
+    t.index ["tasting_id"], name: "index_ratings_on_tasting_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -119,6 +131,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_031235) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "tastings", force: :cascade do |t|
+    t.bigint "occasion_id", null: false
+    t.bigint "drink_id", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["drink_id"], name: "index_tastings_on_drink_id"
+    t.index ["occasion_id"], name: "index_tastings_on_occasion_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email_address", null: false
@@ -134,6 +156,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_031235) do
   add_foreign_key "attendances", "people"
   add_foreign_key "occasions", "places"
   add_foreign_key "people", "users"
+  add_foreign_key "ratings", "people"
+  add_foreign_key "ratings", "tastings"
   add_foreign_key "reviews", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tastings", "drinks"
+  add_foreign_key "tastings", "occasions"
 end

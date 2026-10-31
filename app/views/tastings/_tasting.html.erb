@@ -1,0 +1,32 @@
+<%# Pass heading: to choose what the tasting is titled by, e.g. the drink on an occasion page or the occasion on a drink page. %>
+<div id="<%= dom_id tasting %>" class="py-4">
+  <div class="flex flex-wrap items-baseline justify-between gap-2">
+    <h3 class="text-xl font-bold text-punch"><%= heading %></h3>
+    <% if tasting.average_score %>
+      <span class="text-elm font-semibold">Average <%= format_score(tasting.average_score) %> / 5</span>
+    <% end %>
+  </div>
+
+  <% if tasting.notes.present? %>
+    <p class="text-elm mt-1"><%= tasting.notes %></p>
+  <% end %>
+
+  <% if tasting.ratings.any? %>
+    <ul class="mt-2 space-y-1">
+      <% tasting.ratings.sort_by { |rating| rating.person.name }.each do |rating| %>
+        <li>
+          <span class="font-medium"><%= rating.person.name %>:</span>
+          <%= format_score(rating.score) %>
+          <% if rating.notes.present? %><span class="text-elm">— <%= rating.notes %></span><% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if local_assigns[:actions] %>
+    <div class="flex gap-2 mt-3">
+      <%= link_to "Edit", edit_occasion_tasting_path(tasting.occasion, tasting), class: "button-secondary" %>
+      <%= button_to "Remove", occasion_tasting_path(tasting.occasion, tasting), method: :delete, class: "button-tertiary", data: { turbo_confirm: "Remove this drink and its ratings?" } %>
+    </div>
+  <% end %>
+</div>

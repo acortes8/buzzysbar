@@ -1,0 +1,48 @@
+<%= form_with(model: [ tasting.occasion, tasting ], class: "contents") do |form| %>
+  <% if tasting.errors.any? %>
+    <div id="error_explanation" class="error-explanation">
+      <h2><%= pluralize(tasting.errors.count, "error") %> prohibited this drink from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% tasting.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :drink_id %>
+    <%= form.collection_select :drink_id, Drink.order(:name), :id, :name, { prompt: "Choose a drink" }, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": tasting.errors[:drink].none?, "border-red-400 focus:outline-red-600": tasting.errors[:drink].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :notes %>
+    <%= form.text_area :notes, rows: 2, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <fieldset class="my-5">
+    <legend class="font-medium">Ratings</legend>
+    <% if tasting.ratings.empty? %>
+      <p class="text-sm mt-2">Nobody was recorded at this occasion, so there's no one to rate it.</p>
+    <% end %>
+
+    <%= form.fields_for :ratings, tasting.ratings.sort_by { |rating| rating.person.name } do |rating_form| %>
+      <div class="flex flex-wrap items-center gap-3 mt-3">
+        <%= rating_form.hidden_field :person_id %>
+        <span class="w-28 font-medium"><%= rating_form.object.person.name %></span>
+        <%= rating_form.select :score, score_options, { include_blank: "No rating" }, class: "shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2", aria: { label: "#{rating_form.object.person.name}'s score" } %>
+        <%= rating_form.text_field :notes, placeholder: "Notes", class: "flex-1 min-w-40 shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2", aria: { label: "#{rating_form.object.person.name}'s notes" } %>
+        <% if rating_form.object.persisted? %>
+          <%= rating_form.label :_destroy, class: "flex items-center gap-2 text-sm" do %>
+            <%= rating_form.check_box :_destroy %> Remove
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <div class="inline">
+    <%= form.submit class: "button-primary" %>
+  </div>
+<% end %>

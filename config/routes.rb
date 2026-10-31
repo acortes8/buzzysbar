@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :drinks
-  resources :occasions
+  resources :occasions do
+    resources :tastings, only: %i[ new create edit update destroy ]
+  end
   resources :places
   resources :people
   resources :reviews, only: %i[ index show new create ]

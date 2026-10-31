@@ -60,7 +60,7 @@ class OccasionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_occasion
-      @occasion = Occasion.find(params.expect(:id))
+      @occasion = Occasion.includes(:place, :people, tastings: [ :drink, { ratings: :person } ]).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
