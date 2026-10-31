@@ -44,9 +44,10 @@ Run the tests and RuboCop before calling a change done.
 
 ### Built so far
 
-- `Beverage`: title (unique), featured image, and rich-text description, ingredients, and instructions, all required. The index refreshes live via Turbo broadcasts (`broadcast_refresh_later_to "beverages"`). It will be repurposed as `Drink`/`Recipe`.
+- `Beverage`: title (unique), featured image, and rich-text description, ingredients, and instructions, all required. The index refreshes live via Turbo broadcasts (`broadcast_refresh_later_to "beverages"`). It becomes `Recipe` (belonging to a `Drink`) in phase 4; don't strip it down before then.
 - `User`: name and email (both unique), password, sessions. Login, logout, and password reset. No public sign-up; accounts are invite-only.
-- `Review` (uncommitted as of 2026-10-30): title, body, rating 1–5, belongs to a user. Routes are limited to `index`, `show`, `new` and `create`. It will be repurposed as `Tasting`/`Rating`.
+- Phase 1 so far (branch `phase-1-logbook`): `Person` (optionally linked to a `User`), `Place` (bar or home), `Occasion` with `Attendance`, and `Drink` (a unique name plus an optional description). People and places with occasions can't be deleted.
+- `Review`: title, body, rating 1–5, belongs to a user. Routes are limited to `index`, `show`, `new` and `create`. It will be repurposed as `Tasting`/`Rating`.
 - Browsing beverages (`index`, `show`) is public; everything else requires login.
 
 ### Known issues
