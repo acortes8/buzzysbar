@@ -31,7 +31,11 @@
         <% end %>
       </div>
     <% end %>
-    <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "block mt-2" %>
+    <% if demo? %>
+      <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
+    <% else %>
+      <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "block mt-2" %>
+    <% end %>
   </div>
 
   <fieldset class="my-5">

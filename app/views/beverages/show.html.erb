@@ -7,6 +7,8 @@
   <%= render @beverage %>
 
   <%= link_to "Back to beverages", beverages_path, class: "button-primary" %>
-  <%= link_to "Edit this beverage", edit_beverage_path(@beverage), class: "button-secondary" %>
-  <%= link_to "Destroy this beverage", @beverage, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "button-tertiary" %>
+  <% if authenticated? && !demo? %>
+    <%= link_to "Edit this beverage", edit_beverage_path(@beverage), class: "button-secondary" %>
+    <%= link_to "Destroy this beverage", @beverage, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "button-tertiary" %>
+  <% end %>
 </div>

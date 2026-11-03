@@ -7,4 +7,8 @@ class User < ApplicationRecord
   has_one :person, dependent: :nullify
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  def demo?
+    email_address == DemoLogbook::EMAIL_ADDRESS
+  end
 end

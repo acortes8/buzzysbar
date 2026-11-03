@@ -1,6 +1,7 @@
 class BeveragesController < ApplicationController
   before_action :set_beverage, only: %i[ show edit update destroy ]
   allow_unauthenticated_access only: %i[ show index ]
+  before_action :prevent_in_demo, except: %i[ show index ]
 
   # GET /beverages or /beverages.json
   def index

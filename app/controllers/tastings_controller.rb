@@ -34,6 +34,7 @@ class TastingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tasting_params
-      params.expect(tasting: [ :drink_id, :notes, :photo, :remove_photo, ratings_attributes: [ [ :id, :person_id, :score, :notes, :_destroy ] ] ])
+      permitted = params.expect(tasting: [ :drink_id, :notes, :photo, :remove_photo, ratings_attributes: [ [ :id, :person_id, :score, :notes, :_destroy ] ] ])
+      demo? ? permitted.except(:photo) : permitted
     end
 end

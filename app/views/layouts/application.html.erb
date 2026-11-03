@@ -73,6 +73,12 @@
 
     </header>
     
+    <% if demo? %>
+      <p class="mx-16 mb-6 py-2 px-4 bg-ablescent-white text-elm font-medium rounded-lg text-center" id="demo-banner">
+        You're in the demo. It's shared with other visitors and resets every night.
+      </p>
+    <% end %>
+
     <main class="flex-grow mx-16 space-y-8">
       <%= yield %>
     </main>

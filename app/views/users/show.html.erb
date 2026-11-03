@@ -9,8 +9,8 @@
 
   <div><%= render @user %>
 
-  <%= link_to "Edit this user", edit_user_path(@user), class: "button-primary" %>
+  <%= link_to "Edit this user", edit_user_path(@user), class: "button-primary" unless demo? %>
   <%= link_to "Back to users", users_path, class: "button-secondary" %>
-  <%= button_to "Destroy this user", @user, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
+  <%= button_to "Destroy this user", @user, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } unless demo? %>
   </div>
 </div>

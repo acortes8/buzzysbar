@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :people
   resources :users
   resource :session
+  resource :demo, only: :create
   resources :passwords, param: :token
   resources :beverages
   root "occasions#index"
