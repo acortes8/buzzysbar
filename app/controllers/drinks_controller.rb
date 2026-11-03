@@ -3,7 +3,7 @@ class DrinksController < ApplicationController
 
   # GET /drinks or /drinks.json
   def index
-    @drinks = Drink.order(:name)
+    @drinks = Current.logbook.drinks.order(:name)
   end
 
   # GET /drinks/1 or /drinks/1.json
@@ -12,7 +12,7 @@ class DrinksController < ApplicationController
 
   # GET /drinks/new
   def new
-    @drink = Drink.new
+    @drink = Current.logbook.drinks.new
   end
 
   # GET /drinks/1/edit
@@ -21,7 +21,7 @@ class DrinksController < ApplicationController
 
   # POST /drinks or /drinks.json
   def create
-    @drink = Drink.new(drink_params)
+    @drink = Current.logbook.drinks.new(drink_params)
 
     respond_to do |format|
       if @drink.save
@@ -63,7 +63,7 @@ class DrinksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_drink
-      @drink = Drink.includes(tastings: [ { occasion: :place }, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
+      @drink = Current.logbook.drinks.includes(tastings: [ { occasion: :place }, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

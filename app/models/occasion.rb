@@ -1,6 +1,7 @@
 class Occasion < ApplicationRecord
   include PhotoAttachments
 
+  belongs_to :logbook
   belongs_to :place
   has_many :attendances, dependent: :destroy
   # dependent: :destroy makes unchecking someone destroy their attendance with
@@ -14,6 +15,7 @@ class Occasion < ApplicationRecord
   attribute :occurred_on, default: -> { Date.current }
 
   validates :occurred_on, presence: true
+  validates :place, same_logbook: true
   validate { photos.each { |photo| validate_photo(:photos, photo) } }
 
   def title

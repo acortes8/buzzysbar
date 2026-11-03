@@ -7,6 +7,12 @@ class AttendanceTest < ActiveSupport::TestCase
     assert_includes attendance.errors[:person_id], "has already been taken"
   end
 
+  test "the person must be in the same logbook" do
+    attendance = Attendance.new(occasion: occasions(:tiki_night), person: people(:neighbor))
+    assert_not attendance.valid?
+    assert_includes attendance.errors[:person], "must be in the same logbook"
+  end
+
   test "removing someone from an occasion removes their ratings there" do
     occasion = occasions(:tiki_night)
     assert_difference("Rating.count", -1) do

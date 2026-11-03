@@ -1,8 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  logbook: family
   name: One
   user: one
 
 guest:
+  logbook: family
   name: Guest
+
+neighbor:
+  logbook: neighbors
+  name: Neighbor
+  user: neighbor

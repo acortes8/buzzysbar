@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_03_054025) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -73,7 +73,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "lower((name)::text)", name: "index_drinks_on_lower_name", unique: true
+    t.bigint "logbook_id", null: false
+    t.index "logbook_id, lower((name)::text)", name: "index_drinks_on_logbook_id_and_lower_name", unique: true
+  end
+
+  create_table "logbooks", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "occasions", force: :cascade do |t|
@@ -82,6 +89,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "logbook_id", null: false
+    t.index ["logbook_id"], name: "index_occasions_on_logbook_id"
     t.index ["place_id"], name: "index_occasions_on_place_id"
   end
 
@@ -90,6 +99,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "logbook_id", null: false
+    t.index ["logbook_id"], name: "index_people_on_logbook_id"
     t.index ["user_id"], name: "index_people_on_user_id", unique: true
   end
 
@@ -98,6 +109,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
     t.string "kind", default: "bar", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "logbook_id", null: false
+    t.index ["logbook_id"], name: "index_places_on_logbook_id"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -137,18 +150,25 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_31_032104) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "logbook_id", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["logbook_id"], name: "index_users_on_logbook_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "occasions"
   add_foreign_key "attendances", "people"
+  add_foreign_key "drinks", "logbooks"
+  add_foreign_key "occasions", "logbooks"
   add_foreign_key "occasions", "places"
+  add_foreign_key "people", "logbooks"
   add_foreign_key "people", "users"
+  add_foreign_key "places", "logbooks"
   add_foreign_key "ratings", "people"
   add_foreign_key "ratings", "tastings"
   add_foreign_key "sessions", "users"
   add_foreign_key "tastings", "drinks"
   add_foreign_key "tastings", "occasions"
+  add_foreign_key "users", "logbooks"
 end

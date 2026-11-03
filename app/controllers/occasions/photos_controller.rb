@@ -22,6 +22,6 @@ class Occasions::PhotosController < ApplicationController
 
   private
     def set_occasion
-      @occasion = Occasion.find(params.expect(:occasion_id))
+      @occasion = Current.logbook.occasions.find(params.expect(:occasion_id))
     end
 end

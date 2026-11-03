@@ -1,9 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 bar:
+  logbook: family
   name: The Tiki Hut
   kind: bar
 
 home:
+  logbook: family
   name: Home
   kind: home
+
+neighbors_bar:
+  logbook: neighbors
+  name: The Neighborhood Lounge
+  kind: bar

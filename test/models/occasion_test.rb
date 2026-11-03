@@ -14,7 +14,13 @@ class OccasionTest < ActiveSupport::TestCase
   end
 
   test "does not require anyone to have come" do
-    assert Occasion.new(place: places(:home)).valid?
+    assert logbooks(:family).occasions.new(place: places(:home)).valid?
+  end
+
+  test "the place must be in the same logbook" do
+    occasion = logbooks(:family).occasions.new(place: places(:neighbors_bar))
+    assert_not occasion.valid?
+    assert_includes occasion.errors[:place], "must be in the same logbook"
   end
 
   test "accepts photos in phone and web formats" do

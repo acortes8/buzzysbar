@@ -20,7 +20,7 @@
       <%= form.label :drink_name, "Drink" %>
       <%= form.text_field :drink_name, list: "drink-names", autocomplete: "off", autofocus: true, placeholder: "Mai Tai", class: ["block shadow-sm rounded-md border px-3 py-3 mt-2 w-full text-lg", {"border-gray-400 focus:outline-blue-600": @log.errors[:drink_name].none?, "border-red-400 focus:outline-red-600": @log.errors[:drink_name].any?}] %>
       <datalist id="drink-names">
-        <% Drink.order(:name).pluck(:name).each do |name| %>
+        <% Current.logbook.drinks.order(:name).pluck(:name).each do |name| %>
           <option value="<%= name %>"></option>
         <% end %>
       </datalist>
@@ -30,7 +30,7 @@
       <%= form.label :place_name, "Where" %>
       <%= form.text_field :place_name, list: "place-names", autocomplete: "off", placeholder: "Bar name, or Home", class: ["block shadow-sm rounded-md border px-3 py-3 mt-2 w-full text-lg", {"border-gray-400 focus:outline-blue-600": @log.errors[:place_name].none?, "border-red-400 focus:outline-red-600": @log.errors[:place_name].any?}] %>
       <datalist id="place-names">
-        <% Place.order(:name).pluck(:name).each do |name| %>
+        <% Current.logbook.places.order(:name).pluck(:name).each do |name| %>
           <option value="<%= name %>"></option>
         <% end %>
       </datalist>
@@ -48,7 +48,7 @@
       <fieldset class="my-5">
         <legend>Who came</legend>
         <div class="flex flex-wrap gap-x-6 gap-y-2 mt-2">
-          <%= form.collection_check_boxes :person_ids, Person.order(:name), :id, :name do |b| %>
+          <%= form.collection_check_boxes :person_ids, Current.logbook.people.order(:name), :id, :name do |b| %>
             <%= b.label(class: "flex items-center gap-2") { b.check_box + b.text } %>
           <% end %>
         </div>

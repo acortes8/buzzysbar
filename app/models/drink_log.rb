@@ -1,6 +1,7 @@
 # Logs a drink in one step, for use at the table. Finds or creates the place,
 # the drink, any new people, and the occasion at that place on that date, then
-# adds the tasting. Only the place and drink names are required.
+# adds the tasting, all within the given logbook. Only the place and drink
+# names are required.
 class DrinkLog
   include ActiveModel::Model
   include ActiveModel::Attributes
@@ -13,20 +14,22 @@ class DrinkLog
   attribute :notes, :string
   attribute :photo
 
+  attr_accessor :logbook
+
   validates :place_name, :drink_name, :occurred_on, presence: true
 
   attr_reader :tasting
 
   # Starts a log for another drink at an existing occasion.
   def self.for_occasion(occasion)
-    new(place_name: occasion.place.name, occurred_on: occasion.occurred_on, person_ids: occasion.person_ids)
+    new(logbook: occasion.logbook, place_name: occasion.place.name, occurred_on: occasion.occurred_on, person_ids: occasion.person_ids)
   end
 
   def save
     return false if invalid?
 
     ActiveRecord::Base.transaction do
-      occasion = Occasion.find_or_create_by!(place: place, occurred_on: occurred_on)
+      occasion = logbook.occasions.find_or_create_by!(place: place, occurred_on: occurred_on)
       (people - occasion.people).each { |person| occasion.people << person }
       @tasting = occasion.tastings.create!(drink: drink, notes: notes, photo: photo.presence)
     end
@@ -39,17 +42,17 @@ class DrinkLog
   private
     def place
       name = place_name.squish
-      Place.where("lower(name) = ?", name.downcase).first || Place.create!(name: name)
+      logbook.places.where("lower(name) = ?", name.downcase).first || logbook.places.create!(name: name)
     end
 
     def drink
       name = Drink.normalize_value_for(:name, drink_name)
-      Drink.where("lower(name) = ?", name.downcase).first || Drink.create!(name: name)
+      logbook.drinks.where("lower(name) = ?", name.downcase).first || logbook.drinks.create!(name: name)
     end
 
     def people
-      @people ||= (Person.where(id: person_ids.compact_blank).to_a + other_people_names.map do |name|
-        Person.where("lower(name) = ?", name.downcase).first || Person.create!(name: name)
+      @people ||= (logbook.people.where(id: person_ids.compact_blank).to_a + other_people_names.map do |name|
+        logbook.people.where("lower(name) = ?", name.downcase).first || logbook.people.create!(name: name)
       end).uniq
     end
 

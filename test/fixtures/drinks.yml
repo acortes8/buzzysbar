@@ -1,8 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 mai_tai:
+  logbook: family
   name: Mai Tai
 
 saturn:
+  logbook: family
   name: Saturn
   description: A gin-based tiki classic.
+
+neighbors_mai_tai:
+  logbook: neighbors
+  name: Mai Tai

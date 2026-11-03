@@ -14,6 +14,12 @@ class TastingTest < ActiveSupport::TestCase
     assert_includes tasting.errors[:drink], "must exist"
   end
 
+  test "the drink must be in the same logbook" do
+    tasting = occasions(:tiki_night).tastings.new(drink: drinks(:neighbors_mai_tai))
+    assert_not tasting.valid?
+    assert_includes tasting.errors[:drink], "must be in the same logbook"
+  end
+
   test "rejects a photo that isn't an image" do
     @tasting.photo.attach(fixture_file_upload("notes.txt", "text/plain"))
     assert_not @tasting.valid?
