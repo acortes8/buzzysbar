@@ -12,7 +12,7 @@
     <div class="bg-ablescent-white rounded-md shadow-lg hover:shadow-2xl transform hover:scale-[1.01] transition-transform duration-200 flex flex-col gap-4 overflow-hidden h-full">
 
 
-  <%= image_tag beverage.featured_image, alt: beverage.title, class: 'w-full aspect-square object-cover rounded-t-md shadow-xl' %>
+  <%= image_tag beverage.featured_image.variant(:thumb), alt: beverage.title, class: 'w-full aspect-square object-cover rounded-t-md shadow-xl' %>
 
       <div class="px-4">
         <h1 class="text-punch text-center text-xl tracking-tight font-bold mb-2 line-clamp-2 min-h-[3rem] overflow-hidden leading-snug">

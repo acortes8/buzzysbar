@@ -3,7 +3,7 @@
     <%= beverage.title %>
   </p>
 
-  <%= image_tag beverage.featured_image, class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-white object-center shadow-lg shadow-black/25" if 
+  <%= image_tag beverage.featured_image.variant(:large), class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-white object-center shadow-lg shadow-black/25" if 
     beverage.featured_image.attached? %>
   
   <div class="group block w-full my-5" aria-disabled="false" data-dui-accordion-container data-dui-accordion-mode="all-open">
