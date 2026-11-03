@@ -1,10 +1,5 @@
-# production:
-#   periodic_cleanup:
-#     class: CleanSoftDeletedRecordsJob
-#     queue: background
-#     args: [ 1000, { batch_size: 500 } ]
-#     schedule: every hour
-#   periodic_command:
-#     command: "SoftDeletedRecord.due.delete_all"
-#     priority: 2
-#     schedule: at 5am every day
+# Scheduled jobs for Solid Queue, run by the job container (solid_queue:start).
+production:
+  reset_demo:
+    class: ResetDemoJob
+    schedule: every day at 4am America/Chicago
