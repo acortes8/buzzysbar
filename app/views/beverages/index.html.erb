@@ -27,16 +27,20 @@
       <div class="text-center px-4 pb-4 mt-auto">
         <div class="flex justify-center">
           <%= link_to 'Show', beverage, class: 'body-link inline-block px-3 py-1 rounded-md' %>
-          <%= link_to 'Edit', edit_beverage_path(beverage), class: 'body-link inline-block px-3 py-1 rounded-md' %>
-          <%= link_to 'Destroy', beverage, class: 'body-link inline-block px-3 py-1 rounded-md', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+          <% if authenticated? && !demo? %>
+            <%= link_to 'Edit', edit_beverage_path(beverage), class: 'body-link inline-block px-3 py-1 rounded-md' %>
+            <%= link_to 'Destroy', beverage, class: 'body-link inline-block px-3 py-1 rounded-md', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+          <% end %>
         </div>
       </div>
     </div>
   <% end %>
 </section>
 
-<div>
-  <%= link_to 'New beverage',
-    new_beverage_path,
-    class: "button-primary" %>
-</div>
+<% if authenticated? && !demo? %>
+  <div>
+    <%= link_to 'New beverage',
+      new_beverage_path,
+      class: "button-primary" %>
+  </div>
+<% end %>

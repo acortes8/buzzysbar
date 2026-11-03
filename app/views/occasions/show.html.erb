@@ -39,9 +39,13 @@
         </div>
       <% end %>
     </div>
-    <%= form_with url: occasion_photos_path(@occasion), class: "flex flex-wrap items-center gap-3" do |form| %>
-      <%= form.file_field :photos, multiple: true, accept: PhotoAttachments::CONTENT_TYPES.join(","), aria: { label: "Photos" } %>
-      <%= form.submit "Add photos", class: "button-secondary" %>
+    <% if demo? %>
+      <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
+    <% else %>
+      <%= form_with url: occasion_photos_path(@occasion), class: "flex flex-wrap items-center gap-3" do |form| %>
+        <%= form.file_field :photos, multiple: true, accept: PhotoAttachments::CONTENT_TYPES.join(","), aria: { label: "Photos" } %>
+        <%= form.submit "Add photos", class: "button-secondary" %>
+      <% end %>
     <% end %>
   </section>
 

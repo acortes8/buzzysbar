@@ -1,4 +1,5 @@
 class Occasions::PhotosController < ApplicationController
+  before_action :prevent_in_demo, only: :create
   before_action :set_occasion
 
   # POST /occasions/1/photos

@@ -22,6 +22,7 @@ class LogsController < ApplicationController
 
   private
     def log_params
-      params.expect(drink_log: [ :place_name, :drink_name, :occurred_on, :other_people, :notes, :photo, person_ids: [] ])
+      permitted = params.expect(drink_log: [ :place_name, :drink_name, :occurred_on, :other_people, :notes, :photo, person_ids: [] ])
+      demo? ? permitted.except(:photo) : permitted
     end
 end
