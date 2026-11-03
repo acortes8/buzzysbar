@@ -110,3 +110,7 @@ beverage_3.featured_image.attach(io:
   content_type: 'image/png')
 
 beverage_3.save
+
+# The demo logbook that portfolio visitors sign in to. Safe to run again: it
+# only ever replaces the demo's own records.
+DemoLogbook.reset!
