@@ -1,6 +1,7 @@
 # Builds the demo logbook that portfolio visitors sign in to: made-up people,
 # bars, occasions, tastings and ratings. reset! clears it and builds it again,
-# so anything visitors change only lasts until the next reset.
+# so anything visitors change only lasts until the next reset. It also signs
+# out visitors who started more than a day ago, so sessions don't pile up.
 class DemoLogbook
   NAME = "Demo"
   USER_NAME = "Demo"
@@ -79,6 +80,7 @@ class DemoLogbook
     ActiveRecord::Base.transaction do
       clear
       build
+      user.sessions.where(created_at: ...1.day.ago).delete_all
     end
     logbook
   end

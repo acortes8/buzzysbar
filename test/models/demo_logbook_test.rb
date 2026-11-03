@@ -43,4 +43,15 @@ class DemoLogbookTest < ActiveSupport::TestCase
       DemoLogbook.reset!
     end
   end
+
+  test "signs out visitors who started more than a day ago" do
+    DemoLogbook.reset!
+    old = DemoLogbook.user.sessions.create!(created_at: 25.hours.ago)
+    recent = DemoLogbook.user.sessions.create!(created_at: 1.hour.ago)
+
+    DemoLogbook.reset!
+
+    assert_not Session.exists?(old.id)
+    assert Session.exists?(recent.id)
+  end
 end
