@@ -1,60 +1,35 @@
-# README
+# Buzzy's Bar
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A private logbook of tiki drinks tried by family and friends, at bars and at
+home: occasions (place, date, who came), the drinks tasted, per-person ratings,
+and photos. Live at [buzzysbar.com](https://buzzysbar.com).
 
-Things you may want to cover:
+Where the app is going is described in [`VISION.md`](VISION.md).
 
-* Ruby version: 3.4.1
+## Stack
 
-* System dependencies: Ruby 3.4.1, Rails 8.0.1
+- Ruby 3.4.2, Rails 8.1, PostgreSQL 17
+- Hotwire (Turbo, Stimulus), importmap, Propshaft, Tailwind CSS v4
+- Active Storage and Action Text
+- Solid Queue, Solid Cache, Solid Cable
+- Deployed with Kamal 2
 
-* Configuration: TailwindCSS, PostgreSQL
+## Running locally
 
-* Database creation
+Install libvips (`brew install vips`) for image resizing, then:
 
-* Database initialization
+```sh
+bin/setup      # install gems, prepare the database
+bin/dev        # Rails server plus the Tailwind watcher
+```
 
-* How to run the test suite
+`docker-compose.yml` can also run the app with a Postgres container.
+`bin/rails db:seed` loads sample recipes (it clears existing ones first).
 
-* Services (job queues, cache servers, search engines, etc.)
+## Tests
 
-* Deployment instructions
-
-* ...
-
-Initial specification (01/24/2025)
-
-This section is an initial specification to roughly plot out what Buzzy's Bar
-will be and will need. These initial guesses are likely to off as the
-application develops iteratively, making these rough specifications early allows
-us to to focus on what to work on first and how to sequence our iterations. 
-
-What Buzzy’s Bar does
-
-Actors:
-	Curators
-	Members
-
-Curators:
-	The curator uses Buzzy's Bar to create Beverage listings, and collections of
-  beverage listings (I.E. a holiday beverages collection). These listings would
-  include details for the beverage, such as images, a thumbnail image,
-  description, and details on how to make the beverage. Collections would
-  include an organized display of individual listings grouped together based on
-  a theme. Curators will also be able to remove any comments made on listing by
-  members for moderation purposes.
-
-Members:
-	The member uses Buzzy’s Bar to view Beverage listings, mark beverage listings
-  as favorites, view their favorite beverages, mark beverages as made before,
-  view their previously made beverages, comment on listings in a comment
-  section, view comments on listings, add their tasting notes to a beverage
-  listing (which shows up only for that specific member), and search for
-  beverages by name or category.
-
-Rudimentary page flow:
-![alt text](buzzysbar_pageflow.png)
-
-Rudimentary data:
-![alt text](buzzysbar_data.png)
+```sh
+bin/rails test          # model and controller tests
+bin/rails test:system   # system tests (headless Chrome)
+bin/ci                  # everything CI runs: RuboCop, Brakeman, audits, tests, seeds
+```

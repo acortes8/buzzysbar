@@ -50,13 +50,11 @@ In system tests, use the helpers in `test/application_system_test_case.rb` (`sig
 - `Beverage`: title (unique), featured image, and rich-text description, ingredients, and instructions, all required. The index refreshes live via Turbo broadcasts (`broadcast_refresh_later_to "beverages"`). It becomes `Recipe` (belonging to a `Drink`) in phase 4; don't strip it down before then.
 - `User`: name and email (both unique), password, sessions. Login, logout, and password reset. No public sign-up; accounts are invite-only.
 - Phase 1 so far (branch `phase-1-logbook`): `Person` (optionally linked to a `User`), `Place` (bar or home), `Occasion` with `Attendance`, `Drink` (a unique name plus an optional description), and `Tasting` (a drink at an occasion) with per-person `Rating`s (1–5 in half points, only by people who came). Records with history (people, places, drinks) can't be deleted. The old `Review` model was removed.
-- Photos: occasions have many, tastings have one. Rules live in `PhotoAttachments` (JPEG, PNG, GIF, WebP, HEIC; 25 MB max), and `:thumb`/`:large` variants convert to JPEG. Resizing needs libvips: it's in the Dockerfile, and locally it's `brew install vips`. CI doesn't install it, so tests don't process variants.
+- Photos: occasions have many; tastings have one, and so do beverages (`featured_image`). Rules live in `PhotoAttachments` (JPEG, PNG, GIF, WebP, HEIC; 25 MB max), and `:thumb`/`:large` variants convert to JPEG. Resizing needs libvips: it's in the Dockerfile, and locally it's `brew install vips`. CI doesn't install it, so tests don't process variants.
 - Logging: `DrinkLog` (`app/models/drink_log.rb`, a form object) powers "Log a drink" at `/log/new`. Only drink and place names are required. It finds or creates the place, drink, people and the occasion at that place on that date, then adds the tasting. Ratings are added afterwards via "Rate or edit".
 - The home page is the occasions list. Browsing beverages (shown as "Recipes") is public; everything else requires login.
 - The time zone is Central (`config.time_zone`), so late-night logs get the right date.
 
 ### Known issues
 
-- `Beverage#acceptable_image` is defined but never registered (needs `validate :acceptable_image`). It also rejects HEIC, which iPhone photos use by default.
-- `UsersController#create` has a leftover `puts` debug line.
-- `README.md` is still the Rails default plus the old spec, and it lists Ruby 3.4.1.
+None right now.
