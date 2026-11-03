@@ -8,10 +8,13 @@ class Tasting < ApplicationRecord
     photo_variants(attachable)
   end
 
+  delegate :logbook_id, to: :occasion, allow_nil: true
+
   attribute :remove_photo, :boolean
   # A new upload wins over "remove photo" if both are sent.
   after_save { photo.purge_later if remove_photo && photo.attached? && !attachment_changes.key?("photo") }
 
+  validates :drink, same_logbook: true
   validate { validate_photo(:photo, photo) if photo.attached? }
 
   accepts_nested_attributes_for :ratings, allow_destroy: true,

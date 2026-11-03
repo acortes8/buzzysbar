@@ -3,7 +3,7 @@ class OccasionsController < ApplicationController
 
   # GET /occasions or /occasions.json
   def index
-    @occasions = Occasion.includes(:place, :people).order(occurred_on: :desc, created_at: :desc)
+    @occasions = Current.logbook.occasions.includes(:place, :people).order(occurred_on: :desc, created_at: :desc)
   end
 
   # GET /occasions/1 or /occasions/1.json
@@ -12,7 +12,7 @@ class OccasionsController < ApplicationController
 
   # GET /occasions/new
   def new
-    @occasion = Occasion.new
+    @occasion = Current.logbook.occasions.new
   end
 
   # GET /occasions/1/edit
@@ -21,7 +21,7 @@ class OccasionsController < ApplicationController
 
   # POST /occasions or /occasions.json
   def create
-    @occasion = Occasion.new(occasion_params)
+    @occasion = Current.logbook.occasions.new(occasion_params)
 
     respond_to do |format|
       if @occasion.save
@@ -60,7 +60,7 @@ class OccasionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_occasion
-      @occasion = Occasion.includes(:place, :people, { photos_attachments: :blob }, tastings: [ :drink, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
+      @occasion = Current.logbook.occasions.includes(:place, :people, { photos_attachments: :blob }, tastings: [ :drink, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

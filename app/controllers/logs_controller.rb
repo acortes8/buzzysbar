@@ -2,15 +2,15 @@ class LogsController < ApplicationController
   # GET /log/new or /log/new?occasion_id=1
   def new
     @log = if params[:occasion_id]
-      DrinkLog.for_occasion(Occasion.find(params[:occasion_id]))
+      DrinkLog.for_occasion(Current.logbook.occasions.find(params[:occasion_id]))
     else
-      DrinkLog.new(person_ids: [ Current.user.person&.id ].compact)
+      DrinkLog.new(logbook: Current.logbook, person_ids: [ Current.user.person&.id ].compact)
     end
   end
 
   # POST /log
   def create
-    @log = DrinkLog.new(log_params)
+    @log = DrinkLog.new(log_params.merge(logbook: Current.logbook))
 
     if @log.save
       tasting = @log.tasting

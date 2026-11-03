@@ -3,7 +3,7 @@ class PlacesController < ApplicationController
 
   # GET /places or /places.json
   def index
-    @places = Place.order(:name)
+    @places = Current.logbook.places.order(:name)
   end
 
   # GET /places/1 or /places/1.json
@@ -12,7 +12,7 @@ class PlacesController < ApplicationController
 
   # GET /places/new
   def new
-    @place = Place.new
+    @place = Current.logbook.places.new
   end
 
   # GET /places/1/edit
@@ -21,7 +21,7 @@ class PlacesController < ApplicationController
 
   # POST /places or /places.json
   def create
-    @place = Place.new(place_params)
+    @place = Current.logbook.places.new(place_params)
 
     respond_to do |format|
       if @place.save
@@ -63,7 +63,7 @@ class PlacesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_place
-      @place = Place.find(params.expect(:id))
+      @place = Current.logbook.places.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

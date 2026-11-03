@@ -8,13 +8,17 @@ class DrinkTest < ActiveSupport::TestCase
   end
 
   test "does not require a description" do
-    assert Drink.new(name: "Zombie").valid?
+    assert logbooks(:family).drinks.new(name: "Zombie").valid?
   end
 
   test "names are unique regardless of case and spacing" do
-    drink = Drink.new(name: "  mai   TAI ")
+    drink = logbooks(:family).drinks.new(name: "  mai   TAI ")
     assert_not drink.valid?
     assert_includes drink.errors[:name], "has already been taken"
+  end
+
+  test "another logbook can use the same name" do
+    assert logbooks(:neighbors).drinks.new(name: "Saturn").valid?
   end
 
   test "squishes extra whitespace from names" do

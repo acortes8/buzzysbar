@@ -3,7 +3,7 @@ class PeopleController < ApplicationController
 
   # GET /people or /people.json
   def index
-    @people = Person.includes(:user).order(:name)
+    @people = Current.logbook.people.includes(:user).order(:name)
   end
 
   # GET /people/1 or /people/1.json
@@ -12,7 +12,7 @@ class PeopleController < ApplicationController
 
   # GET /people/new
   def new
-    @person = Person.new
+    @person = Current.logbook.people.new
   end
 
   # GET /people/1/edit
@@ -21,7 +21,7 @@ class PeopleController < ApplicationController
 
   # POST /people or /people.json
   def create
-    @person = Person.new(person_params)
+    @person = Current.logbook.people.new(person_params)
 
     respond_to do |format|
       if @person.save
@@ -63,7 +63,7 @@ class PeopleController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_person
-      @person = Person.find(params.expect(:id))
+      @person = Current.logbook.people.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

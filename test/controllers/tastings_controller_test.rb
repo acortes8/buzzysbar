@@ -28,7 +28,7 @@ class TastingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not accept a rating from someone who wasn't there" do
-    stranger = Person.create!(name: "Stranger")
+    stranger = logbooks(:family).people.create!(name: "Stranger")
 
     assert_no_difference("Rating.count") do
       patch occasion_tasting_url(@occasion, @tasting), params: { tasting: {

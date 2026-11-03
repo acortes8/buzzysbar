@@ -34,7 +34,7 @@ class RatingTest < ActiveSupport::TestCase
   end
 
   test "only people at the occasion can rate" do
-    stranger = Person.create!(name: "Stranger")
+    stranger = logbooks(:family).people.create!(name: "Stranger")
     rating = Rating.new(tasting: @tasting, person: stranger, score: 3)
     assert_not rating.valid?
     assert_includes rating.errors[:person], "wasn't at this occasion"
