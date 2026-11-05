@@ -51,6 +51,7 @@
             <%= link_to "Places", places_path, class: "text-2xl header-link" %>
           <% end %>
           <%= link_to "Recipes", beverages_path, class: "text-2xl header-link" %>
+          <%= link_to "Rankings", rankings_path, class: "text-2xl header-link" %>
           <%= (link_to "Login", new_session_path, class: "text-2xl header-link") unless authenticated?%>
           <%= (button_to "Log out", session_path, class: "text-2xl header-link", method: :delete) if authenticated?%>
         </nav>
@@ -66,6 +67,7 @@
           <%= link_to "Places", places_path, class: "text-3xl header-link" %>
         <% end %>
         <%= link_to "Recipes", beverages_path, class: "text-3xl header-link" %>
+        <%= link_to "Rankings", rankings_path, class: "text-3xl header-link" %>
         <%= (link_to "Login", new_session_path, class: "text-3xl header-link") unless authenticated?%>
         <%= (button_to "Log out", session_path, class: "text-3xl header-link", method: :delete) if authenticated?%>
       </div>

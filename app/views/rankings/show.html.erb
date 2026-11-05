@@ -1,0 +1,29 @@
+<% content_for :title, "#{@drink.name} ranking" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
+  <h1 class="font-bold text-punch text-4xl"><%= @drink.name %></h1>
+  <% if @drink.description.present? %>
+    <div class="text-elm mt-2"><%= simple_format @drink.description %></div>
+  <% end %>
+
+  <ol id="ranking" class="divide-y divide-gray-200 mt-5">
+    <% @drink.ranked_tastings.each do |tasting| %>
+      <li id="<%= dom_id tasting %>" class="py-3 flex flex-wrap justify-between items-baseline gap-2">
+        <div>
+          <%# Homes aren't named in public, since a home's name can identify someone. %>
+          <span class="text-xl font-bold text-punch"><%= tasting.occasion.place.home? ? "At home" : tasting.occasion.place.name %></span>
+          <span class="text-elm ml-2"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></span>
+        </div>
+        <span class="text-elm font-semibold">
+          <% if tasting.average_score %>
+            <%= format_score(tasting.average_score) %> / 5 from <%= pluralize(tasting.ratings.size, "rating") %>
+          <% else %>
+            Not rated
+          <% end %>
+        </span>
+      </li>
+    <% end %>
+  </ol>
+
+  <%= link_to "All rankings", rankings_path, class: "button-secondary mt-5" %>
+</div>
