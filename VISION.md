@@ -79,10 +79,14 @@ This is an ongoing hobby. Each phase should be usable on its own.
   - `User` stays as the login account, linked to a `Person`.
 - **Dropped:** the curator/member roles, public sign-up, collections, and comments and moderation. Accounts are invite-only.
 
+## Decided
+
+- **Public by default?** No. Everything is opt-in, one item at a time. *(2026-11-04)*
+- **People on public pages:** never named. Public pages show average scores and how many people rated, not who. *(2026-11-04)*
+- **Ratings:** 1–5 in half points. *(phase 1)*
+- **The occasion model's name:** `Occasion`. Public URLs can use friendlier words without renaming it. *(2026-11-04)*
+
 ## Open questions
 
-- Which things are public by default, if any, versus always opt-in?
 - Is "home" one Place per household, or can there be several, such as different family members' homes?
 - Does someone without an account ever need to see the private side, for example through a share link to one occasion?
-- Should ratings be on a 1–5 scale, allow half points, or use something else?
-- What's the final name for the occasion model: `Occasion`, `Outing` or `Visit`?
