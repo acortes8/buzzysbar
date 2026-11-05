@@ -7,4 +7,10 @@
     <strong class="block font-medium mb-1">Kind:</strong>
     <%= place.kind.humanize %>
   </div>
+  <% if place.review.present? %>
+    <div>
+      <strong class="block font-medium mb-1">Review:</strong>
+      <%= simple_format place.review %>
+    </div>
+  <% end %>
 </div>

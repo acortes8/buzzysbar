@@ -1,0 +1,18 @@
+<% content_for :title, "Bars" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
+  <h1 class="font-bold text-punch text-4xl">Bars</h1>
+  <p class="text-elm mt-2">Tiki bars we've been to, and what we thought.</p>
+
+  <ul id="bars" class="divide-y divide-gray-200 mt-5">
+    <% @bars.each do |bar| %>
+      <li class="py-3 flex justify-between items-baseline gap-2">
+        <%= link_to bar.name, bar_path(bar), class: "text-xl font-bold text-punch hover:underline" %>
+        <span class="text-elm"><%= pluralize(bar.occasions.size, "visit") %></span>
+      </li>
+    <% end %>
+  </ul>
+  <% if @bars.empty? %>
+    <p class="my-5">Nothing here yet.</p>
+  <% end %>
+</div>

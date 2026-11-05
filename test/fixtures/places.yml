@@ -4,6 +4,8 @@ bar:
   logbook: family
   name: The Tiki Hut
   kind: bar
+  published: true
+  review: Great mugs and a strong Mai Tai.
 
 home:
   logbook: family

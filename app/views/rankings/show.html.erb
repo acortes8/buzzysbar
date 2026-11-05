@@ -11,7 +11,14 @@
       <li id="<%= dom_id tasting %>" class="py-3 flex flex-wrap justify-between items-baseline gap-2">
         <div>
           <%# Homes aren't named in public, since a home's name can identify someone. %>
-          <span class="text-xl font-bold text-punch"><%= tasting.occasion.place.home? ? "At home" : tasting.occasion.place.name %></span>
+          <% place = tasting.occasion.place %>
+          <% if place.home? %>
+            <span class="text-xl font-bold text-punch">At home</span>
+          <% elsif place.published? %>
+            <%= link_to place.name, bar_path(place), class: "text-xl font-bold text-punch hover:underline" %>
+          <% else %>
+            <span class="text-xl font-bold text-punch"><%= place.name %></span>
+          <% end %>
           <span class="text-elm ml-2"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></span>
         </div>
         <span class="text-elm font-semibold">

@@ -9,6 +9,9 @@
   <% end %>
 
   <h1 class="font-bold text-punch text-4xl"><%= @place.name %></h1>
+  <% if @place.published? %>
+    <p class="mt-2 text-elm">Published: <%= link_to "see the public review", bar_path(@place), class: "underline" %></p>
+  <% end %>
 
   <div><%= render @place %>
 

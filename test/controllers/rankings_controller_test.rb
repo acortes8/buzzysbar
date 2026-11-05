@@ -39,4 +39,9 @@ class RankingsControllerTest < ActionDispatch::IntegrationTest
     get ranking_url(drinks(:saturn))
     assert_response :not_found
   end
+
+  test "links published bars to their reviews" do
+    get ranking_url(drinks(:mai_tai))
+    assert_select "#ranking a[href=?]", bar_path(places(:bar)), text: "The Tiki Hut"
+  end
 end
