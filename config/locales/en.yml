@@ -33,6 +33,8 @@ en:
     attributes:
       person:
         attendances: "occasions"
+      photo:
+        image: "Photo"
     errors:
       messages:
         restrict_dependent_destroy:

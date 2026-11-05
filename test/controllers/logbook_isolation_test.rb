@@ -60,7 +60,7 @@ class LogbookIsolationTest < ActionDispatch::IntegrationTest
   test "can't add photos to another logbook's occasion" do
     post occasion_photos_url(occasions(:neighbors_night)), params: { photos: [ fixture_file_upload("mai_tai.jpg", "image/jpeg") ] }
     assert_response :not_found
-    assert_not occasions(:neighbors_night).reload.photos.attached?
+    assert_not occasions(:neighbors_night).photos.exists?
   end
 
   test "can't link another logbook's records by id" do

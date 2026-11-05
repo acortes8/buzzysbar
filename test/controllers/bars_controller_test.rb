@@ -55,4 +55,15 @@ class BarsControllerTest < ActionDispatch::IntegrationTest
     get bar_url(places(:bar))
     assert_select "#photos img[alt=?]", "Photo of Mai Tai"
   end
+
+  test "shows only published occasion photos" do
+    photo = occasions(:tiki_night).photos.create!(image: fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+
+    get bar_url(places(:bar))
+    assert_select "#photos img", count: 0
+
+    photo.update!(published: true)
+    get bar_url(places(:bar))
+    assert_select "#photos img[alt=?]", "Photo from The Tiki Hut"
+  end
 end
