@@ -3,6 +3,9 @@
   <% if tasting.photo.attached? %>
     <%= link_to tasting.photo.variant(:large), target: "_blank", class: "shrink-0" do %>
       <%= image_tag tasting.photo.variant(:thumb), alt: "Photo of #{tasting.drink.name}", class: "w-24 h-24 object-cover rounded-md shadow" %>
+      <% if tasting.photo_published? %>
+        <span class="block text-xs text-center text-elm mt-1">Public</span>
+      <% end %>
     <% end %>
   <% end %>
 

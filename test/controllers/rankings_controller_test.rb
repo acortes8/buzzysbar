@@ -44,4 +44,16 @@ class RankingsControllerTest < ActionDispatch::IntegrationTest
     get ranking_url(drinks(:mai_tai))
     assert_select "#ranking a[href=?]", bar_path(places(:bar)), text: "The Tiki Hut"
   end
+
+  test "shows only published photos" do
+    tasting = tastings(:mai_tai_at_tiki_night)
+    tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+
+    get ranking_url(drinks(:mai_tai))
+    assert_select "#ranking img", count: 0
+
+    tasting.update!(photo_published: true)
+    get ranking_url(drinks(:mai_tai))
+    assert_select "#ranking img[alt=?]", "Photo of Mai Tai"
+  end
 end
