@@ -8,18 +8,25 @@
 
   <ol id="ranking" class="divide-y divide-gray-200 mt-5">
     <% @drink.ranked_tastings.each do |tasting| %>
-      <li id="<%= dom_id tasting %>" class="py-3 flex flex-wrap justify-between items-baseline gap-2">
-        <div>
-          <%# Homes aren't named in public, since a home's name can identify someone. %>
-          <% place = tasting.occasion.place %>
-          <% if place.home? %>
-            <span class="text-xl font-bold text-punch">At home</span>
-          <% elsif place.published? %>
-            <%= link_to place.name, bar_path(place), class: "text-xl font-bold text-punch hover:underline" %>
-          <% else %>
-            <span class="text-xl font-bold text-punch"><%= place.name %></span>
+      <li id="<%= dom_id tasting %>" class="py-3 flex flex-wrap justify-between items-center gap-2">
+        <div class="flex items-center gap-4">
+          <% if (photo = tasting.public_photo) %>
+            <%= link_to photo.variant(:large), target: "_blank", class: "shrink-0" do %>
+              <%= image_tag photo.variant(:thumb), alt: "Photo of #{@drink.name}", class: "w-20 h-20 object-cover rounded-md shadow" %>
+            <% end %>
           <% end %>
-          <span class="text-elm ml-2"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></span>
+          <div>
+            <%# Homes aren't named in public, since a home's name can identify someone. %>
+            <% place = tasting.occasion.place %>
+            <% if place.home? %>
+              <span class="text-xl font-bold text-punch">At home</span>
+            <% elsif place.published? %>
+              <%= link_to place.name, bar_path(place), class: "text-xl font-bold text-punch hover:underline" %>
+            <% else %>
+              <span class="text-xl font-bold text-punch"><%= place.name %></span>
+            <% end %>
+            <span class="text-elm ml-2"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></span>
+          </div>
         </div>
         <span class="text-elm font-semibold">
           <% if tasting.average_score %>

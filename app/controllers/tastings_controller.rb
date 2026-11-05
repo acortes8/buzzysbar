@@ -32,9 +32,10 @@ class TastingsController < ApplicationController
       @tasting = @occasion.tastings.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through. Demo visitors can't
+    # upload or publish photos.
     def tasting_params
-      permitted = params.expect(tasting: [ :drink_id, :notes, :photo, :remove_photo, ratings_attributes: [ [ :id, :person_id, :score, :notes, :_destroy ] ] ])
-      demo? ? permitted.except(:photo) : permitted
+      permitted = params.expect(tasting: [ :drink_id, :notes, :photo, :remove_photo, :photo_published, ratings_attributes: [ [ :id, :person_id, :score, :notes, :_destroy ] ] ])
+      demo? ? permitted.except(:photo, :photo_published) : permitted
     end
 end

@@ -43,4 +43,16 @@ class BarsControllerTest < ActionDispatch::IntegrationTest
     get bar_url(places(:home))
     assert_response :not_found
   end
+
+  test "shows only published photos" do
+    tasting = tastings(:mai_tai_at_tiki_night)
+    tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+
+    get bar_url(places(:bar))
+    assert_select "#photos img", count: 0
+
+    tasting.update!(photo_published: true)
+    get bar_url(places(:bar))
+    assert_select "#photos img[alt=?]", "Photo of Mai Tai"
+  end
 end

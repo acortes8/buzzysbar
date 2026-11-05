@@ -35,6 +35,11 @@
       <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
     <% else %>
       <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "block mt-2" %>
+      <%= form.label :photo_published, class: "flex items-center gap-2 mt-3" do %>
+        <%= form.check_box :photo_published %>
+        Publish this photo on public pages. It shows the drink and no people.
+      <% end %>
+      <p class="text-sm text-elm mt-1">A new photo needs publishing again.</p>
     <% end %>
   </div>
 

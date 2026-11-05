@@ -61,4 +61,36 @@ class TastingTest < ActiveSupport::TestCase
     assert tasting.save
     assert_empty tasting.ratings
   end
+
+  test "can't publish a photo it doesn't have" do
+    @tasting.photo_published = true
+    assert_not @tasting.valid?
+    assert_includes @tasting.errors[:photo_published], "needs a photo"
+  end
+
+  test "public_photo is only a published photo" do
+    @tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+    assert_nil @tasting.public_photo
+
+    @tasting.update!(photo_published: true)
+    assert_equal @tasting.photo, @tasting.public_photo
+  end
+
+  test "a new photo is unpublished" do
+    @tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"), photo_published: true)
+    @tasting.update!(photo: fixture_file_upload("drink.heic", "image/heic"))
+    assert_not @tasting.reload.photo_published?
+  end
+
+  test "a new photo can be published in the same save" do
+    @tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+    @tasting.update!(photo: fixture_file_upload("drink.heic", "image/heic"), photo_published: true)
+    assert @tasting.reload.photo_published?
+  end
+
+  test "removing the photo unpublishes it" do
+    @tasting.update!(photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"), photo_published: true)
+    perform_enqueued_jobs { @tasting.update!(remove_photo: true, photo_published: true) }
+    assert_not @tasting.reload.photo_published?
+  end
 end

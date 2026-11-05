@@ -14,7 +14,19 @@ class Tasting < ApplicationRecord
   # A new upload wins over "remove photo" if both are sent.
   after_save { photo.purge_later if remove_photo && photo.attached? && !attachment_changes.key?("photo") }
 
+  # Publishing a photo is a promise that it shows no people, so it only covers
+  # the photo it was given for: removing the photo unpublishes it, and so does
+  # a new upload, unless it's published in the same save.
+  before_save do
+    if remove_photo && !attachment_changes.key?("photo")
+      self.photo_published = false
+    elsif attachment_changes.key?("photo") && !photo_published_changed?
+      self.photo_published = false
+    end
+  end
+
   validates :drink, same_logbook: true
+  validates :photo_published, absence: { message: "needs a photo" }, unless: -> { photo.attached? }
   validate { validate_photo(:photo, photo) if photo.attached? }
 
   accepts_nested_attributes_for :ratings, allow_destroy: true,
@@ -27,6 +39,11 @@ class Tasting < ApplicationRecord
     occasion.people.order(:name).each do |person|
       ratings.build(person: person) unless rated.include?(person.id)
     end
+  end
+
+  # The photo, if it's been published for public pages.
+  def public_photo
+    photo if photo_published? && photo.attached?
   end
 
   def average_score

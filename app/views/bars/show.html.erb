@@ -38,5 +38,19 @@
     <% end %>
   </section>
 
+  <% tastings_with_photos = @bar.tastings.select(&:public_photo) %>
+  <% if tastings_with_photos.any? %>
+    <section class="mt-5">
+      <h2 class="font-bold text-2xl text-punch">Photos</h2>
+      <div id="photos" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+        <% tastings_with_photos.each do |tasting| %>
+          <%= link_to tasting.public_photo.variant(:large), target: "_blank" do %>
+            <%= image_tag tasting.public_photo.variant(:thumb), alt: "Photo of #{tasting.drink.name}", class: "w-full aspect-square object-cover rounded-md shadow" %>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
   <%= link_to "All bars", bars_path, class: "button-secondary mt-5" %>
 </div>

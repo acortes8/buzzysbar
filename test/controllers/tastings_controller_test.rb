@@ -77,4 +77,25 @@ class TastingsControllerTest < ActionDispatch::IntegrationTest
     get drink_url(drinks(:mai_tai))
     assert_select "h3", text: @occasion.title
   end
+
+  test "should publish a photo" do
+    patch occasion_tasting_url(@occasion, @tasting), params: { tasting: {
+      photo: fixture_file_upload("mai_tai.jpg", "image/jpeg"), photo_published: "1"
+    } }
+
+    assert_redirected_to occasion_url(@occasion)
+    assert @tasting.reload.photo_published?
+  end
+
+  test "demo visitors can't publish photos" do
+    post demo_url
+    tasting = DemoLogbook.user.logbook.occasions.first.tastings.first
+    tasting.photo.attach(fixture_file_upload("mai_tai.jpg", "image/jpeg"))
+
+    get edit_occasion_tasting_url(tasting.occasion, tasting)
+    assert_select "input[name=?]", "tasting[photo_published]", count: 0
+
+    patch occasion_tasting_url(tasting.occasion, tasting), params: { tasting: { photo_published: "1" } }
+    assert_not tasting.reload.photo_published?
+  end
 end
