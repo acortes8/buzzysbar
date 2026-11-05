@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :beverages
   resources :rankings, only: %i[ index show ]
+  resources :bars, only: %i[ index show ]
   root "occasions#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

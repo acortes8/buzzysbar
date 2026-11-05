@@ -66,8 +66,9 @@ class PlacesController < ApplicationController
       @place = Current.logbook.places.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through. Demo visitors are
+    # anonymous, so they can't publish anything.
     def place_params
-      params.expect(place: [ :name, :kind ])
+      params.expect(place: demo? ? [ :name, :kind, :review ] : [ :name, :kind, :review, :published ])
     end
 end

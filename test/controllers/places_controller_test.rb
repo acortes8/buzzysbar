@@ -55,4 +55,25 @@ class PlacesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to place_url(places(:bar))
     assert_equal "Can't be deleted while it has occasions", flash[:alert]
   end
+
+  test "should publish a bar with a review" do
+    place = logbooks(:family).places.create!(name: "Lava Lounge")
+    patch place_url(place), params: { place: { published: "1", review: "Fire bowls!" } }
+    assert place.reload.published?
+    assert_equal "Fire bowls!", place.review
+
+    get place_url(place)
+    assert_select "a[href=?]", bar_path(place)
+  end
+
+  test "demo visitors can't publish places" do
+    post demo_url
+    place = DemoLogbook.user.logbook.places.bar.first
+
+    get edit_place_url(place)
+    assert_select "input[name=?]", "place[published]", count: 0
+
+    patch place_url(place), params: { place: { published: "1" } }
+    assert_not place.reload.published?
+  end
 end

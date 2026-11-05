@@ -1,0 +1,42 @@
+<% content_for :title, @bar.name %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
+  <h1 class="font-bold text-punch text-4xl"><%= @bar.name %></h1>
+  <% if @bar.occasions.any? %>
+    <p class="text-elm mt-2">
+      <%= pluralize(@bar.occasions.size, "visit") %>, most recently <%= @bar.occasions.map(&:occurred_on).max.strftime("%B %Y") %>
+    </p>
+  <% end %>
+
+  <% if @bar.review.present? %>
+    <div id="review" class="mt-5"><%= simple_format @bar.review %></div>
+  <% end %>
+
+  <section class="mt-5">
+    <h2 class="font-bold text-2xl text-punch">What we had</h2>
+    <ol id="drinks" class="divide-y divide-gray-200">
+      <% @bar.drink_scores.each do |score| %>
+        <li class="py-3 flex flex-wrap justify-between items-baseline gap-2">
+          <div>
+            <% if score.drink.published? %>
+              <%= link_to score.drink.name, ranking_path(score.drink), class: "text-xl font-bold text-punch hover:underline" %>
+            <% else %>
+              <span class="text-xl font-bold text-punch"><%= score.drink.name %></span>
+            <% end %>
+            <% if score.tastings_count > 1 %>
+              <span class="text-elm ml-2"><%= score.tastings_count %> times</span>
+            <% end %>
+          </div>
+          <span class="text-elm font-semibold">
+            <%= score.average_score ? "#{format_score(score.average_score)} / 5" : "Not rated" %>
+          </span>
+        </li>
+      <% end %>
+    </ol>
+    <% if @bar.tastings.empty? %>
+      <p class="my-5">Nothing logged yet.</p>
+    <% end %>
+  </section>
+
+  <%= link_to "All bars", bars_path, class: "button-secondary mt-5" %>
+</div>
