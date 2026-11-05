@@ -3,6 +3,7 @@
 mai_tai:
   logbook: family
   name: Mai Tai
+  published: true
 
 saturn:
   logbook: family

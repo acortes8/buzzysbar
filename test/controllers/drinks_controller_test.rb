@@ -55,4 +55,23 @@ class DrinksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to drink_url(drinks(:mai_tai))
     assert_equal "Can't be deleted while it has tastings", flash[:alert]
   end
+
+  test "should publish drink" do
+    patch drink_url(@drink), params: { drink: { published: "1" } }
+    assert @drink.reload.published?
+
+    get drink_url(@drink)
+    assert_select "a[href=?]", ranking_path(@drink)
+  end
+
+  test "demo visitors can't publish drinks" do
+    post demo_url
+    drink = DemoLogbook.user.logbook.drinks.first
+
+    get edit_drink_url(drink)
+    assert_select "input[name=?]", "drink[published]", count: 0
+
+    patch drink_url(drink), params: { drink: { published: "1" } }
+    assert_not drink.reload.published?
+  end
 end

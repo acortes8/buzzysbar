@@ -9,6 +9,9 @@
   <% end %>
 
   <h1 class="font-bold text-punch text-4xl"><%= @drink.name %></h1>
+  <% if @drink.published? %>
+    <p class="mt-2 text-elm">Published: <%= link_to "see the public ranking", ranking_path(@drink), class: "underline" %></p>
+  <% end %>
 
   <div><%= render @drink %>
 

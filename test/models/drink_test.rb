@@ -24,4 +24,17 @@ class DrinkTest < ActiveSupport::TestCase
   test "squishes extra whitespace from names" do
     assert_equal "Jungle Bird", Drink.new(name: "  Jungle   Bird ").name
   end
+
+  test "published lists only published drinks" do
+    assert_equal [ drinks(:mai_tai) ], Drink.published.to_a
+  end
+
+  test "ranks tastings by average score, unrated last" do
+    drink = drinks(:mai_tai)
+    occasion = logbooks(:family).occasions.create!(place: places(:home), occurred_on: "2026-10-15", people: [ people(:one) ])
+    unrated = occasion.tastings.create!(drink: drink)
+    better = occasion.tastings.create!(drink: drink, ratings_attributes: [ { person: people(:one), score: 5 } ])
+
+    assert_equal [ better, tastings(:mai_tai_at_tiki_night), unrated ], drink.reload.ranked_tastings
+  end
 end

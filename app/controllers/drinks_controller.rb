@@ -66,8 +66,9 @@ class DrinksController < ApplicationController
       @drink = Current.logbook.drinks.includes(tastings: [ { occasion: :place }, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through. Demo visitors are
+    # anonymous, so they can't publish anything.
     def drink_params
-      params.expect(drink: [ :name, :description ])
+      params.expect(drink: demo? ? [ :name, :description ] : [ :name, :description, :published ])
     end
 end
