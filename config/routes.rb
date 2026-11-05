@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resource :log, only: %i[ new create ]
   resources :occasions do
     resources :tastings, only: %i[ edit update destroy ]
-    resources :photos, only: %i[ create destroy ], module: :occasions
+    resources :photos, only: %i[ create update destroy ], module: :occasions
   end
   resources :places
   resources :people

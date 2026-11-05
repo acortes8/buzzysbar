@@ -80,7 +80,7 @@ class DemosControllerTest < ActionDispatch::IntegrationTest
     photo = fixture_file_upload("mai_tai.jpg", "image/jpeg")
 
     post occasion_photos_url(occasion), params: { photos: [ photo ] }
-    assert_not occasion.reload.photos.attached?
+    assert_not occasion.photos.exists?
 
     post log_url, params: { drink_log: { place_name: "Lava Room", drink_name: "Zombie", photo: photo } }
     assert_response :redirect

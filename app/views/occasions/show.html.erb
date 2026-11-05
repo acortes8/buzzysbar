@@ -32,10 +32,15 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 my-3">
       <% @occasion.photos.each do |photo| %>
         <div id="<%= dom_id photo %>" class="relative">
-          <%= link_to photo.variant(:large), target: "_blank" do %>
-            <%= image_tag photo.variant(:thumb), alt: "Photo from #{@occasion.title}", class: "w-full aspect-square object-cover rounded-md shadow" %>
+          <%= link_to photo.image.variant(:large), target: "_blank" do %>
+            <%= image_tag photo.image.variant(:thumb), alt: "Photo from #{@occasion.title}", class: "w-full aspect-square object-cover rounded-md shadow" %>
           <% end %>
           <%= button_to "Remove", occasion_photo_path(@occasion, photo), method: :delete, form_class: "absolute top-2 right-2", class: "button-tertiary text-xs", data: { turbo_confirm: "Remove this photo?" } %>
+          <% if photo.published? %>
+            <%= button_to "Public · Unpublish", occasion_photo_path(@occasion, photo), method: :patch, params: { photo: { published: false } }, form_class: "mt-1", class: "button-secondary text-xs w-full" %>
+          <% elsif @occasion.place.bar? && !demo? %>
+            <%= button_to "Publish", occasion_photo_path(@occasion, photo), method: :patch, params: { photo: { published: true } }, form_class: "mt-1", class: "button-secondary text-xs w-full", data: { turbo_confirm: "Publish this photo on public pages? Only publish photos with no people in them." } %>
+          <% end %>
         </div>
       <% end %>
     </div>

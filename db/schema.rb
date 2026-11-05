@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_05_081607) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_05_082255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -105,6 +105,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_05_081607) do
     t.index ["user_id"], name: "index_people_on_user_id", unique: true
   end
 
+  create_table "photos", force: :cascade do |t|
+    t.bigint "occasion_id", null: false
+    t.boolean "published", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["occasion_id"], name: "index_photos_on_occasion_id"
+  end
+
   create_table "places", force: :cascade do |t|
     t.string "name", null: false
     t.string "kind", default: "bar", null: false
@@ -168,6 +176,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_05_081607) do
   add_foreign_key "occasions", "places"
   add_foreign_key "people", "logbooks"
   add_foreign_key "people", "users"
+  add_foreign_key "photos", "occasions"
   add_foreign_key "places", "logbooks"
   add_foreign_key "ratings", "people"
   add_foreign_key "ratings", "tastings"

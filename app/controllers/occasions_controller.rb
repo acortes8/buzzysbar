@@ -60,7 +60,7 @@ class OccasionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_occasion
-      @occasion = Current.logbook.occasions.includes(:place, :people, { photos_attachments: :blob }, tastings: [ :drink, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
+      @occasion = Current.logbook.occasions.includes(:place, :people, { photos: { image_attachment: :blob } }, tastings: [ :drink, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

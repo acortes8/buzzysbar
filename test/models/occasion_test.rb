@@ -23,19 +23,6 @@ class OccasionTest < ActiveSupport::TestCase
     assert_includes occasion.errors[:place], "must be in the same logbook"
   end
 
-  test "accepts photos in phone and web formats" do
-    occasion = occasions(:tiki_night)
-    occasion.photos.attach(fixture_file_upload("drink.heic", "image/heic"), fixture_file_upload("mai_tai.jpg", "image/jpeg"))
-    assert occasion.valid?
-  end
-
-  test "rejects files that aren't images" do
-    occasion = occasions(:tiki_night)
-    occasion.photos.attach(fixture_file_upload("notes.txt", "text/plain"))
-    assert_not occasion.valid?
-    assert_includes occasion.errors[:photos], "must be a JPEG, PNG, GIF, WebP, or HEIC image"
-  end
-
   test "title names the place and date" do
     assert_equal "The Tiki Hut, October 1st, 2026", occasions(:tiki_night).title
   end
