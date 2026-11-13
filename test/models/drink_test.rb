@@ -37,4 +37,22 @@ class DrinkTest < ActiveSupport::TestCase
 
     assert_equal [ better, tastings(:mai_tai_at_tiki_night), unrated ], drink.reload.ranked_tastings
   end
+
+  test "find_or_initialize_by_name finds a drink ignoring case and spacing" do
+    assert_equal drinks(:mai_tai), logbooks(:family).drinks.find_or_initialize_by_name("  mai   TAI ")
+  end
+
+  test "find_or_initialize_by_name builds a new drink in the logbook" do
+    drink = logbooks(:family).drinks.find_or_initialize_by_name(" Jungle  Bird ")
+    assert drink.new_record?
+    assert_equal "Jungle Bird", drink.name
+    assert_equal logbooks(:family), drink.logbook
+  end
+
+  test "can't be deleted while it has recipes" do
+    drink = drinks(:mai_tai)
+    drink.tastings.destroy_all
+    assert_not drink.destroy
+    assert_includes drink.errors[:base], "Can't be deleted while it has recipes"
+  end
 end

@@ -1,0 +1,57 @@
+<%= form_with(model: recipe, class: "contents") do |form| %>
+  <% if recipe.errors.any? %>
+    <div id="error_explanation" class="error-explanation">
+      <h2><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% recipe.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:title].none?, "border-red-400 focus:outline-red-600": recipe.errors[:title].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :drink_name, "Drink" %>
+    <%= form.text_field :drink_name, list: "drink-names", placeholder: "e.g. Hurricane", class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:drink].none?, "border-red-400 focus:outline-red-600": recipe.errors[:drink].any?}] %>
+    <datalist id="drink-names">
+      <% Current.logbook.drinks.order(:name).each do |drink| %>
+        <option value="<%= drink.name %>"></option>
+      <% end %>
+    </datalist>
+    <p class="text-sm text-elm mt-1">A new name adds the drink.</p>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :featured_image, "Photo (optional)" %>
+    <% if demo? %>
+      <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
+    <% else %>
+      <%= form.file_field :featured_image, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:featured_image].none?, "border-red-400 focus:outline-red-600": recipe.errors[:featured_image].any?}] %>
+    <% end %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :ingredient_section %>
+    <%= form.rich_textarea :ingredient_section, class: ["prose block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:ingredient_section].none?, "border-red-400 focus:outline-red-600": recipe.errors[:ingredient_section].any?}] %>
+  </div>
+
+    <div class="my-5">
+    <%= form.label :instruction_section, style: "display: block" %>
+    <%= form.rich_textarea :instruction_section, class: ["prose"] %>
+  </div>
+
+    <div class="my-5">
+    <%= form.label :description, "Description (optional)" %>
+    <%= form.rich_textarea :description, class: ["prose"] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "button-primary" %>
+  </div>
+<% end %>

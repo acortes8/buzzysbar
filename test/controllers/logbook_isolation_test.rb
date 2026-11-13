@@ -99,4 +99,20 @@ class LogbookIsolationTest < ActionDispatch::IntegrationTest
     assert_select "option[value=?]", places(:neighbors_bar).name, count: 0
     assert_select "input[type=checkbox][value=?]", people(:neighbor).id.to_s, count: 0
   end
+
+  test "can't see or change another logbook's recipes" do
+    get recipe_url(recipes(:pearl_diver))
+    assert_response :not_found
+
+    patch recipe_url(recipes(:pearl_diver)), params: { recipe: { title: "Mine now" } }
+    assert_response :not_found
+
+    delete recipe_url(recipes(:pearl_diver))
+    assert_response :not_found
+  end
+
+  test "a recipe's drink name only finds drinks in this logbook" do
+    post recipes_url, params: { recipe: { title: "Pearl Diver", drink_name: "Mai Tai", ingredient_section: "Rum", instruction_section: "Shake" } }
+    assert_equal drinks(:mai_tai), Recipe.last.drink
+  end
 end

@@ -1,9 +1,9 @@
 mai_tai:
-  record: mai_tai (Beverage)
+  record: mai_tai (Recipe)
   name: featured_image
   blob: blob_mai_tai
 
 pearl_diver:
-  record: pearl_diver (Beverage)
+  record: pearl_diver (Recipe)
   name: featured_image
   blob: blob_pearl_diver

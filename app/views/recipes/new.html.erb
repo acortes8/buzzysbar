@@ -1,0 +1,9 @@
+<% content_for :title, "New recipe" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
+  <h1 class="font-bold text-4xl text-punch">New recipe</h1>
+
+  <%= render "form", recipe: @recipe %>
+
+  <%= link_to "Back to recipes", recipes_path, class: "button-secondary" %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_05_082255) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_13_214023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,12 +60,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_05_082255) do
     t.index ["occasion_id", "person_id"], name: "index_attendances_on_occasion_id_and_person_id", unique: true
     t.index ["occasion_id"], name: "index_attendances_on_occasion_id"
     t.index ["person_id"], name: "index_attendances_on_person_id"
-  end
-
-  create_table "beverages", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "drinks", force: :cascade do |t|
@@ -136,6 +130,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_05_082255) do
     t.index ["tasting_id"], name: "index_ratings_on_tasting_id"
   end
 
+  create_table "recipes", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "drink_id", null: false
+    t.index ["drink_id"], name: "index_recipes_on_drink_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "ip_address"
@@ -180,6 +182,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_05_082255) do
   add_foreign_key "places", "logbooks"
   add_foreign_key "ratings", "people"
   add_foreign_key "ratings", "tastings"
+  add_foreign_key "recipes", "drinks"
   add_foreign_key "sessions", "users"
   add_foreign_key "tastings", "drinks"
   add_foreign_key "tastings", "occasions"

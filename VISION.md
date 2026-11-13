@@ -85,6 +85,10 @@ This is an ongoing hobby. Each phase should be usable on its own.
 - **People on public pages:** never named. Public pages show average scores and how many people rated, not who. *(2026-11-04)*
 - **Ratings:** 1–5 in half points. *(phase 1)*
 - **The occasion model's name:** `Occasion`. Public URLs can use friendlier words without renaming it. *(2026-11-04)*
+- **Public recipes:** opt-in like everything else, and a recipe whose source is a book can never be published. Existing recipes start unpublished. *(2026-11-13)*
+- **Recipe sources:** a `Book` record (title, author) with a page number, or a credit for a bartender or bar, or "ours". *(2026-11-13)*
+- **Required recipe fields:** title, drink, ingredients and instructions. The photo and description are optional. *(2026-11-13)*
+- **Old `/beverages` links** redirect to `/recipes`. *(2026-11-13)*
 
 ## Open questions
 

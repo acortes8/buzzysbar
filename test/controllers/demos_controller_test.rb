@@ -34,24 +34,29 @@ class DemosControllerTest < ActionDispatch::IntegrationTest
     assert_select "#demo-banner", count: 0
   end
 
-  test "the demo can't change recipes" do
+  test "the demo can't see or change the family's recipes" do
     post demo_url
-    beverage = beverages(:mai_tai)
+    recipe = recipes(:mai_tai)
 
-    get new_beverage_url
-    assert_redirected_to root_url
-    assert_equal "That's turned off in the demo.", flash[:alert]
+    get recipe_url(recipe)
+    assert_response :not_found
 
-    patch beverage_url(beverage), params: { beverage: { title: "Vandalized" } }
-    assert_equal "Mai Tai", beverage.reload.title
+    patch recipe_url(recipe), params: { recipe: { title: "Vandalized" } }
+    assert_response :not_found
+    assert_equal "Mai Tai", recipe.reload.title
+  end
 
-    assert_no_difference("Beverage.count") do
-      delete beverage_url(beverage)
-    end
+  test "the demo can add recipes but not photos" do
+    post demo_url
 
-    get beverages_url
-    assert_select "a[href=?]", edit_beverage_path(beverage), count: 0
-    assert_select "a[href=?]", new_beverage_path, count: 0
+    post recipes_url, params: { recipe: {
+      title: "Zombie", drink_name: "Zombie", ingredient_section: "Rums", instruction_section: "Shake",
+      featured_image: fixture_file_upload("mai_tai.jpg", "image/jpeg")
+    } }
+
+    recipe = Recipe.last
+    assert_equal DemoLogbook.user.logbook, recipe.logbook
+    assert_not recipe.featured_image.attached?
   end
 
   test "the demo can't manage users" do

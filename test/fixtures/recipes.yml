@@ -1,0 +1,10 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+mai_tai:
+  drink: mai_tai
+  title: Mai Tai
+
+# Another group's recipe, for checking that logbooks can't see each other.
+pearl_diver:
+  drink: neighbors_mai_tai
+  title: Pearl Diver

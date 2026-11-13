@@ -1,0 +1,47 @@
+<% content_for :title, "Recipes" %>
+
+<%= turbo_stream_from Current.logbook, :recipes %>
+<%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
+<% if notice.present? %>
+  <p class="notice" id="notice"><%= notice %></p>
+<% end %>
+
+<section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+  <% @recipes.each do |recipe| %>
+    <div class="bg-ablescent-white rounded-md shadow-lg hover:shadow-2xl transform hover:scale-[1.01] transition-transform duration-200 flex flex-col gap-4 overflow-hidden h-full">
+      <% if recipe.featured_image.attached? %>
+        <%= image_tag recipe.featured_image.variant(:thumb), alt: recipe.title, class: 'w-full aspect-square object-cover rounded-t-md shadow-xl' %>
+      <% end %>
+
+      <div class="px-4">
+        <h1 class="text-punch text-center text-xl tracking-tight font-bold mb-2 line-clamp-2 min-h-[3rem] overflow-hidden leading-snug">
+          <%= recipe.title %>
+        </h1>
+        <% if recipe.title.casecmp?(recipe.drink.name) == false %>
+          <p class="text-elm text-center text-sm mb-2">A <%= recipe.drink.name %></p>
+        <% end %>
+
+        <p class="text-elm font-semibold tracking-tight text-sm line-clamp-3">
+          <%= truncate strip_tags(recipe.description.body.to_s), length: 240 %>
+        </p>
+      </div>
+
+      <div class="text-center px-4 pb-4 mt-auto">
+        <div class="flex justify-center">
+          <%= link_to 'Show', recipe, class: 'body-link inline-block px-3 py-1 rounded-md' %>
+          <%= link_to 'Edit', edit_recipe_path(recipe), class: 'body-link inline-block px-3 py-1 rounded-md' %>
+          <%= link_to 'Destroy', recipe, class: 'body-link inline-block px-3 py-1 rounded-md', data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</section>
+
+<% if @recipes.empty? %>
+  <p class="text-center my-10 bg-ablescent-white p-5 rounded-lg">No recipes yet.</p>
+<% end %>
+
+<div class="mt-5">
+  <%= link_to 'New recipe', new_recipe_path, class: "button-primary" %>
+</div>
