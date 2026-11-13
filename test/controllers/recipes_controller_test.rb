@@ -28,13 +28,13 @@ class RecipesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_url
   end
 
-  test "old beverage links redirect" do
+  test "old beverage links redirect to the public pages" do
     get "/beverages"
-    assert_redirected_to "/recipes"
+    assert_redirected_to "/cocktails"
     assert_response :moved_permanently
 
     get "/beverages/#{@recipe.id}"
-    assert_redirected_to "/recipes/#{@recipe.id}"
+    assert_redirected_to "/cocktails/#{@recipe.id}"
   end
 
   test "should get new" do
@@ -115,5 +115,51 @@ class RecipesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to recipes_url
+  end
+
+  test "should create a recipe from a new book" do
+    assert_difference("Book.count") do
+      post recipes_url, params: { recipe: {
+        title: "Tiki Saturn", drink_name: "Saturn", source: "book", book_title: "Tiki: Modern Tropical Cocktails", page: "88",
+        ingredient_section: "Gin", instruction_section: "Blend"
+      } }
+    end
+
+    recipe = Recipe.last
+    assert_equal "Tiki: Modern Tropical Cocktails", recipe.book.title
+    assert_equal 88, recipe.page
+    assert_equal logbooks(:family), recipe.book.logbook
+  end
+
+  test "should find an existing book by title" do
+    assert_no_difference("Book.count") do
+      patch recipe_url(@recipe), params: { recipe: { source: "book", book_title: "smuggler's cove", published: "0" } }
+    end
+    assert_equal books(:smugglers_cove), @recipe.reload.book
+  end
+
+  test "shows where a recipe is from" do
+    get recipe_url(recipes(:mai_tai_from_book))
+    assert_select "a[href=?]", book_path(books(:smugglers_cove)), text: "Smuggler's Cove"
+    assert_match "page 112", response.body
+  end
+
+  test "should publish a recipe of our own" do
+    recipe = recipes(:mai_tai)
+    recipe.update!(published: false)
+
+    patch recipe_url(recipe), params: { recipe: { published: "1" } }
+    assert recipe.reload.published?
+
+    get recipe_url(recipe)
+    assert_select "a[href=?]", cocktail_path(recipe)
+  end
+
+  test "should not publish a recipe from a book" do
+    recipe = recipes(:mai_tai_from_book)
+    patch recipe_url(recipe), params: { recipe: { published: "1" } }
+
+    assert_response :unprocessable_entity
+    assert_not recipe.reload.published?
   end
 end

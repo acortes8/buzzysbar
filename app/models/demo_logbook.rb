@@ -101,6 +101,7 @@ class DemoLogbook
       logbook.places.destroy_all
       Recipe.where(drink: logbook.drinks).destroy_all
       logbook.drinks.destroy_all
+      logbook.books.destroy_all
       logbook.users.where.not(id: user.id).destroy_all
     end
 

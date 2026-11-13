@@ -1,0 +1,32 @@
+<% content_for :title, "Editing book" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
+  <h1 class="font-bold text-4xl text-punch">Editing book</h1>
+
+  <%= form_with(model: @book, class: "contents") do |form| %>
+    <% if @book.errors.any? %>
+      <div id="error_explanation" class="error-explanation">
+        <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
+        <ul class="list-disc ml-6">
+          <% @book.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="my-5">
+      <%= form.label :title %>
+      <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": @book.errors[:title].none?, "border-red-400 focus:outline-red-600": @book.errors[:title].any?}] %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :author %>
+      <%= form.text_field :author, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <%= form.submit class: "button-primary" %>
+  <% end %>
+
+  <%= link_to "Show this book", @book, class: "button-secondary mt-3" %>
+</div>

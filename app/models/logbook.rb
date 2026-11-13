@@ -10,6 +10,7 @@ class Logbook < ApplicationRecord
   before_destroy { Recipe.where(drink: drinks).destroy_all }
   has_many :drinks, dependent: :destroy
   has_many :recipes, through: :drinks
+  has_many :books, dependent: :destroy
   has_many :users, dependent: :destroy
 
   validates :name, presence: true

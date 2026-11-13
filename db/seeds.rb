@@ -79,6 +79,7 @@ seed_recipe(family, drink_name: "Hurricane", image: "hurricane.png",
 )
 
 seed_recipe(family, drink_name: "Hurricane", image: "smugglers_cove_hurricane.png",
+  source: "book", book: family.books.find_or_initialize_by_title("Smuggler's Cove").tap(&:save!),
   title: "Smuggler's Cove Hurricane",
   ingredient_section:
     '<ul>

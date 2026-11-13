@@ -3,6 +3,15 @@
 mai_tai:
   drink: mai_tai
   title: Mai Tai
+  source: ours
+  published: true
+
+mai_tai_from_book:
+  drink: mai_tai
+  title: Smuggler's Cove Mai Tai
+  source: book
+  book: smugglers_cove
+  page: 112
 
 # Another group's recipe, for checking that logbooks can't see each other.
 pearl_diver:

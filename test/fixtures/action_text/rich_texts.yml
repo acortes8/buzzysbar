@@ -18,6 +18,16 @@ mai_tai_description:
   name: description
   body: "<ul><li>1 1/2 ounces white rum</li><li>3/4 ounce orange curaçao</li><li>3/4 ounce lime juice, freshly squeezed</li><li>1/2 ounce orgeat</li><li>1/2 ounce dark rum</li><li>Garnish: lime wheel</li><li>Garnish: mint sprig</li></ul>"
 
+mai_tai_from_book_ingredient_section:
+  record: mai_tai_from_book (Recipe)
+  name: ingredient_section
+  body: "<p>Aged rum, lime, curaçao, orgeat</p>"
+
+mai_tai_from_book_instruction_section:
+  record: mai_tai_from_book (Recipe)
+  name: instruction_section
+  body: "<p>Shake with crushed ice</p>"
+
 pearl_diver_ingredient_section:
   record: pearl_diver (Recipe)
   name: ingredient_section
