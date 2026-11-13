@@ -1,0 +1,23 @@
+<% content_for :title, "Cocktails" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg mb-5">
+  <h1 class="font-bold text-punch text-4xl">Cocktails</h1>
+  <p class="text-elm mt-2">Recipes of our own, and ones bartenders shared with us.</p>
+</div>
+
+<section id="cocktails" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+  <% @recipes.each do |recipe| %>
+    <%= link_to cocktail_path(recipe), class: "bg-ablescent-white rounded-md shadow-lg hover:shadow-2xl transform hover:scale-[1.01] transition-transform duration-200 flex flex-col gap-4 overflow-hidden h-full" do %>
+      <% if recipe.featured_image.attached? %>
+        <%= image_tag recipe.featured_image.variant(:thumb), alt: recipe.title, class: "w-full aspect-square object-cover rounded-t-md shadow-xl" %>
+      <% end %>
+      <div class="px-4 pb-4">
+        <h2 class="text-punch text-center text-xl tracking-tight font-bold leading-snug"><%= recipe.title %></h2>
+        <p class="text-elm text-center text-sm mt-1"><%= recipe_source(recipe) %></p>
+      </div>
+    <% end %>
+  <% end %>
+</section>
+<% if @recipes.empty? %>
+  <p class="text-center my-10 bg-ablescent-white p-5 rounded-lg">Nothing here yet.</p>
+<% end %>

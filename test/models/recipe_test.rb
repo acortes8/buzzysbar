@@ -27,7 +27,7 @@ class RecipeTest < ActiveSupport::TestCase
 
   test "belongs to its drink's logbook" do
     assert_equal logbooks(:family), recipes(:mai_tai).logbook
-    assert_equal [ recipes(:mai_tai) ], logbooks(:family).recipes.to_a
+    assert_equal [ recipes(:mai_tai), recipes(:mai_tai_from_book) ], logbooks(:family).recipes.order(:title).to_a
   end
 
   test "accepts a HEIC featured image" do
@@ -42,5 +42,61 @@ class RecipeTest < ActiveSupport::TestCase
     recipe.featured_image.attach(fixture_file_upload("notes.txt", "text/plain"))
     assert_not recipe.valid?
     assert_includes recipe.errors[:featured_image], "must be a JPEG, PNG, GIF, WebP, or HEIC image"
+  end
+
+  test "a book source needs a book from the same logbook" do
+    recipe = recipes(:mai_tai)
+    recipe.source = "book"
+    assert_not recipe.valid?
+    assert_includes recipe.errors[:book], "can't be blank"
+
+    recipe.book = books(:neighbors_book)
+    assert_not recipe.valid?
+    assert_includes recipe.errors[:book], "must be in the same logbook"
+  end
+
+  test "a bartender or bar source needs a credit" do
+    recipe = recipes(:mai_tai)
+    recipe.published = false
+    recipe.source = "bartender"
+    assert_not recipe.valid?
+    assert_includes recipe.errors[:credit], "can't be blank"
+
+    recipe.credit = "  Martin   Cate "
+    assert recipe.valid?
+    assert_equal "Martin Cate", recipe.credit
+  end
+
+  test "the page must be a positive number" do
+    recipe = recipes(:mai_tai_from_book)
+    recipe.page = 0
+    assert_not recipe.valid?
+  end
+
+  test "drops details that don't match the source" do
+    recipe = recipes(:mai_tai_from_book)
+    recipe.update!(source: "bar", credit: "Smuggler's Cove")
+    assert_nil recipe.book
+    assert_nil recipe.page
+    assert_equal "Smuggler's Cove", recipe.credit
+  end
+
+  test "recipes from books can't be published" do
+    recipe = recipes(:mai_tai_from_book)
+    recipe.published = true
+    assert_not recipe.valid?
+    assert_includes recipe.errors[:published], "needs a source that isn't a book"
+  end
+
+  test "recipes without a source can't be published" do
+    recipe = recipes(:mai_tai)
+    recipe.source = nil
+    assert_not recipe.valid?
+    assert_includes recipe.errors[:published], "needs a source that isn't a book"
+  end
+
+  test "published never includes a recipe from a book" do
+    recipes(:mai_tai_from_book).update_column(:published, true)
+    assert_equal [ recipes(:mai_tai) ], Recipe.published.to_a
   end
 end

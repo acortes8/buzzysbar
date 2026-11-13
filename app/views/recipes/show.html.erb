@@ -4,6 +4,10 @@
     <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
+  <% if @recipe.published? %>
+    <p class="text-center text-elm mb-3">Published: <%= link_to "see the public page", cocktail_path(@recipe), class: "underline" %></p>
+  <% end %>
+
   <%= render @recipe %>
 
   <%= link_to "Back to recipes", recipes_path, class: "button-primary" %>

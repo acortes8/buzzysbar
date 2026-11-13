@@ -3,7 +3,7 @@ class RecipesController < ApplicationController
 
   # GET /recipes or /recipes.json
   def index
-    @recipes = Current.logbook.recipes.includes(:drink, featured_image_attachment: :blob).order(:title)
+    @recipes = Current.logbook.recipes.includes(:drink, :book, featured_image_attachment: :blob).order(:title)
   end
 
   # GET /recipes/1 or /recipes/1.json
@@ -63,15 +63,21 @@ class RecipesController < ApplicationController
       @recipe = Current.logbook.recipes.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through. The drink is found or
-    # created by name in the current logbook, so an id can't reach another
-    # logbook's drink. Demo visitors can't upload photos.
+    # Only allow a list of trusted parameters through. The drink and book are
+    # found or created by name in the current logbook, so an id can't reach
+    # another logbook's records. Demo visitors can't upload photos or publish.
     def recipe_params
-      permitted = params.expect(recipe: [ :title, :drink_name, :featured_image, :ingredient_section, :instruction_section, :description ])
-      permitted = permitted.except(:featured_image) if demo?
+      permitted = params.expect(recipe: [ :title, :drink_name, :featured_image, :ingredient_section, :instruction_section,
+        :description, :source, :book_title, :page, :credit, :published ])
+      permitted = permitted.except(:featured_image, :published) if demo?
+      permitted[:source] = permitted[:source].presence if permitted.key?(:source)
       if permitted.key?(:drink_name)
         drink_name = permitted.delete(:drink_name)
         permitted[:drink] = (Current.logbook.drinks.find_or_initialize_by_name(drink_name) if drink_name.present?)
+      end
+      if permitted.key?(:book_title)
+        book_title = permitted.delete(:book_title)
+        permitted[:book] = (Current.logbook.books.find_or_initialize_by_title(book_title) if book_title.present?)
       end
       permitted
     end

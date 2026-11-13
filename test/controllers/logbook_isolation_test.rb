@@ -115,4 +115,19 @@ class LogbookIsolationTest < ActionDispatch::IntegrationTest
     post recipes_url, params: { recipe: { title: "Pearl Diver", drink_name: "Mai Tai", ingredient_section: "Rum", instruction_section: "Shake" } }
     assert_equal drinks(:mai_tai), Recipe.last.drink
   end
+
+  test "can't see or change another logbook's books" do
+    get book_url(books(:neighbors_book))
+    assert_response :not_found
+
+    patch book_url(books(:neighbors_book)), params: { book: { title: "Mine now" } }
+    assert_response :not_found
+  end
+
+  test "a recipe's book title only finds books in this logbook" do
+    post recipes_url, params: { recipe: {
+      title: "Zombie", drink_name: "Zombie", source: "book", book_title: "Beachbum Berry Remixed", ingredient_section: "Rums", instruction_section: "Shake"
+    } }
+    assert_equal logbooks(:family), Recipe.last.book.logbook
+  end
 end

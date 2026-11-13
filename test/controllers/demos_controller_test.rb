@@ -59,6 +59,18 @@ class DemosControllerTest < ActionDispatch::IntegrationTest
     assert_not recipe.featured_image.attached?
   end
 
+  test "the demo can't publish recipes" do
+    post demo_url
+
+    post recipes_url, params: { recipe: {
+      title: "Zombie", drink_name: "Zombie", source: "ours", published: "1", ingredient_section: "Rums", instruction_section: "Shake"
+    } }
+    assert_not Recipe.last.published?
+
+    get edit_recipe_url(Recipe.last)
+    assert_select "input[name=?]", "recipe[published]", count: 0
+  end
+
   test "the demo can't manage users" do
     post demo_url
 

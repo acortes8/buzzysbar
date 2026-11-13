@@ -12,9 +12,12 @@ Rails.application.routes.draw do
   resource :demo, only: :create
   resources :passwords, param: :token
   resources :recipes
-  # Recipes were called beverages until phase 4; keep old links working.
-  get "beverages", to: redirect("/recipes")
-  get "beverages/:id", to: redirect("/recipes/%{id}")
+  resources :books, only: %i[ index show edit update destroy ]
+  resources :cocktails, only: %i[ index show ]
+  # Recipes were called beverages, and were public, until phase 4. Old links go
+  # to the public pages, where an unpublished recipe is a 404.
+  get "beverages", to: redirect("/cocktails")
+  get "beverages/:id", to: redirect("/cocktails/%{id}")
   resources :rankings, only: %i[ index show ]
   resources :bars, only: %i[ index show ]
   root "occasions#index"

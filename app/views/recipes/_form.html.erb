@@ -27,6 +27,32 @@
     <p class="text-sm text-elm mt-1">A new name adds the drink.</p>
   </div>
 
+  <fieldset class="my-5" data-controller="recipe-source">
+    <%= form.label :source, "Where it's from" %>
+    <%= form.select :source, RecipesHelper::SOURCE_OPTIONS, {}, data: { recipe_source_target: "select", action: "recipe-source#toggle" }, class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:source].none?, "border-red-400 focus:outline-red-600": recipe.errors[:source].any?}] %>
+
+    <div data-recipe-source-target="details" data-sources="book" class="flex flex-wrap gap-3">
+      <div class="flex-1 min-w-48">
+        <%= form.label :book_title, "Book", class: "block mt-3" %>
+        <%= form.text_field :book_title, list: "book-titles", class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:book].none?, "border-red-400 focus:outline-red-600": recipe.errors[:book].any?}] %>
+        <datalist id="book-titles">
+          <% Current.logbook.books.order(:title).each do |book| %>
+            <option value="<%= book.title %>"></option>
+          <% end %>
+        </datalist>
+      </div>
+      <div class="w-28">
+        <%= form.label :page, class: "block mt-3" %>
+        <%= form.number_field :page, min: 1, class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:page].none?, "border-red-400 focus:outline-red-600": recipe.errors[:page].any?}] %>
+      </div>
+    </div>
+
+    <div data-recipe-source-target="details" data-sources="bartender bar">
+      <%= form.label :credit, "Bartender or bar", class: "block mt-3" %>
+      <%= form.text_field :credit, class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:credit].none?, "border-red-400 focus:outline-red-600": recipe.errors[:credit].any?}] %>
+    </div>
+  </fieldset>
+
   <div class="my-5">
     <%= form.label :featured_image, "Photo (optional)" %>
     <% if demo? %>
@@ -50,6 +76,13 @@
     <%= form.label :description, "Description (optional)" %>
     <%= form.rich_textarea :description, class: ["prose"] %>
   </div>
+
+  <% unless demo? %>
+    <div class="my-5 flex items-center gap-2">
+      <%= form.check_box :published %>
+      <%= form.label :published, "Publish this recipe on public pages (not for recipes from books; its photo must show no people)" %>
+    </div>
+  <% end %>
 
   <div class="inline">
     <%= form.submit class: "button-primary" %>

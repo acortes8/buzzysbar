@@ -1,0 +1,27 @@
+<% content_for :title, "Books" %>
+
+<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <h1 class="font-bold text-punch text-4xl">Books</h1>
+  <p class="text-elm mt-2">Add a book by choosing it as a recipe's source.</p>
+
+  <ul id="books" class="divide-y divide-gray-200 mt-5">
+    <% @books.each do |book| %>
+      <li class="py-3 flex justify-between items-baseline gap-2">
+        <div>
+          <%= link_to book.title, book, class: "text-xl font-bold text-punch hover:underline" %>
+          <% if book.author.present? %><span class="text-elm ml-2">by <%= book.author %></span><% end %>
+        </div>
+        <span class="text-elm"><%= pluralize(book.recipes.size, "recipe") %></span>
+      </li>
+    <% end %>
+  </ul>
+  <% if @books.empty? %>
+    <p class="my-5">No books yet.</p>
+  <% end %>
+
+  <%= link_to "Back to recipes", recipes_path, class: "button-secondary mt-5" %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_13_214023) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_13_221301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,6 +60,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_214023) do
     t.index ["occasion_id", "person_id"], name: "index_attendances_on_occasion_id_and_person_id", unique: true
     t.index ["occasion_id"], name: "index_attendances_on_occasion_id"
     t.index ["person_id"], name: "index_attendances_on_person_id"
+  end
+
+  create_table "books", force: :cascade do |t|
+    t.bigint "logbook_id", null: false
+    t.string "title", null: false
+    t.string "author"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "logbook_id, lower((title)::text)", name: "index_books_on_logbook_id_and_lower_title", unique: true
   end
 
   create_table "drinks", force: :cascade do |t|
@@ -135,6 +144,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_214023) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "drink_id", null: false
+    t.string "source"
+    t.bigint "book_id"
+    t.integer "page"
+    t.string "credit"
+    t.boolean "published", default: false, null: false
+    t.index ["book_id"], name: "index_recipes_on_book_id"
     t.index ["drink_id"], name: "index_recipes_on_drink_id"
   end
 
@@ -173,6 +188,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_214023) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "occasions"
   add_foreign_key "attendances", "people"
+  add_foreign_key "books", "logbooks"
   add_foreign_key "drinks", "logbooks"
   add_foreign_key "occasions", "logbooks"
   add_foreign_key "occasions", "places"
@@ -182,6 +198,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_214023) do
   add_foreign_key "places", "logbooks"
   add_foreign_key "ratings", "people"
   add_foreign_key "ratings", "tastings"
+  add_foreign_key "recipes", "books"
   add_foreign_key "recipes", "drinks"
   add_foreign_key "sessions", "users"
   add_foreign_key "tastings", "drinks"

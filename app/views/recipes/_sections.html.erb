@@ -1,0 +1,52 @@
+<%# A recipe's ingredients, instructions and description. Shared with the public cocktail page, so it shows only the recipe's own content. %>
+<div class="group block w-full my-5" aria-disabled="false" data-dui-accordion-container data-dui-accordion-mode="all-open">
+  <div 
+    class="flex items-center justify-between w-full p-5 py-5 text-left font-bold text-punch text-xl cursor-pointer"
+    data-dui-accordion-toggle
+    data-dui-accordion-target="#allOpenAccordion1"
+    aria-expanded="true">
+    Ingredients
+    <svg data-dui-accordion-icon width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-4 w-4 rotate-180">
+      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
+    </svg>
+  </div>
+  <div id="allOpenAccordion1" class="overflow-hidden transition-all duration-300 border-b border-elm">
+    <div class="prose p-5 ml-5 mb-5 text-elm">
+      <%= recipe.ingredient_section %>
+    </div>
+  </div>
+
+  <div 
+    class="flex items-center justify-between w-full p-5 py-5 text-left font-bold text-punch text-xl cursor-pointer"
+    data-dui-accordion-toggle
+    data-dui-accordion-target="#allOpenAccordion2"
+    aria-expanded="true">
+    Instructions
+    <svg data-dui-accordion-icon width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-4 w-4">
+      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
+    </svg>
+  </div>
+  <div id="allOpenAccordion2" class="overflow-hidden transition-all duration-300 border-b border-elm">
+    <div class="prose p-5 ml-5 mb-5 text-elm">
+      <%= recipe.instruction_section %>
+    </div>
+  </div>
+
+  <% if recipe.description.present? %>
+    <div 
+      class="flex items-center justify-between w-full p-5 py-5 text-left font-bold text-punch text-xl cursor-pointer"
+      data-dui-accordion-toggle
+      data-dui-accordion-target="#allOpenAccordion3"
+      aria-expanded="true">
+      Description
+      <svg data-dui-accordion-icon width="1.5em" height="1.5em" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-4 w-4">
+        <path d="M6 9L12 15L18 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
+      </svg>
+    </div>
+    <div id="allOpenAccordion3" class="overflow-hidden transition-all duration-300">
+      <div class="prose p-5 ml-5 mb-5 text-elm">
+        <%= recipe.description %>
+      </div>
+    </div>
+  <% end %>
+</div>
