@@ -8,9 +8,21 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-Beverage.delete_all
+# Sample recipes in the family logbook. Safe to run again: each recipe is found
+# by its drink and title, then updated.
+family = Logbook.find_or_create_by!(name: "Family")
 
-beverage_1 = Beverage.new(
+def seed_recipe(logbook, drink_name:, image:, **attributes)
+  drink = logbook.drinks.find_or_initialize_by_name(drink_name).tap(&:save!)
+  recipe = drink.recipes.find_or_initialize_by(title: attributes[:title])
+  recipe.assign_attributes(attributes)
+  unless recipe.featured_image.attached?
+    recipe.featured_image.attach(io: File.open("app/assets/images/#{image}"), filename: image, content_type: "image/png")
+  end
+  recipe.save!
+end
+
+seed_recipe(family, drink_name: "Saturn", image: "saturn.png",
  title: 'Saturn',
  ingredient_section:
   '<ul>
@@ -38,14 +50,7 @@ beverage_1 = Beverage.new(
   history.'
 )
 
-beverage_1.featured_image.attach(io:
-  File.open('app/assets/images/saturn.png'),
-  filename: 'saturn.png',
-  content_type: 'image/png')
-
-beverage_1.save
-
-beverage_2 = Beverage.new(
+seed_recipe(family, drink_name: "Hurricane", image: "hurricane.png",
  title: 'Hurricane',
  ingredient_section:
   '<ul>
@@ -73,14 +78,7 @@ beverage_2 = Beverage.new(
   1940s, when it was invented at Pat O'Brein's in New Orleans."
 )
 
-beverage_2.featured_image.attach(io:
-  File.open('app/assets/images/hurricane.png'),
-  filename: 'hurricane.png',
-  content_type: 'image/png')
-
-beverage_2.save
-
-beverage_3 = Beverage.new(
+seed_recipe(family, drink_name: "Hurricane", image: "smugglers_cove_hurricane.png",
   title: "Smuggler's Cove Hurricane",
   ingredient_section:
     '<ul>
@@ -103,13 +101,6 @@ beverage_3 = Beverage.new(
     tangy lemon and passion fruit. This version is from framed San Francisco
     Tiki bar Smuggler's Cove."
 )
-
-beverage_3.featured_image.attach(io:
-  File.open('app/assets/images/smugglers_cove_hurricane.png'),
-  filename: 'smugglers_cove_hurricane.png',
-  content_type: 'image/png')
-
-beverage_3.save
 
 # The demo logbook that portfolio visitors sign in to. Safe to run again: it
 # only ever replaces the demo's own records.

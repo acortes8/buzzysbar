@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   resource :session
   resource :demo, only: :create
   resources :passwords, param: :token
-  resources :beverages
+  resources :recipes
+  # Recipes were called beverages until phase 4; keep old links working.
+  get "beverages", to: redirect("/recipes")
+  get "beverages/:id", to: redirect("/recipes/%{id}")
   resources :rankings, only: %i[ index show ]
   resources :bars, only: %i[ index show ]
   root "occasions#index"

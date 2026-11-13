@@ -36,6 +36,11 @@ en:
       photo:
         image: "Photo"
     errors:
+      models:
+        recipe:
+          attributes:
+            drink:
+              required: "can't be blank"
       messages:
         restrict_dependent_destroy:
           has_many: "Can't be deleted while it has %{record}"

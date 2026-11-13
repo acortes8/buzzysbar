@@ -9,10 +9,13 @@ class LogbookTest < ActiveSupport::TestCase
 
   test "destroying a logbook destroys its records" do
     logbook = logbooks(:family)
+    recipe = recipes(:mai_tai)
     logbook.destroy!
 
     assert_not Occasion.exists?(logbook_id: logbook.id)
     assert_not Person.exists?(logbook_id: logbook.id)
     assert_not User.exists?(logbook_id: logbook.id)
+    assert_not Drink.exists?(logbook_id: logbook.id)
+    assert_not Recipe.exists?(recipe.id)
   end
 end

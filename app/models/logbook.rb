@@ -6,7 +6,10 @@ class Logbook < ApplicationRecord
   has_many :occasions, dependent: :destroy
   has_many :people, dependent: :destroy
   has_many :places, dependent: :destroy
+  # Recipes go before their drinks, which can't be deleted while they have any.
+  before_destroy { Recipe.where(drink: drinks).destroy_all }
   has_many :drinks, dependent: :destroy
+  has_many :recipes, through: :drinks
   has_many :users, dependent: :destroy
 
   validates :name, presence: true

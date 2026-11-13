@@ -46,8 +46,7 @@ class DrinkLog
     end
 
     def drink
-      name = Drink.normalize_value_for(:name, drink_name)
-      logbook.drinks.where("lower(name) = ?", name.downcase).first || logbook.drinks.create!(name: name)
+      logbook.drinks.find_or_initialize_by_name(drink_name).tap(&:save!)
     end
 
     def people
