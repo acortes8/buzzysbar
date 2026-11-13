@@ -12,6 +12,16 @@ class BeveragesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "only signed-in users subscribe to live updates" do
+    get beverages_url
+    assert_select "turbo-cable-stream-source", 1
+
+    delete session_url
+    get beverages_url
+    assert_response :success
+    assert_select "turbo-cable-stream-source", 0
+  end
+
   test "should get new" do
     get new_beverage_url
     assert_response :success

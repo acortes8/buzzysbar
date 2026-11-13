@@ -1,6 +1,8 @@
 <% content_for :title, "Beverages" %>
 
-<%= turbo_stream_from "beverages" %>
+<%# Action Cable only accepts signed-in connections (ApplicationCable::Connection),
+    so visitors would just be refused. %>
+<%= turbo_stream_from "beverages" if authenticated? %>
 <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
 <% if notice.present? %>
