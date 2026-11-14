@@ -4,6 +4,9 @@
   </p>
   <p class="text-center text-elm">A recipe for <%= link_to recipe.drink.name, recipe.drink, class: "underline" %></p>
   <p class="text-center text-elm mb-5"><%= recipe_source(recipe) || "Source not recorded" %></p>
+  <% if recipe.based_on %>
+    <p class="text-center text-elm -mt-3 mb-5">A riff on <%= link_to recipe.based_on.title, recipe.based_on, class: "underline" %></p>
+  <% end %>
 
   <%= image_tag recipe.featured_image.variant(:large), class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-white object-center shadow-lg shadow-black/25" if 
     recipe.featured_image.attached? %>

@@ -99,4 +99,32 @@ class RecipeTest < ActiveSupport::TestCase
     recipes(:mai_tai_from_book).update_column(:published, true)
     assert_equal [ recipes(:mai_tai) ], Recipe.published.to_a
   end
+
+  test "a riff is based on another recipe" do
+    assert_equal recipes(:mai_tai_from_book), recipes(:mai_tai).based_on
+    assert_equal [ recipes(:mai_tai) ], recipes(:mai_tai_from_book).riffs
+  end
+
+  test "can't be based on itself or one of its riffs" do
+    original = recipes(:mai_tai_from_book)
+    original.based_on = original
+    assert original.invalid?
+    assert_includes original.errors[:based_on], "can't be this recipe or one of its riffs"
+
+    original.based_on = recipes(:mai_tai)
+    assert original.invalid?
+    assert_includes original.errors[:based_on], "can't be this recipe or one of its riffs"
+  end
+
+  test "can't be based on another logbook's recipe" do
+    recipe = recipes(:mai_tai)
+    recipe.based_on = recipes(:pearl_diver)
+    assert recipe.invalid?
+    assert_includes recipe.errors[:based_on], "must be in the same logbook"
+  end
+
+  test "deleting the original keeps its riffs" do
+    recipes(:mai_tai_from_book).destroy!
+    assert_nil recipes(:mai_tai).reload.based_on
+  end
 end

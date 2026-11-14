@@ -10,9 +10,11 @@ class RecipesController < ApplicationController
   def show
   end
 
-  # GET /recipes/new
+  # GET /recipes/new, optionally starting from a drink or, for a riff, from
+  # the recipe it's based on (and that recipe's drink).
   def new
-    @recipe = Recipe.new(drink: Current.logbook.drinks.find_by(id: params[:drink_id]))
+    based_on = Current.logbook.recipes.find_by(id: params[:based_on_id])
+    @recipe = Recipe.new(based_on: based_on, drink: Current.logbook.drinks.find_by(id: params[:drink_id]) || based_on&.drink)
   end
 
   # GET /recipes/1/edit
@@ -65,10 +67,11 @@ class RecipesController < ApplicationController
 
     # Only allow a list of trusted parameters through. The drink and book are
     # found or created by name in the current logbook, so an id can't reach
-    # another logbook's records. Demo visitors can't upload photos or publish.
+    # another logbook's records; the original of a riff is checked by the
+    # model's same-logbook validation. Demo visitors can't upload photos or publish.
     def recipe_params
       permitted = params.expect(recipe: [ :title, :drink_name, :featured_image, :ingredient_section, :instruction_section,
-        :description, :source, :book_title, :page, :credit, :published ])
+        :description, :source, :book_title, :page, :credit, :based_on_id, :published ])
       permitted = permitted.except(:featured_image, :published) if demo?
       permitted[:source] = permitted[:source].presence if permitted.key?(:source)
       if permitted.key?(:drink_name)

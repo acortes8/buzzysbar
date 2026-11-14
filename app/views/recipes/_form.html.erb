@@ -54,6 +54,11 @@
   </fieldset>
 
   <div class="my-5">
+    <%= form.label :based_on_id, "A riff on (optional)" %>
+    <%= form.collection_select :based_on_id, Current.logbook.recipes.where.not(id: recipe.id).order(:title), :id, :title, { include_blank: "Not a riff" }, class: ["block shadow rounded-md border outline-none px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": recipe.errors[:based_on].none?, "border-red-400 focus:outline-red-600": recipe.errors[:based_on].any?}] %>
+  </div>
+
+  <div class="my-5">
     <%= form.label :featured_image, "Photo (optional)" %>
     <% if demo? %>
       <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>

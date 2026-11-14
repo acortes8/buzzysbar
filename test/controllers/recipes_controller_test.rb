@@ -162,4 +162,26 @@ class RecipesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert_not recipe.reload.published?
   end
+
+  test "new riff starts from the original and its drink" do
+    get new_recipe_url(based_on_id: recipes(:mai_tai))
+    assert_select "select[name=?] option[selected][value=?]", "recipe[based_on_id]", recipes(:mai_tai).id.to_s
+    assert_select "input[name=?][value=?]", "recipe[drink_name]", "Mai Tai"
+  end
+
+  test "should create a riff" do
+    assert_difference("recipes(:mai_tai).riffs.count") do
+      post recipes_url, params: { recipe: { title: "Dark Mai Tai", drink_name: "Mai Tai", based_on_id: recipes(:mai_tai).id,
+        ingredient_section: "Dark rum", instruction_section: "Shake" } }
+    end
+    assert_redirected_to recipe_url(Recipe.find_by!(title: "Dark Mai Tai"))
+  end
+
+  test "shows the original and the riffs" do
+    get recipe_url(recipes(:mai_tai))
+    assert_select "a[href=?]", recipe_path(recipes(:mai_tai_from_book)), text: "Smuggler's Cove Mai Tai"
+
+    get recipe_url(recipes(:mai_tai_from_book))
+    assert_select "#riffs a[href=?]", recipe_path(recipes(:mai_tai))
+  end
 end

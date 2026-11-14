@@ -124,6 +124,17 @@ class LogbookIsolationTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "a riff can't be based on another logbook's recipe" do
+    assert_no_difference("Recipe.count") do
+      post recipes_url, params: { recipe: { title: "Pearl Diver", drink_name: "Mai Tai", based_on_id: recipes(:pearl_diver).id,
+        ingredient_section: "Rum", instruction_section: "Shake" } }
+    end
+    assert_response :unprocessable_entity
+
+    get new_recipe_url(based_on_id: recipes(:pearl_diver))
+    assert_select "option[selected][value=?]", recipes(:pearl_diver).id.to_s, count: 0
+  end
+
   test "a recipe's book title only finds books in this logbook" do
     post recipes_url, params: { recipe: {
       title: "Zombie", drink_name: "Zombie", source: "book", book_title: "Beachbum Berry Remixed", ingredient_section: "Rums", instruction_section: "Shake"

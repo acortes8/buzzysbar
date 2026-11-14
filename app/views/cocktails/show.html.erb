@@ -11,12 +11,27 @@
     <% end %>
   </p>
   <p class="text-center text-elm mb-5"><%= recipe_source(@recipe) %></p>
+  <%# Only published originals and riffs are named, since a private recipe's title could name someone. %>
+  <% if (original = Recipe.published.find_by(id: @recipe.based_on_id)) %>
+    <p class="text-center text-elm -mt-3 mb-5">A riff on <%= link_to original.title, cocktail_path(original), class: "underline" %></p>
+  <% end %>
 
   <% if @recipe.featured_image.attached? %>
     <%= image_tag @recipe.featured_image.variant(:large), alt: @recipe.title, class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-white object-center shadow-lg shadow-black/25" %>
   <% end %>
 
   <%= render "recipes/sections", recipe: @recipe %>
+
+  <% if (riffs = @recipe.riffs.published.order(:title)).any? %>
+    <section class="my-5">
+      <h2 class="font-bold text-2xl text-punch">Riffs</h2>
+      <ul id="riffs" class="list-disc ml-6 my-2">
+        <% riffs.each do |riff| %>
+          <li><%= link_to riff.title, cocktail_path(riff), class: "underline" %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
 
   <%= link_to "All cocktails", cocktails_path, class: "button-secondary" %>
 </div>
