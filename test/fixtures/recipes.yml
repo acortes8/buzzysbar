@@ -5,6 +5,7 @@ mai_tai:
   title: Mai Tai
   source: ours
   published: true
+  based_on: mai_tai_from_book
 
 mai_tai_from_book:
   drink: mai_tai

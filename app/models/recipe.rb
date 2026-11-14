@@ -5,6 +5,10 @@ class Recipe < ApplicationRecord
 
   belongs_to :drink
   belongs_to :book, optional: true
+  # A riff is a recipe based on another one. Deleting the original keeps its
+  # riffs; they just stop pointing at it.
+  belongs_to :based_on, class_name: "Recipe", optional: true, inverse_of: :riffs
+  has_many :riffs, class_name: "Recipe", foreign_key: :based_on_id, inverse_of: :based_on, dependent: :nullify
   has_one :logbook, through: :drink
 
   delegate :logbook_id, to: :drink, allow_nil: true
@@ -32,6 +36,8 @@ class Recipe < ApplicationRecord
   validates :book, presence: true, same_logbook: true, if: :source_book?
   validates :page, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :credit, presence: true, if: -> { source_bartender? || source_bar? }
+  validates :based_on, same_logbook: true
+  validate { errors.add(:based_on, "can't be this recipe or one of its riffs") if based_on_itself? }
   # Recipes from books are someone else's work, and one with no source might
   # be from a book, so only recipes with another known source can be public.
   validates :published, absence: { message: "needs a source that isn't a book" }, unless: :publishable?
@@ -56,6 +62,17 @@ class Recipe < ApplicationRecord
   end
 
   private
+    # Follows the chain of originals, so a recipe can't end up based on itself,
+    # directly or through its riffs.
+    def based_on_itself?
+      original = based_on
+      while original
+        return true if original == self
+        original = original.based_on
+      end
+      false
+    end
+
     def clear_unused_source_details
       self.book = nil unless source_book?
       self.page = nil unless source_book?

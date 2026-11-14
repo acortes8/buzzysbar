@@ -10,6 +10,16 @@
 
   <%= render @recipe %>
 
+  <section class="my-5">
+    <h2 class="font-bold text-2xl text-punch">Riffs</h2>
+    <ul id="riffs" class="list-disc ml-6 my-2">
+      <% @recipe.riffs.sort_by(&:title).each do |riff| %>
+        <li><%= link_to riff.title, riff, class: "underline" %></li>
+      <% end %>
+    </ul>
+    <%= link_to "Make a riff", new_recipe_path(based_on_id: @recipe), class: "button-secondary" %>
+  </section>
+
   <%= link_to "Back to recipes", recipes_path, class: "button-primary" %>
   <%= link_to "Edit this recipe", edit_recipe_path(@recipe), class: "button-secondary" %>
   <%= link_to "Destroy this recipe", @recipe, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "button-tertiary" %>

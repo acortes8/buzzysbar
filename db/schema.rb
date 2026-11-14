@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_13_221301) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_13_230000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -149,6 +149,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_221301) do
     t.integer "page"
     t.string "credit"
     t.boolean "published", default: false, null: false
+    t.bigint "based_on_id"
+    t.index ["based_on_id"], name: "index_recipes_on_based_on_id"
     t.index ["book_id"], name: "index_recipes_on_book_id"
     t.index ["drink_id"], name: "index_recipes_on_drink_id"
   end
@@ -200,6 +202,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_221301) do
   add_foreign_key "ratings", "tastings"
   add_foreign_key "recipes", "books"
   add_foreign_key "recipes", "drinks"
+  add_foreign_key "recipes", "recipes", column: "based_on_id"
   add_foreign_key "sessions", "users"
   add_foreign_key "tastings", "drinks"
   add_foreign_key "tastings", "occasions"
