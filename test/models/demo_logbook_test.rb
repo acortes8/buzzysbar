@@ -11,6 +11,19 @@ class DemoLogbookTest < ActiveSupport::TestCase
     assert logbook.occasions.joins(tastings: :ratings).exists?
   end
 
+  test "builds recipes, with a riff and tastings that used them, none of them public" do
+    logbook = DemoLogbook.reset!
+
+    assert_equal DemoLogbook::RECIPES.size, logbook.recipes.count
+    assert_equal "Mai Tai", logbook.recipes.find_by!(title: "Homemade Orgeat Mai Tai").based_on.title
+    assert_equal DemoLogbook::BOOK, logbook.recipes.find_by!(title: "Painkiller").book.title
+    assert Tasting.where(occasion: logbook.occasions).where.not(recipe: nil).exists?
+    assert_empty Recipe.published.where(drink: logbook.drinks)
+
+    assert_equal logbook, DemoLogbook.reset!
+    assert_equal DemoLogbook::RECIPES.size, logbook.recipes.count
+  end
+
   test "dates are counted back from today" do
     logbook = DemoLogbook.reset!
     assert_equal Date.current - 3, logbook.occasions.maximum(:occurred_on)

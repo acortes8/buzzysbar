@@ -1,5 +1,5 @@
 # Builds the demo logbook that portfolio visitors sign in to: made-up people,
-# bars, occasions, tastings and ratings. reset! clears it and builds it again,
+# bars, occasions, tastings, ratings and recipes. reset! clears it and builds it again,
 # so anything visitors change only lasts until the next reset. It also signs
 # out visitors who started more than a day ago, so sessions don't pile up.
 class DemoLogbook
@@ -28,7 +28,32 @@ class DemoLogbook
     "Daiquiri" => "Rum, lime and sugar."
   }
 
-  # Each tasting is [ drink, notes, { person => score } ].
+  # A made-up book, so the demo shows recipes from books without copying one.
+  BOOK = "The Demo Bar Book"
+
+  # Classic specs in our own words, a made-up bartender and book, and a riff.
+  # None are published, so the demo never reaches the public cocktail pages.
+  RECIPES = [
+    { drink: "Mai Tai", title: "Mai Tai", source: "ours",
+      ingredients: [ "2 oz aged rum", "3/4 oz lime juice", "1/2 oz orange curaçao", "1/4 oz orgeat", "1/4 oz simple syrup", "Garnish: mint sprig and a spent lime shell" ],
+      instructions: [ "Shake everything with crushed ice.", "Pour it all, ice included, into a double old fashioned glass.", "Garnish with the mint and lime shell." ] },
+    { drink: "Mai Tai", title: "Homemade Orgeat Mai Tai", source: "ours", based_on: "Mai Tai",
+      ingredients: [ "2 oz aged rum", "3/4 oz lime juice", "1/2 oz orange curaçao", "1/2 oz homemade orgeat", "Garnish: mint sprig" ],
+      instructions: [ "Shake with crushed ice and pour unstrained.", "The homemade orgeat is less sweet, so it replaces the simple syrup." ],
+      description: "Our Mai Tai with orgeat made from toasted almonds." },
+    { drink: "Daiquiri", title: "Daiquiri", source: "ours",
+      ingredients: [ "2 oz light rum", "1 oz lime juice", "3/4 oz simple syrup" ],
+      instructions: [ "Shake hard with ice.", "Strain into a chilled coupe." ] },
+    { drink: "Painkiller", title: "Painkiller", source: "book", page: 42,
+      ingredients: [ "2 oz dark rum", "4 oz pineapple juice", "1 oz orange juice", "1 oz cream of coconut", "Garnish: fresh nutmeg" ],
+      instructions: [ "Shake with ice.", "Pour into a tall glass over fresh ice.", "Grate nutmeg over the top." ] },
+    { drink: "Jungle Bird", title: "Lava Room Jungle Bird", source: "bartender", credit: "Kai at Lava Room",
+      ingredients: [ "1 1/2 oz blackstrap rum", "3/4 oz Campari", "1 1/2 oz pineapple juice", "1/2 oz lime juice", "1/2 oz demerara syrup" ],
+      instructions: [ "Shake with ice.", "Strain over a large ice cube in a rocks glass." ] }
+  ]
+
+  # Each tasting is [ drink, notes, { person => score } ], plus the title of
+  # the recipe it was made with, if any.
   OCCASIONS = [
     { days_ago: 3, place: "The Coconut Lantern", people: %w[ You Maya Theo ], notes: "Birthday drinks for Theo.",
       tastings: [
@@ -38,8 +63,8 @@ class DemoLogbook
       ] },
     { days_ago: 12, place: "Maya's place", people: %w[ You Maya Priya ], notes: "Tried making orgeat from scratch.",
       tastings: [
-        [ "Mai Tai", "Homemade orgeat makes a difference.", { "You" => 4, "Maya" => 4.5, "Priya" => 4 } ],
-        [ "Daiquiri", nil, { "Priya" => 4.5 } ]
+        [ "Mai Tai", "Homemade orgeat makes a difference.", { "You" => 4, "Maya" => 4.5, "Priya" => 4 }, "Homemade Orgeat Mai Tai" ],
+        [ "Daiquiri", nil, { "Priya" => 4.5 }, "Daiquiri" ]
       ] },
     { days_ago: 26, place: "Lava Room", people: %w[ You Sam ], notes: nil,
       tastings: [
@@ -59,11 +84,11 @@ class DemoLogbook
       ] },
     { days_ago: 70, place: "Maya's place", people: %w[ You Maya ], notes: "Rainy night in.",
       tastings: [
-        [ "Painkiller", "Fresh nutmeg is worth it.", { "Maya" => 4.5 } ]
+        [ "Painkiller", "Fresh nutmeg is worth it.", { "Maya" => 4.5 }, "Painkiller" ]
       ] },
     { days_ago: 88, place: "Lava Room", people: %w[ You Theo Sam ], notes: nil,
       tastings: [
-        [ "Jungle Bird", nil, { "Theo" => 4, "Sam" => 3.5 } ],
+        [ "Jungle Bird", nil, { "Theo" => 4, "Sam" => 3.5 }, "Lava Room Jungle Bird" ],
         [ "Mai Tai", "Not as good as The Coconut Lantern's.", { "Theo" => 3 } ]
       ] }
   ]
@@ -109,15 +134,36 @@ class DemoLogbook
       people = PEOPLE.index_with { |name| logbook.people.create!(name: name, user: (user if name == "You")) }
       places = PLACES.to_h { |name, kind| [ name, logbook.places.create!(name: name, kind: kind) ] }
       drinks = DRINKS.to_h { |name, description| [ name, logbook.drinks.create!(name: name, description: description) ] }
+      recipes = build_recipes(drinks)
 
       OCCASIONS.each do |details|
         occasion = logbook.occasions.create!(place: places.fetch(details[:place]), occurred_on: Date.current - details[:days_ago],
           notes: details[:notes], people: details[:people].map { |name| people.fetch(name) })
 
-        details[:tastings].each do |drink, notes, scores|
-          tasting = occasion.tastings.create!(drink: drinks.fetch(drink), notes: notes)
+        details[:tastings].each do |drink, notes, scores, recipe|
+          tasting = occasion.tastings.create!(drink: drinks.fetch(drink), notes: notes, recipe: (recipes.fetch(recipe) if recipe))
           scores.each { |name, score| tasting.ratings.create!(person: people.fetch(name), score: score) }
         end
       end
+    end
+
+    # Recipes in order, so a riff's original is built before it.
+    def build_recipes(drinks)
+      book = logbook.books.create!(title: BOOK)
+      RECIPES.each_with_object({}) do |details, recipes|
+        recipes[details[:title]] = drinks.fetch(details[:drink]).recipes.create!(
+          title: details[:title], source: details[:source], credit: details[:credit],
+          book: (book if details[:source] == "book"), page: details[:page],
+          based_on: (recipes.fetch(details[:based_on]) if details[:based_on]),
+          ingredient_section: html_list(:ul, details[:ingredients]),
+          instruction_section: html_list(:ol, details[:instructions]),
+          description: details[:description])
+      end
+    end
+
+    # Rich text for a list, e.g. html_list(:ul, [ "2 oz rum" ]) is "<ul><li>2 oz rum</li></ul>".
+    def html_list(tag, items)
+      helpers = ActionController::Base.helpers
+      helpers.content_tag(tag, helpers.safe_join(items.map { |item| helpers.content_tag(:li, item) }))
     end
 end
