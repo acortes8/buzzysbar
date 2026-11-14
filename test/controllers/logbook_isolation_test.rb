@@ -124,6 +124,13 @@ class LogbookIsolationTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "a tasting can't use another logbook's recipe" do
+    tasting = tastings(:mai_tai_at_tiki_night)
+    patch occasion_tasting_url(tasting.occasion, tasting), params: { tasting: { recipe_id: recipes(:pearl_diver).id } }
+    assert_response :unprocessable_entity
+    assert_equal recipes(:mai_tai), tasting.reload.recipe
+  end
+
   test "a riff can't be based on another logbook's recipe" do
     assert_no_difference("Recipe.count") do
       post recipes_url, params: { recipe: { title: "Pearl Diver", drink_name: "Mai Tai", based_on_id: recipes(:pearl_diver).id,

@@ -98,4 +98,16 @@ class TastingsControllerTest < ActionDispatch::IntegrationTest
     patch occasion_tasting_url(tasting.occasion, tasting), params: { tasting: { photo_published: "1" } }
     assert_not tasting.reload.photo_published?
   end
+
+  test "should choose a recipe for the tasting" do
+    get edit_occasion_tasting_url(@occasion, @tasting)
+    assert_select "select[name=?] option[value=?]", "tasting[recipe_id]", recipes(:mai_tai_from_book).id.to_s
+
+    patch occasion_tasting_url(@occasion, @tasting), params: { tasting: { recipe_id: recipes(:mai_tai_from_book).id } }
+    assert_redirected_to occasion_url(@occasion)
+    assert_equal recipes(:mai_tai_from_book), @tasting.reload.recipe
+
+    get occasion_url(@occasion)
+    assert_select "a[href=?]", recipe_path(recipes(:mai_tai_from_book)), text: "Smuggler's Cove Mai Tai"
+  end
 end
