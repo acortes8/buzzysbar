@@ -17,6 +17,10 @@
       <% end %>
     </div>
 
+    <% if tasting.recipe %>
+      <p class="text-elm mt-1">Made with <%= link_to tasting.recipe.title, tasting.recipe, class: "underline" %></p>
+    <% end %>
+
     <% if tasting.notes.present? %>
       <p class="text-elm mt-1"><%= tasting.notes %></p>
     <% end %>

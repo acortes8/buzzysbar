@@ -9,6 +9,8 @@ class Recipe < ApplicationRecord
   # riffs; they just stop pointing at it.
   belongs_to :based_on, class_name: "Recipe", optional: true, inverse_of: :riffs
   has_many :riffs, class_name: "Recipe", foreign_key: :based_on_id, inverse_of: :based_on, dependent: :nullify
+  # Tastings made with this recipe. Deleting the recipe keeps the tastings.
+  has_many :tastings, dependent: :nullify
   has_one :logbook, through: :drink
 
   delegate :logbook_id, to: :drink, allow_nil: true
@@ -37,6 +39,8 @@ class Recipe < ApplicationRecord
   validates :page, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :credit, presence: true, if: -> { source_bartender? || source_bar? }
   validates :based_on, same_logbook: true
+  # Tastings using a recipe must be of the recipe's drink, so it stays put.
+  validate { errors.add(:drink, "can't change once a tasting used this recipe") if drink_id_changed? && persisted? && tastings.exists? }
   validate { errors.add(:based_on, "can't be this recipe or one of its riffs") if based_on_itself? }
   # Recipes from books are someone else's work, and one with no source might
   # be from a book, so only recipes with another known source can be public.

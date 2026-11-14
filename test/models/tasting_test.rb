@@ -93,4 +93,25 @@ class TastingTest < ActiveSupport::TestCase
     perform_enqueued_jobs { @tasting.update!(remove_photo: true, photo_published: true) }
     assert_not @tasting.reload.photo_published?
   end
+
+  test "can use a recipe for its drink" do
+    tasting = tastings(:mai_tai_at_tiki_night)
+    assert_equal recipes(:mai_tai), tasting.recipe
+    assert_includes recipes(:mai_tai).tastings, tasting
+
+    tasting.recipe = recipes(:mai_tai_from_book)
+    assert tasting.valid?
+  end
+
+  test "can't use a recipe for another drink" do
+    tasting = tastings(:mai_tai_at_tiki_night)
+    tasting.recipe = drinks(:saturn).recipes.create!(title: "Saturn", ingredient_section: "Gin", instruction_section: "Blend")
+    assert tasting.invalid?
+    assert_includes tasting.errors[:recipe], "must be a recipe for this drink"
+  end
+
+  test "deleting the recipe keeps the tasting" do
+    recipes(:mai_tai).destroy!
+    assert_nil tastings(:mai_tai_at_tiki_night).reload.recipe
+  end
 end

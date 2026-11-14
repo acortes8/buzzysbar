@@ -105,8 +105,20 @@ class RecipesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should move recipe to another drink" do
+    recipe = recipes(:mai_tai_from_book)
+    patch recipe_url(recipe), params: { recipe: { drink_name: "Saturn" } }
+    assert_equal drinks(:saturn), recipe.reload.drink
+  end
+
+  test "should not move a recipe a tasting used" do
     patch recipe_url(@recipe), params: { recipe: { drink_name: "Saturn" } }
-    assert_equal drinks(:saturn), @recipe.reload.drink
+    assert_response :unprocessable_entity
+    assert_equal drinks(:mai_tai), @recipe.reload.drink
+  end
+
+  test "shows the tastings made with the recipe" do
+    get recipe_url(@recipe)
+    assert_select "#tastings a[href=?]", occasion_path(occasions(:tiki_night))
   end
 
   test "should destroy recipe" do

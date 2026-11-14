@@ -3,6 +3,9 @@ class Tasting < ApplicationRecord
 
   belongs_to :occasion
   belongs_to :drink
+  # The recipe it was made with, if we know. It has to be a recipe for the
+  # same drink, which also keeps it in the same logbook.
+  belongs_to :recipe, optional: true
   has_many :ratings, dependent: :destroy
   has_one_attached :photo do |attachable|
     photo_variants(attachable)
@@ -26,6 +29,7 @@ class Tasting < ApplicationRecord
   end
 
   validates :drink, same_logbook: true
+  validate { errors.add(:recipe, "must be a recipe for this drink") if recipe && recipe.drink_id != drink_id }
   validates :photo_published, absence: { message: "needs a photo" }, unless: -> { photo.attached? }
   validate { validate_photo(:photo, photo) if photo.attached? }
 
