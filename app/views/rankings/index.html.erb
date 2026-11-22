@@ -1,18 +1,22 @@
 <% content_for :title, "Rankings" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
-  <h1 class="font-bold text-accent text-4xl">Rankings</h1>
-  <p class="text-muted mt-2">Every version of a drink we've tried, best first.</p>
+<div class="mx-auto max-w-4xl space-y-7">
+  <div>
+    <p class="eyebrow">Drink rankings</p>
+    <h1 class="page-title mt-1">Rankings</h1>
+    <p class="mt-1 text-muted">Every version of a drink we've tried, best first.</p>
+  </div>
 
-  <ul id="rankings" class="divide-y divide-line mt-5">
-    <% @drinks.each do |drink| %>
-      <li class="py-3 flex justify-between items-baseline gap-2">
-        <%= link_to drink.name, ranking_path(drink), class: "text-xl font-bold text-accent hover:underline" %>
-        <span class="text-muted"><%= pluralize(drink.tastings.size, "tasting") %></span>
-      </li>
-    <% end %>
-  </ul>
-  <% if @drinks.empty? %>
-    <p class="my-5">Nothing here yet.</p>
+  <% if @drinks.any? %>
+    <ul id="rankings" class="card divide-y divide-line p-0">
+      <% @drinks.each do |drink| %>
+        <li class="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-4 hover:bg-lagoon-700/50">
+          <%= link_to drink.name, ranking_path(drink), class: "text-lg font-bold text-cream after:absolute after:inset-0 hover:text-accent" %>
+          <span class="text-sm text-muted"><%= pluralize(drink.tastings.size, "tasting") %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="card text-center text-muted">Nothing here yet.</p>
   <% end %>
 </div>

@@ -1,17 +1,27 @@
-<div class="mx-auto md:w-2/3 w-full">
+<% content_for :title, "Forgot your password?" %>
+
+<div class="mx-auto max-w-md space-y-6">
+  <%= link_to "← Back to sign in", new_session_path, class: "text-sm text-muted hover:text-cream" %>
+
   <% if alert = flash[:alert] %>
-    <p class="flash-alert mb-5" id="alert"><%= alert %></p>
+    <p class="flash-alert" id="alert"><%= alert %></p>
   <% end %>
 
-  <h1 class="font-bold text-4xl">Forgot your password?</h1>
-
-  <%= form_with url: passwords_path, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: "input" %>
+  <div class="card space-y-6">
+    <div>
+      <h1 class="page-title">Forgot your password?</h1>
+      <p class="mt-1 text-muted">We'll email you a link to choose a new one.</p>
     </div>
 
-    <div class="inline">
-      <%= form.submit "Email reset instructions", class: "button-primary" %>
-    </div>
-  <% end %>
+    <%= form_with url: passwords_path, class: "space-y-5" do |form| %>
+      <div>
+        <%= form.label :email_address, "Email address", class: "field-label" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "you@example.com", value: params[:email_address], class: "input" %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Email reset instructions", class: "button-primary" %>
+      </div>
+    <% end %>
+  </div>
 </div>

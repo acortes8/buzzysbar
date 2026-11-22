@@ -1,16 +1,10 @@
-<div id="<%= dom_id place %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= place.name %>
+<%# A place's row on the places list. %>
+<li id="<%= dom_id place %>" class="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-4 hover:bg-lagoon-700/50">
+  <div class="flex flex-wrap items-center gap-2">
+    <%# The link covers the whole row. %>
+    <%= link_to place.name, place, class: "text-lg font-bold text-cream after:absolute after:inset-0 hover:text-accent" %>
+    <span class="tag text-xs <%= "tag-home" if place.home? %>"><%= place.kind.humanize %></span>
+    <% if place.published? %><span class="tag tag-home text-xs">Public</span><% end %>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Kind:</strong>
-    <%= place.kind.humanize %>
-  </div>
-  <% if place.review.present? %>
-    <div>
-      <strong class="block font-medium mb-1">Review:</strong>
-      <%= simple_format place.review %>
-    </div>
-  <% end %>
-</div>
+  <span class="text-sm text-muted"><%= pluralize(place.occasions.size, "visit") %></span>
+</li>

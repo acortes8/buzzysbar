@@ -11,27 +11,27 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :name %>
+  <div class="mb-6">
+    <%= form.label :name, class: "field-label" %>
     <%= form.text_field :name, class: input_class(user, :name) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :email_address %>
+  <div class="mb-6">
+    <%= form.label :email_address, class: "field-label" %>
     <%= form.text_field :email_address, class: input_class(user, :email_address) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :password %>
+  <div class="mb-6">
+    <%= form.label :password, class: "field-label" %>
     <%= form.password_field :password, class: input_class(user, :password) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :password_confirmation %>
+  <div class="mb-6">
+    <%= form.label :password_confirmation, class: "field-label" %>
     <%= form.password_field :password_confirmation, class: input_class(user, :password_confirmation) %>
   </div>
 
-  <div class="inline">
+  <div class="actions">
     <%= form.submit class: "button-primary" %>
   </div>
 <% end %>

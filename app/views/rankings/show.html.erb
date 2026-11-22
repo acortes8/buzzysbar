@@ -1,43 +1,45 @@
 <% content_for :title, "#{@drink.name} ranking" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
-  <h1 class="font-bold text-accent text-4xl"><%= @drink.name %></h1>
-  <% if @drink.description.present? %>
-    <div class="text-muted mt-2"><%= simple_format @drink.description %></div>
-  <% end %>
+<div class="mx-auto max-w-4xl space-y-8">
+  <%= link_to "← All rankings", rankings_path, class: "text-sm text-muted hover:text-cream" %>
 
-  <ol id="ranking" class="divide-y divide-line mt-5">
-    <% @drink.ranked_tastings.each do |tasting| %>
-      <li id="<%= dom_id tasting %>" class="py-3 flex flex-wrap justify-between items-center gap-2">
-        <div class="flex items-center gap-4">
-          <% if (photo = tasting.public_photo) %>
-            <%= link_to photo.variant(:large), target: "_blank", class: "shrink-0" do %>
-              <%= image_tag photo.variant(:thumb), alt: "Photo of #{@drink.name}", class: "w-20 h-20 object-cover rounded-md shadow" %>
-            <% end %>
+  <div class="space-y-2">
+    <p class="eyebrow">Drink ranking</p>
+    <h1 class="page-title text-5xl"><%= @drink.name %></h1>
+    <% if @drink.description.present? %>
+      <div class="max-w-2xl text-lg text-muted"><%= simple_format @drink.description %></div>
+    <% end %>
+  </div>
+
+  <ol id="ranking" class="space-y-3">
+    <% @drink.ranked_tastings.each.with_index(1) do |tasting, rank| %>
+      <li id="<%= dom_id tasting %>" class="card flex flex-wrap items-center gap-x-5 gap-y-3 px-5 py-4">
+        <span class="w-10 text-center text-3xl font-bold text-gold"><%= rank %></span>
+        <% if (photo = tasting.public_photo) %>
+          <%= link_to photo.variant(:large), target: "_blank", class: "shrink-0" do %>
+            <%= image_tag photo.variant(:thumb), alt: "Photo of #{@drink.name}", class: "size-18 rounded-xl object-cover" %>
           <% end %>
-          <div>
-            <%# Homes aren't named in public, since a home's name can identify someone. %>
-            <% place = tasting.occasion.place %>
-            <% if place.home? %>
-              <span class="text-xl font-bold text-accent">At home</span>
-            <% elsif place.published? %>
-              <%= link_to place.name, bar_path(place), class: "text-xl font-bold text-accent hover:underline" %>
-            <% else %>
-              <span class="text-xl font-bold text-accent"><%= place.name %></span>
-            <% end %>
-            <span class="text-muted ml-2"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></span>
-          </div>
-        </div>
-        <span class="text-muted font-semibold">
-          <% if tasting.average_score %>
-            <%= format_score(tasting.average_score) %> / 5 from <%= pluralize(tasting.ratings.size, "rating") %>
+        <% end %>
+        <div class="min-w-0 flex-[999_1_14rem]">
+          <%# Homes aren't named in public, since a home's name can identify someone. %>
+          <% place = tasting.occasion.place %>
+          <% if place.home? %>
+            <span class="text-xl font-bold">At home</span>
+          <% elsif place.published? %>
+            <%= link_to place.name, bar_path(place), class: "text-xl font-bold text-cream hover:text-accent" %>
           <% else %>
-            Not rated
+            <span class="text-xl font-bold"><%= place.name %></span>
           <% end %>
-        </span>
+          <div class="text-muted"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></div>
+        </div>
+        <div class="text-right">
+          <% if tasting.average_score %>
+            <span class="score text-2xl"><%= format_score(tasting.average_score) %></span><span class="text-muted"> / 5 from <%= pluralize(tasting.ratings.size, "rating") %></span>
+          <% else %>
+            <span class="text-muted">Not rated</span>
+          <% end %>
+        </div>
       </li>
     <% end %>
   </ol>
-
-  <%= link_to "All rankings", rankings_path, class: "button-secondary mt-5" %>
 </div>

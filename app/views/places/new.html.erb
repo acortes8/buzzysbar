@@ -1,9 +1,9 @@
 <% content_for :title, "New place" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 mb-5 rounded-lg">
-  <h1 class="font-bold text-4xl text-accent">New place</h1>
-
-  <%= render "form", place: @place %>
-
-  <%= link_to "Back to places", places_path, class: "button-secondary" %>
+<div class="mx-auto max-w-2xl space-y-6">
+  <%= link_to "← All places", places_path, class: "text-sm text-muted hover:text-cream" %>
+  <h1 class="page-title">New place</h1>
+  <div class="card">
+    <%= render "form", place: @place %>
+  </div>
 </div>
