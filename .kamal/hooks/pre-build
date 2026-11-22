@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Only deploy what's merged: Kamal builds whatever is checked out, so stop
+# unless this is a clean main that matches main on GitHub.
+#
+# For an emergency deploy from another branch: ALLOW_UNMERGED_DEPLOY=1 bin/kamal deploy
+
+[ -n "$ALLOW_UNMERGED_DEPLOY" ] && exit 0
+
+if [ "$(git branch --show-current)" != "main" ]; then
+  echo "Deploy from main, not $(git branch --show-current): merge the PR, then git checkout main && git pull." >&2
+  exit 1
+fi
+
+if [ -n "$(git status --porcelain)" ]; then
+  echo "There are uncommitted changes, aborting:" >&2
+  git status --porcelain >&2
+  exit 1
+fi
+
+remote_main=$(git ls-remote origin refs/heads/main | cut -f1)
+
+if [ "$KAMAL_VERSION" != "$remote_main" ]; then
+  echo "Local main ($KAMAL_VERSION) isn't main on GitHub ($remote_main): pull or push first." >&2
+  exit 1
+fi
