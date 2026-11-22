@@ -11,24 +11,24 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :name %>
+  <div class="mb-6">
+    <%= form.label :name, class: "field-label" %>
     <%= form.text_field :name, class: input_class(drink, :name) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :description %>
+  <div class="mb-6">
+    <%= form.label :description, class: "field-label" %>
     <%= form.text_area :description, rows: 3, class: input_class(drink, :description) %>
   </div>
 
   <% unless demo? %>
-    <div class="my-5 flex items-center gap-2">
+    <div class="mb-6 flex items-start gap-2">
       <%= form.check_box :published %>
       <%= form.label :published, "Publish a public ranking of this drink (shows places, months and average scores, never names or notes)" %>
     </div>
   <% end %>
 
-  <div class="inline">
+  <div class="actions">
     <%= form.submit class: "button-primary" %>
   </div>
 <% end %>

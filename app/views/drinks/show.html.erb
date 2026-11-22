@@ -1,44 +1,59 @@
 <% content_for :title, @drink.name %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+<div class="space-y-8">
+  <%= link_to "← All drinks", drinks_path, class: "text-sm text-muted hover:text-cream" %>
+
   <% if notice.present? %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
   <% if alert.present? %>
-    <p class="flash-alert mb-5" id="alert"><%= alert %></p>
+    <p class="flash-alert" id="alert"><%= alert %></p>
   <% end %>
 
-  <h1 class="font-bold text-accent text-4xl"><%= @drink.name %></h1>
-  <% if @drink.published? %>
-    <p class="mt-2 text-muted">Published: <%= link_to "see the public ranking", ranking_path(@drink), class: "underline" %></p>
-  <% end %>
-
-  <div><%= render @drink %>
-
-  <section class="my-5">
-    <h2 class="font-bold text-2xl text-accent">Recipes</h2>
-    <ul id="recipes" class="list-disc ml-6 my-2">
-      <% @drink.recipes.sort_by(&:title).each do |recipe| %>
-        <li><%= link_to recipe.title, recipe, class: "underline" %></li>
+  <header class="flex flex-wrap items-start justify-between gap-6">
+    <div class="min-w-0 flex-[999_1_28rem] space-y-3">
+      <h1 class="page-title text-5xl"><%= @drink.name %></h1>
+      <% if @drink.published? %>
+        <p><span class="tag tag-home font-normal">Published: <%= link_to "see the public ranking", ranking_path(@drink), class: "underline text-clay" %></span></p>
       <% end %>
-    </ul>
-    <%= link_to "Add a recipe", new_recipe_path(drink_id: @drink), class: "button-secondary" %>
-  </section>
-
-  <section class="my-5">
-    <h2 class="font-bold text-2xl text-accent">Every time we've had it</h2>
-    <div class="divide-y divide-line">
-      <% @drink.tastings.sort_by { |tasting| tasting.occasion.occurred_on }.reverse_each do |tasting| %>
-        <%= render tasting, heading: link_to(tasting.occasion.title, tasting.occasion) %>
+      <% if @drink.description.present? %>
+        <div class="max-w-2xl text-lg text-muted"><%= simple_format @drink.description %></div>
       <% end %>
     </div>
-    <% if @drink.tastings.empty? %>
-      <p class="my-5">Not tried yet.</p>
+    <div class="actions">
+      <%= link_to "Edit", edit_drink_path(@drink), class: "button-secondary" %>
+      <%= button_to "Delete", @drink, method: :delete, class: "button-tertiary", data: { turbo_confirm: "Delete this drink?" } %>
+    </div>
+  </header>
+
+  <section class="space-y-3">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="section-title">Recipes</h2>
+      <div class="actions">
+        <%= link_to "Add a recipe", new_recipe_path(drink_id: @drink), class: "button-secondary" %>
+      </div>
+    </div>
+    <% if @drink.recipes.any? %>
+      <ul id="recipes" class="flex flex-wrap gap-2">
+        <% @drink.recipes.sort_by(&:title).each do |recipe| %>
+          <li><%= link_to recipe.title, recipe, class: "tag text-base text-cream hover:text-accent" %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">No recipes yet.</p>
     <% end %>
   </section>
 
-  <%= link_to "Edit this drink", edit_drink_path(@drink), class: "button-primary" %>
-  <%= link_to "Back to drinks", drinks_path, class: "button-secondary" %>
-  <%= button_to "Destroy this drink", @drink, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
-  </div>
+  <section class="space-y-3">
+    <h2 class="section-title">Every time we've had it</h2>
+    <% if @drink.tastings.any? %>
+      <div class="card divide-y divide-line py-2">
+        <% @drink.tastings.sort_by { |tasting| tasting.occasion.occurred_on }.reverse_each do |tasting| %>
+          <%= render tasting, heading: link_to(tasting.occasion.title, tasting.occasion, class: "text-cream hover:text-accent") %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-muted">Not tried yet.</p>
+    <% end %>
+  </section>
 </div>

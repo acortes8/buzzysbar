@@ -11,29 +11,29 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :title %>
+  <div class="mb-6">
+    <%= form.label :title, class: "field-label" %>
     <%= form.text_field :title, class: input_class(recipe, :title) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :drink_name, "Drink" %>
+  <div class="mb-6">
+    <%= form.label :drink_name, "Drink", class: "field-label" %>
     <%= form.text_field :drink_name, list: "drink-names", placeholder: "e.g. Hurricane", class: input_class(recipe, :drink) %>
     <datalist id="drink-names">
       <% Current.logbook.drinks.order(:name).each do |drink| %>
         <option value="<%= drink.name %>"></option>
       <% end %>
     </datalist>
-    <p class="text-sm text-muted mt-1">A new name adds the drink.</p>
+    <p class="hint">A new name adds the drink.</p>
   </div>
 
-  <fieldset class="my-5" data-controller="recipe-source">
-    <%= form.label :source, "Where it's from" %>
+  <fieldset class="mb-6" data-controller="recipe-source">
+    <%= form.label :source, "Where it's from", class: "field-label" %>
     <%= form.select :source, RecipesHelper::SOURCE_OPTIONS, {}, data: { recipe_source_target: "select", action: "recipe-source#toggle" }, class: input_class(recipe, :source) %>
 
     <div data-recipe-source-target="details" data-sources="book" class="flex flex-wrap gap-3">
       <div class="flex-1 min-w-48">
-        <%= form.label :book_title, "Book", class: "block mt-3" %>
+        <%= form.label :book_title, "Book", class: "field-label mt-3 block" %>
         <%= form.text_field :book_title, list: "book-titles", class: input_class(recipe, :book) %>
         <datalist id="book-titles">
           <% Current.logbook.books.order(:title).each do |book| %>
@@ -42,54 +42,54 @@
         </datalist>
       </div>
       <div class="w-28">
-        <%= form.label :page, class: "block mt-3" %>
+        <%= form.label :page, class: "field-label mt-3 block" %>
         <%= form.number_field :page, min: 1, class: input_class(recipe, :page) %>
       </div>
     </div>
 
     <div data-recipe-source-target="details" data-sources="bartender bar">
-      <%= form.label :credit, "Bartender or bar", class: "block mt-3" %>
+      <%= form.label :credit, "Bartender or bar", class: "field-label mt-3 block" %>
       <%= form.text_field :credit, class: input_class(recipe, :credit) %>
     </div>
   </fieldset>
 
-  <div class="my-5">
-    <%= form.label :based_on_id, "A riff on (optional)" %>
+  <div class="mb-6">
+    <%= form.label :based_on_id, "A riff on (optional)", class: "field-label" %>
     <%= form.collection_select :based_on_id, Current.logbook.recipes.where.not(id: recipe.id).order(:title), :id, :title, { include_blank: "Not a riff" }, class: input_class(recipe, :based_on) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :featured_image, "Photo (optional)" %>
+  <div class="mb-6">
+    <%= form.label :featured_image, "Photo (optional)", class: "field-label" %>
     <% if demo? %>
-      <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
+      <p class="hint">Photo uploads are turned off in the demo.</p>
     <% else %>
       <%= form.file_field :featured_image, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: input_class(recipe, :featured_image) %>
     <% end %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :ingredient_section %>
+  <div class="mb-6">
+    <%= form.label :ingredient_section, class: "field-label" %>
     <%= form.rich_textarea :ingredient_section, class: input_class(recipe, :ingredient_section, "prose prose-invert max-w-none") %>
   </div>
 
-    <div class="my-5">
-    <%= form.label :instruction_section, style: "display: block" %>
+  <div class="mb-6">
+    <%= form.label :instruction_section, class: "field-label" %>
     <%= form.rich_textarea :instruction_section, class: "input prose prose-invert max-w-none" %>
   </div>
 
-    <div class="my-5">
-    <%= form.label :description, "Description (optional)" %>
+  <div class="mb-6">
+    <%= form.label :description, "Description (optional)", class: "field-label" %>
     <%= form.rich_textarea :description, class: "input prose prose-invert max-w-none" %>
   </div>
 
   <% unless demo? %>
-    <div class="my-5 flex items-center gap-2">
+    <div class="mb-6 flex items-start gap-2">
       <%= form.check_box :published %>
-      <%= form.label :published, "Publish this recipe on public pages (not for recipes from books; its photo must show no people)" %>
+      <%= form.label :published, "Publish this recipe on public pages (not for recipes from books; its photo must show no people)", class: "field-label" %>
     </div>
   <% end %>
 
-  <div class="inline">
+  <div class="actions">
     <%= form.submit class: "button-primary" %>
   </div>
 <% end %>

@@ -1,15 +1,22 @@
-<div id="<%= dom_id recipe %>">
-  <p class="text-center font-bold text-4xl text-accent mb-5">
-    <%= recipe.title %>
-  </p>
-  <p class="text-center text-muted">A recipe for <%= link_to recipe.drink.name, recipe.drink, class: "underline" %></p>
-  <p class="text-center text-muted mb-5"><%= recipe_source(recipe) || "Source not recorded" %></p>
-  <% if recipe.based_on %>
-    <p class="text-center text-muted -mt-3 mb-5">A riff on <%= link_to recipe.based_on.title, recipe.based_on, class: "underline" %></p>
+<%# A recipe's card on the recipes list. %>
+<article id="<%= dom_id recipe %>" class="card relative flex flex-col gap-3 overflow-hidden p-0 hover:border-line-strong">
+  <% if recipe.featured_image.attached? %>
+    <%= image_tag recipe.featured_image.variant(:thumb), alt: "", class: "aspect-[4/3] w-full object-cover" %>
+  <% else %>
+    <div class="flex aspect-[4/3] w-full items-center justify-center bg-lagoon-700 font-logo text-4xl text-line-strong" aria-hidden="true"><%= recipe.drink.name.first %></div>
   <% end %>
-
-  <%= image_tag recipe.featured_image.variant(:large), class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-lagoon-950 object-center shadow-lg shadow-black/25" if 
-    recipe.featured_image.attached? %>
-  
-  <%= render "recipes/sections", recipe: recipe %>
-</div>
+  <div class="flex grow flex-col gap-2 px-5 pb-5">
+    <h2 class="text-lg leading-snug font-bold">
+      <%# The link covers the whole card. %>
+      <%= link_to recipe.title, recipe, class: "text-cream after:absolute after:inset-0 hover:text-accent" %>
+    </h2>
+    <% unless recipe.title.casecmp?(recipe.drink.name) %>
+      <p class="text-sm text-muted">A <%= recipe.drink.name %></p>
+    <% end %>
+    <div class="mt-auto flex flex-wrap gap-1.5 pt-1">
+      <% if recipe.source %><span class="tag text-xs"><%= RecipesHelper::SOURCE_OPTIONS.key(recipe.source) %></span><% end %>
+      <% if recipe.based_on_id %><span class="tag text-xs">Riff</span><% end %>
+      <% if recipe.published? %><span class="tag tag-home text-xs">Public</span><% end %>
+    </div>
+  </div>
+</article>

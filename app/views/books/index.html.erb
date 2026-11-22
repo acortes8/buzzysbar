@@ -1,27 +1,30 @@
 <% content_for :title, "Books" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+<div class="space-y-7">
+  <%= link_to "← All recipes", recipes_path, class: "text-sm text-muted hover:text-cream" %>
+
   <% if notice.present? %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
 
-  <h1 class="font-bold text-accent text-4xl">Books</h1>
-  <p class="text-muted mt-2">Add a book by choosing it as a recipe's source.</p>
+  <div>
+    <h1 class="page-title">Books</h1>
+    <p class="mt-1 text-muted">Add a book by choosing it as a recipe's source.</p>
+  </div>
 
-  <ul id="books" class="divide-y divide-line mt-5">
-    <% @books.each do |book| %>
-      <li class="py-3 flex justify-between items-baseline gap-2">
-        <div>
-          <%= link_to book.title, book, class: "text-xl font-bold text-accent hover:underline" %>
-          <% if book.author.present? %><span class="text-muted ml-2">by <%= book.author %></span><% end %>
-        </div>
-        <span class="text-muted"><%= pluralize(book.recipes.size, "recipe") %></span>
-      </li>
-    <% end %>
-  </ul>
-  <% if @books.empty? %>
-    <p class="my-5">No books yet.</p>
+  <% if @books.any? %>
+    <ul id="books" class="card divide-y divide-line p-0">
+      <% @books.each do |book| %>
+        <li class="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-4 hover:bg-lagoon-700/50">
+          <div>
+            <%= link_to book.title, book, class: "text-lg font-bold text-cream after:absolute after:inset-0 hover:text-accent" %>
+            <% if book.author.present? %><span class="ml-2 text-muted">by <%= book.author %></span><% end %>
+          </div>
+          <span class="text-sm text-muted"><%= pluralize(book.recipes.size, "recipe") %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="card text-center text-muted">No books yet.</p>
   <% end %>
-
-  <%= link_to "Back to recipes", recipes_path, class: "button-secondary mt-5" %>
 </div>
