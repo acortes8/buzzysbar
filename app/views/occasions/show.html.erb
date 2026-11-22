@@ -1,61 +1,97 @@
 <% content_for :title, @occasion.title %>
+<% place = @occasion.place %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+<div class="space-y-8">
+  <%= link_to "← All occasions", occasions_path, class: "text-sm text-muted hover:text-cream" %>
+
   <% if notice.present? %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
 
-  <h1 class="font-bold text-accent text-4xl"><%= @occasion.title %></h1>
-
-  <div><%= render @occasion %>
-
-  <section class="my-5">
-    <div class="flex flex-wrap items-center justify-between gap-2">
-      <h2 class="font-bold text-2xl text-accent">Drinks</h2>
-      <%= link_to "Log another drink", new_log_path(occasion_id: @occasion.id), class: "button-primary" %>
-    </div>
-    <div class="divide-y divide-line">
-      <% @occasion.tastings.each do |tasting| %>
-        <%= render tasting, heading: link_to(tasting.drink.name, tasting.drink), actions: true %>
+  <header class="flex flex-wrap items-start justify-between gap-6">
+    <div class="min-w-0 flex-[999_1_28rem] space-y-3">
+      <p class="eyebrow"><%= @occasion.occurred_on.strftime("%A, %B %-d, %Y") %></p>
+      <div class="flex flex-wrap items-center gap-3">
+        <h1 class="page-title"><%= link_to place.name, place, class: "text-cream hover:text-accent" %></h1>
+        <span class="tag <%= "tag-home" if place.home? %>"><%= place.kind.humanize %></span>
+      </div>
+      <% if @occasion.people.any? %>
+        <ul class="flex flex-wrap gap-2" aria-label="Who came">
+          <% @occasion.people.sort_by(&:name).each do |person| %>
+            <li><%= link_to person.name, person, class: "tag text-cream hover:text-accent" %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted">Nobody recorded.</p>
+      <% end %>
+      <% if @occasion.notes.present? %>
+        <div class="max-w-2xl text-lg text-muted"><%= simple_format @occasion.notes %></div>
       <% end %>
     </div>
-    <% if @occasion.tastings.empty? %>
-      <p class="my-5">No drinks yet.</p>
+    <div class="actions">
+      <%= link_to "Edit", edit_occasion_path(@occasion), class: "button-secondary" %>
+      <%= button_to "Delete", @occasion, method: :delete, class: "button-tertiary", data: { turbo_confirm: "Delete this occasion and its drinks?" } %>
+    </div>
+  </header>
+
+  <section class="space-y-3">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="section-title">Drinks</h2>
+      <div class="actions">
+        <%= link_to "Log another drink", new_log_path(occasion_id: @occasion.id), class: "button-primary" %>
+      </div>
+    </div>
+    <% if @occasion.tastings.any? %>
+      <div class="card divide-y divide-line py-2">
+        <% @occasion.tastings.each do |tasting| %>
+          <%= render tasting, heading: link_to(tasting.drink.name, tasting.drink, class: "text-cream hover:text-accent"), actions: true %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="card text-muted">No drinks yet.</p>
     <% end %>
   </section>
 
-  <section class="my-5">
-    <h2 class="font-bold text-2xl text-accent">Photos</h2>
+  <section class="space-y-3">
+    <h2 class="section-title">Photos</h2>
     <% if alert.present? %>
-      <p class="flash-alert my-3" id="alert"><%= alert %></p>
+      <p class="flash-alert" id="alert"><%= alert %></p>
     <% end %>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 my-3">
-      <% @occasion.photos.each do |photo| %>
-        <div id="<%= dom_id photo %>" class="relative">
-          <%= link_to photo.image.variant(:large), target: "_blank" do %>
-            <%= image_tag photo.image.variant(:thumb), alt: "Photo from #{@occasion.title}", class: "w-full aspect-square object-cover rounded-md shadow" %>
-          <% end %>
-          <%= button_to "Remove", occasion_photo_path(@occasion, photo), method: :delete, form_class: "absolute top-2 right-2", class: "button-tertiary text-xs", data: { turbo_confirm: "Remove this photo?" } %>
-          <% if photo.published? %>
-            <%= button_to "Public · Unpublish", occasion_photo_path(@occasion, photo), method: :patch, params: { photo: { published: false } }, form_class: "mt-1", class: "button-secondary text-xs w-full" %>
-          <% elsif @occasion.place.bar? && !demo? %>
-            <%= button_to "Publish", occasion_photo_path(@occasion, photo), method: :patch, params: { photo: { published: true } }, form_class: "mt-1", class: "button-secondary text-xs w-full", data: { turbo_confirm: "Publish this photo on public pages? Only publish photos with no people in them." } %>
+    <div class="card space-y-5">
+      <% if @occasion.photos.any? %>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <% @occasion.photos.each do |photo| %>
+            <div id="<%= dom_id photo %>" class="space-y-2">
+              <div class="relative">
+                <%= link_to photo.image.variant(:large), target: "_blank" do %>
+                  <%= image_tag photo.image.variant(:thumb), alt: "Photo from #{@occasion.title}", class: "aspect-square w-full rounded-xl object-cover" %>
+                <% end %>
+                <% if photo.published? %>
+                  <span class="tag absolute top-2 left-2 bg-lagoon-950/85">Public</span>
+                <% end %>
+              </div>
+              <div class="actions">
+                <% if photo.published? %>
+                  <%= button_to "Unpublish", occasion_photo_path(@occasion, photo), method: :patch, params: { photo: { published: false } }, class: "button-secondary min-h-9 px-3 text-sm" %>
+                <% elsif place.bar? && !demo? %>
+                  <%= button_to "Publish", occasion_photo_path(@occasion, photo), method: :patch, params: { photo: { published: true } }, class: "button-secondary min-h-9 px-3 text-sm", data: { turbo_confirm: "Publish this photo on public pages? Only publish photos with no people in them." } %>
+                <% end %>
+                <%= button_to "Remove", occasion_photo_path(@occasion, photo), method: :delete, class: "button-tertiary min-h-9 px-3 text-sm", data: { turbo_confirm: "Remove this photo?" } %>
+              </div>
+            </div>
           <% end %>
         </div>
       <% end %>
-    </div>
-    <% if demo? %>
-      <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
-    <% else %>
-      <%= form_with url: occasion_photos_path(@occasion), class: "flex flex-wrap items-center gap-3" do |form| %>
-        <%= form.file_field :photos, multiple: true, accept: PhotoAttachments::CONTENT_TYPES.join(","), aria: { label: "Photos" } %>
-        <%= form.submit "Add photos", class: "button-secondary" %>
+      <% if demo? %>
+        <p class="text-sm text-muted">Photo uploads are turned off in the demo.</p>
+      <% else %>
+        <%= form_with url: occasion_photos_path(@occasion), class: "flex flex-wrap items-center gap-3" do |form| %>
+          <%= form.file_field :photos, multiple: true, accept: PhotoAttachments::CONTENT_TYPES.join(","), aria: { label: "Photos" }, class: "input mt-0 w-auto grow" %>
+          <div class="actions">
+            <%= form.submit "Add photos", class: "button-secondary" %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </section>
-
-  <%= link_to "Edit this occasion", edit_occasion_path(@occasion), class: "button-primary" %>
-  <%= link_to "Back to occasions", occasions_path, class: "button-secondary" %>
-  <%= button_to "Destroy this occasion", @occasion, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
-  </div>
 </div>

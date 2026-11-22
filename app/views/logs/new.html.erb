@@ -1,7 +1,9 @@
 <% content_for :title, "Log a drink" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 mb-5 rounded-lg">
-  <h1 class="font-bold text-4xl text-accent">Log a drink</h1>
+<div class="mx-auto max-w-xl space-y-6">
+  <h1 class="page-title">Log a drink</h1>
+
+  <div class="card">
 
   <%= form_with(model: @log, url: log_path, class: "contents") do |form| %>
     <% if @log.errors.any? %>
@@ -16,8 +18,8 @@
       </div>
     <% end %>
 
-    <div class="my-5">
-      <%= form.label :drink_name, "Drink" %>
+    <div class="mb-6">
+      <%= form.label :drink_name, "Drink", class: "field-label" %>
       <%= form.text_field :drink_name, list: "drink-names", autocomplete: "off", autofocus: true, placeholder: "Mai Tai", class: input_class(@log, :drink_name, "text-lg py-3") %>
       <datalist id="drink-names">
         <% Current.logbook.drinks.order(:name).pluck(:name).each do |name| %>
@@ -26,56 +28,58 @@
       </datalist>
     </div>
 
-    <div class="my-5">
-      <%= form.label :place_name, "Where" %>
+    <div class="mb-6">
+      <%= form.label :place_name, "Where", class: "field-label" %>
       <%= form.text_field :place_name, list: "place-names", autocomplete: "off", placeholder: "Bar name, or Home", class: input_class(@log, :place_name, "text-lg py-3") %>
       <datalist id="place-names">
         <% Current.logbook.places.order(:name).pluck(:name).each do |name| %>
           <option value="<%= name %>"></option>
         <% end %>
       </datalist>
-      <p class="text-sm mt-1">A new name adds a new bar.</p>
+      <p class="hint">A new name adds a new bar.</p>
     </div>
 
-    <details class="my-5" <%= "open" if @log.errors.any? %>>
-      <summary class="cursor-pointer font-medium">Date, who came, notes, photo</summary>
+    <details class="mb-6" <%= "open" if @log.errors.any? %>>
+      <summary class="flex min-h-11 cursor-pointer items-center font-medium text-muted hover:text-cream">Date, who came, notes, photo</summary>
 
-      <div class="my-5">
-        <%= form.label :occurred_on, "Date" %>
+      <div class="mb-6">
+        <%= form.label :occurred_on, "Date", class: "field-label" %>
         <%= form.date_field :occurred_on, class: "input" %>
       </div>
 
-      <fieldset class="my-5">
-        <legend>Who came</legend>
-        <div class="flex flex-wrap gap-x-6 gap-y-2 mt-2">
+      <fieldset class="mb-6">
+        <legend class="field-label">Who came</legend>
+        <div class="mt-2 flex flex-wrap gap-2">
           <%= form.collection_check_boxes :person_ids, Current.logbook.people.order(:name), :id, :name do |b| %>
-            <%= b.label(class: "flex items-center gap-2") { b.check_box + b.text } %>
+            <%= b.label(class: "chip") { b.check_box(class: "sr-only") + b.text } %>
           <% end %>
         </div>
       </fieldset>
 
-      <div class="my-5">
-        <%= form.label :other_people, "Anyone else" %>
+      <div class="mb-6">
+        <%= form.label :other_people, "Anyone else", class: "field-label" %>
         <%= form.text_field :other_people, placeholder: "Names, separated by commas", class: "input" %>
       </div>
 
-      <div class="my-5">
-        <%= form.label :notes %>
+      <div class="mb-6">
+        <%= form.label :notes, class: "field-label" %>
         <%= form.text_area :notes, rows: 2, class: "input" %>
       </div>
 
-      <div class="my-5">
-        <%= form.label :photo %>
+      <div class="mb-6">
+        <%= form.label :photo, class: "field-label" %>
         <% if demo? %>
-          <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
+          <p class="hint">Photo uploads are turned off in the demo.</p>
         <% else %>
-          <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "block mt-2" %>
+          <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "input" %>
         <% end %>
       </div>
     </details>
 
-    <div class="inline">
-      <%= form.submit "Log it", class: "button-primary text-lg" %>
+    <div class="actions">
+      <%= form.submit "Log it", class: "button-primary min-h-14 w-full text-lg sm:w-full" %>
     </div>
+    <p class="hint text-center">Ratings can wait until later.</p>
   <% end %>
+  </div>
 </div>

@@ -1,29 +1,30 @@
 <% content_for :title, "Occasions" %>
 
-<div class="w-full max-w-md mx-auto px-4 sm:px-6 md:max-w-2xl lg:max-w-4xl">
+<div class="space-y-7">
   <% if notice.present? %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex flex-wrap items-center justify-center sm:justify-between bg-lagoon-800 p-3 rounded-xl">
-    <h1 class="font-bold text-2xl sm:text-4xl text-accent w-full sm:w-auto text-center sm:text-left">Occasions</h1>
-    <%= link_to "New occasion", new_occasion_path, class: "button-primary mt-2 sm:mt-0 sm:ml-4 mx-auto sm:mx-0" %>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="page-title">Occasions</h1>
+      <p class="mt-1 text-muted">Every night out and in, newest first.</p>
+    </div>
+    <div class="actions">
+      <%= link_to "New occasion", new_occasion_path, class: "button-secondary" %>
+    </div>
   </div>
 
-  <div id="occasions" class="min-w-full px-5 divide-y divide-line space-y-5">
+  <div id="occasions" class="space-y-5">
     <% if @occasions.any? %>
-      <% @occasions.each do |occasion| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render occasion %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", occasion, class: "button-primary" %>
-            <%= link_to "Edit", edit_occasion_path(occasion), class: "button-secondary" %>
-            <%= button_to "Destroy", occasion, method: :delete, class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
-          </div>
-        </div>
-      <% end %>
+      <%= render @occasions %>
     <% else %>
-      <p class="text-center my-10">No occasions found.</p>
+      <div class="card text-center">
+        <p class="text-muted">No occasions yet.</p>
+        <div class="actions mt-4 justify-center">
+          <%= link_to "Log your first drink", new_log_path, class: "button-primary" %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
