@@ -8,7 +8,7 @@ Alejandro is a recent CS graduate whose strongest stack is Ruby on Rails. Keep c
 
 ## Stack
 
-- Ruby 3.4.2 (`.ruby-version`), Rails 8.1 (`config.load_defaults 8.1`)
+- Ruby 3.4.13 (`.ruby-version`), Rails 8.1 (`config.load_defaults 8.1`)
 - PostgreSQL 17
 - Hotwire (Turbo, Stimulus), importmap (no JS bundler), Propshaft
 - Tailwind CSS v4 via `tailwindcss-rails`; theme and custom colors live in `app/assets/tailwind/application.css`
@@ -26,7 +26,7 @@ Alejandro is a recent CS graduate whose strongest stack is Ruby on Rails. Keep c
 
 Run `bin/ci` before calling a change done.
 
-In system tests, use the helpers in `test/application_system_test_case.rb` (`sign_in_as`, `enter`, `press`, `accept_confirm_dialog`) instead of `fill_in`, `click_on` and `accept_confirm`. Headless Chrome intermittently drops or delays native input, locally and in CI, so those helpers act through the DOM. CI runs on `ubuntu-24.04`, since `ubuntu-latest` has no prebuilt Ruby 3.4.2.
+In system tests, use the helpers in `test/application_system_test_case.rb` (`sign_in_as`, `enter`, `press`, `accept_confirm_dialog`) instead of `fill_in`, `click_on` and `accept_confirm`. Headless Chrome intermittently drops or delays native input, locally and in CI, so those helpers act through the DOM. CI runs on `ubuntu-24.04`, since `ubuntu-latest` had no prebuilt Ruby 3.4.2 when CI was set up.
 
 ## Deployment
 
