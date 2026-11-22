@@ -63,6 +63,13 @@ class LogbookIsolationTest < ActionDispatch::IntegrationTest
     assert_not occasions(:neighbors_night).photos.exists?
   end
 
+  test "an occasion's place name only finds places in this logbook" do
+    assert_difference("logbooks(:family).places.count") do
+      post occasions_url, params: { occasion: { place_name: places(:neighbors_bar).name, occurred_on: "2026-10-30" } }
+    end
+    assert_not_equal places(:neighbors_bar), Occasion.last.place
+  end
+
   test "can't link another logbook's records by id" do
     assert_no_difference("Occasion.count") do
       post occasions_url, params: { occasion: { place_id: places(:neighbors_bar).id, occurred_on: "2026-10-30" } }

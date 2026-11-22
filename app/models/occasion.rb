@@ -13,6 +13,11 @@ class Occasion < ApplicationRecord
   validates :occurred_on, presence: true
   validates :place, same_logbook: true
 
+  # The form picks the place by name; OccasionsController finds or creates it.
+  def place_name
+    place&.name
+  end
+
   def title
     "#{place.name}, #{occurred_on.to_fs(:long_ordinal)}"
   end

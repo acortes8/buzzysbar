@@ -8,6 +8,8 @@ class Place < ApplicationRecord
 
   enum :kind, { bar: "bar", home: "home" }, validate: true
 
+  normalizes :name, with: ->(name) { name.squish }
+
   validates :name, presence: true
   # A home's name can identify someone, so only bars get public reviews.
   validates :published, absence: { message: "is only for bars" }, if: :home?
@@ -15,6 +17,13 @@ class Place < ApplicationRecord
   # Places are private until someone publishes one; published bars get a
   # public review page.
   scope :published, -> { where(published: true) }
+
+  # Finds a place by name, ignoring case and extra spaces, or builds a new one.
+  # Call it on a logbook's places: logbook.places.find_or_initialize_by_name("lava room").
+  def self.find_or_initialize_by_name(name)
+    name = normalize_value_for(:name, name)
+    where("lower(name) = ?", name.downcase).first || new(name: name)
+  end
 
   # Each drink we've had here, best average first. A drink's average is the
   # mean of its tastings' averages, like the drink rankings.

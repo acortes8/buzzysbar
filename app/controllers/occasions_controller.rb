@@ -63,8 +63,20 @@ class OccasionsController < ApplicationController
       @occasion = Current.logbook.occasions.includes(:place, :people, { photos: { image_attachment: :blob } }, tastings: [ :drink, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through. The place is found or
+    # created by name in the current logbook, so an id can't reach another
+    # logbook's place. The kind only applies when the name is a new place.
     def occasion_params
-      params.expect(occasion: [ :place_id, :occurred_on, :notes, person_ids: [] ])
+      permitted = params.expect(occasion: [ :place_name, :place_kind, :occurred_on, :notes, person_ids: [] ])
+      place_kind = permitted.delete(:place_kind)
+      if permitted.key?(:place_name)
+        place_name = permitted.delete(:place_name)
+        if place_name.present?
+          place = Current.logbook.places.find_or_initialize_by_name(place_name)
+          place.kind = place_kind if place.new_record? && Place.kinds.key?(place_kind)
+        end
+        permitted[:place] = place
+      end
+      permitted
     end
 end
