@@ -35,6 +35,7 @@ In system tests, use the helpers in `test/application_system_test_case.rb` (`sig
 - The app reaches Postgres by its container name, `buzzysbar-postgres` (`POSTGRES_HOST`), on the `kamal` Docker network. Don't use a container IP: it changes when the container restarts, which took the site down in October 2026.
 - Deploy secrets (`KAMAL_REGISTRY_PASSWORD`, `POSTGRES_PASSWORD`) are read from the macOS Keychain under the account `buzzysbar`; see `.kamal/secrets`.
 - Uploads persist on the `buzzysbar_storage` volume.
+- Deploy from `main` after merging: Kamal builds whatever is checked out, so `.kamal/hooks/pre-build` stops a deploy unless the checkout is a clean `main` matching `main` on GitHub (`ALLOW_UNMERGED_DEPLOY=1` overrides it in an emergency). For one-off commands, `bin/kamal app exec --primary '...'` runs once instead of once per role.
 - Secrets come from `.kamal/secrets`. Never commit secret values or `config/master.key`.
 
 ## The product
