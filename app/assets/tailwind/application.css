@@ -36,6 +36,7 @@
 
   html {
     color-scheme: dark;
+    accent-color: var(--color-accent);
   }
 
   a {
@@ -64,6 +65,43 @@
   }
   .tag {
     @apply inline-block rounded-full bg-lagoon-700 px-3 py-0.5 text-sm font-semibold text-sea;
+  }
+  .tag-home {
+    @apply bg-clay/15 text-clay;
+  }
+  .page-title {
+    @apply text-4xl leading-tight font-bold tracking-tight text-cream;
+  }
+  .section-title {
+    @apply text-2xl font-bold text-cream;
+  }
+  .eyebrow {
+    @apply text-sm font-bold tracking-widest text-accent uppercase;
+  }
+  .score {
+    @apply font-bold text-gold;
+  }
+  .field-label {
+    @apply font-semibold;
+  }
+  .hint {
+    @apply mt-1.5 text-sm text-muted;
+  }
+
+  /* A checkbox or radio button shown as a pill; the input itself is hidden. */
+  .chip {
+    @apply inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-[1.5px] border-line-strong px-4 text-cream select-none has-checked:border-cream has-checked:bg-cream has-checked:font-semibold has-checked:text-lagoon-900 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent;
+  }
+
+  /* A row of buttons, spaced by the row instead of the buttons' own margins. */
+  .actions {
+    @apply flex flex-wrap items-center gap-2;
+  }
+  .actions > form {
+    display: contents;
+  }
+  .actions :is(.button-primary, .button-secondary, .button-tertiary) {
+    @apply m-0;
   }
   .body-link {
     @apply text-lg font-bold tracking-tight text-accent hover:opacity-75;

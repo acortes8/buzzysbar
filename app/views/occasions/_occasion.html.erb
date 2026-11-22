@@ -1,20 +1,50 @@
-<div id="<%= dom_id occasion %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Place:</strong>
-    <%= occasion.place.name %>
+<%# An occasion's card on the occasions list: when, where, who, and each drink with its score. %>
+<% place = occasion.place %>
+<% images = (occasion.photos.map(&:image) + occasion.tastings.map(&:photo)).select(&:attached?).first(4) %>
+<article id="<%= dom_id occasion %>" class="card flex flex-wrap gap-6">
+  <div class="w-16 shrink-0 text-center">
+    <div class="eyebrow"><%= occasion.occurred_on.strftime("%b") %></div>
+    <div class="text-4xl leading-none font-bold"><%= occasion.occurred_on.day %></div>
+    <div class="text-sm text-muted"><%= occasion.occurred_on.strftime("%a") %></div>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Date:</strong>
-    <%= occasion.occurred_on.to_fs(:long_ordinal) %>
+
+  <div class="min-w-0 flex-[999_1_24rem] space-y-3">
+    <div class="flex flex-wrap items-center gap-2.5">
+      <h2 class="text-2xl leading-tight font-bold"><%= link_to place.name, occasion, class: "text-cream hover:text-accent" %></h2>
+      <span class="tag <%= "tag-home" if place.home? %>"><%= place.kind.humanize %></span>
+    </div>
+    <p class="text-muted">
+      <%= occasion.people.map(&:name).sort.to_sentence.presence || "Nobody recorded" %><% if occasion.notes.present? %> · <%= occasion.notes %><% end %>
+    </p>
+
+    <% if occasion.tastings.any? %>
+      <ul>
+        <% occasion.tastings.each do |tasting| %>
+          <li class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-t border-line py-2">
+            <span>
+              <%= link_to tasting.drink.name, tasting.drink, class: "font-semibold text-cream hover:text-accent" %>
+              <% if tasting.recipe %><span class="text-sm text-muted">· made with <%= tasting.recipe.title %></span><% end %>
+            </span>
+            <% if tasting.average_score %>
+              <span class="score"><%= format_score(tasting.average_score) %></span>
+            <% else %>
+              <span class="text-sm text-muted">Not rated</span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-muted">No drinks yet.</p>
+    <% end %>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Who came:</strong>
-    <%= occasion.people.map(&:name).to_sentence.presence || "Nobody recorded" %>
-  </div>
-  <% if occasion.notes.present? %>
-    <div>
-      <strong class="block font-medium mb-1">Notes:</strong>
-      <%= simple_format occasion.notes %>
+
+  <% if images.any? %>
+    <div class="grid flex-[1_1_13rem] grid-cols-2 content-start gap-2">
+      <% images.each do |image| %>
+        <%= link_to occasion, class: "block" do %>
+          <%= image_tag image.variant(:thumb), alt: "Photo from #{occasion.title}", class: "aspect-square w-full rounded-xl object-cover" %>
+        <% end %>
+      <% end %>
     </div>
   <% end %>
-</div>
+</article>

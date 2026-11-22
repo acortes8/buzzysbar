@@ -11,7 +11,7 @@ Alejandro is a recent CS graduate whose strongest stack is Ruby on Rails. Keep c
 - Ruby 3.4.13 (`.ruby-version`), Rails 8.1 (`config.load_defaults 8.1`)
 - PostgreSQL 17
 - Hotwire (Turbo, Stimulus), importmap (no JS bundler), Propshaft
-- Tailwind CSS v4 via `tailwindcss-rails`; the theme lives in `app/assets/tailwind/application.css`: a dark "tiki bar" palette (`lagoon-*` backgrounds, `cream` text, `muted`, `accent` orange with `ink` text on it, `gold` scores) and shared component classes (`card`, `tag`, `button-primary`/`-secondary`/`-tertiary`, `input`, `flash-notice`/`flash-alert`, `nav-link`, `tab-link`). Use `input_class(record, :attribute)` for form fields and `nav_link_to` for nav links (`ApplicationHelper`). Pacifico is only for the logo. Signed-in phones get a bottom tab bar instead of the header nav.
+- Tailwind CSS v4 via `tailwindcss-rails`; the theme lives in `app/assets/tailwind/application.css`: a dark "tiki bar" palette (`lagoon-*` backgrounds, `cream` text, `muted`, `accent` orange with `ink` text on it, `gold` scores) and shared component classes (`card`, `tag`, `page-title`, `section-title`, `eyebrow`, `score`, `button-primary`/`-secondary`/`-tertiary`, `actions` for a row of buttons, `input`, `field-label`, `hint`, `chip` for checkboxes shown as pills, `flash-notice`/`flash-alert`, `nav-link`, `tab-link`). Use `input_class(record, :attribute)` for form fields and `nav_link_to` for nav links (`ApplicationHelper`). Pacifico is only for the logo. Signed-in phones get a bottom tab bar instead of the header nav.
 - Active Storage (images, `image_processing`), Action Text (rich text)
 - Solid Queue, Solid Cache, Solid Cable (no Redis)
 - Authentication from the Rails 8 generator (`Session`, `Current`, `has_secure_password`)

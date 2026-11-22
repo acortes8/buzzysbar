@@ -11,44 +11,44 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :place_name, "Place" %>
+  <div class="mb-6">
+    <%= form.label :place_name, "Place", class: "field-label" %>
     <%= form.text_field :place_name, list: "place-names", autocomplete: "off", placeholder: "Bar name, or Home", class: input_class(occasion, :place) %>
     <datalist id="place-names">
       <% Current.logbook.places.order(:name).pluck(:name).each do |name| %>
         <option value="<%= name %>"></option>
       <% end %>
     </datalist>
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-muted">
-      <span>A new name adds the place, as a</span>
+    <div class="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
+      <span class="mr-1">A new name adds the place, as a</span>
       <% Place.kinds.each_key do |kind| %>
-        <%= form.label "place_kind_#{kind}", class: "flex items-center gap-1" do %>
-          <%= form.radio_button :place_kind, kind, checked: kind == (params.dig(:occasion, :place_kind) || "bar") %> <%= kind.humanize %>
+        <%= form.label "place_kind_#{kind}", class: "chip min-h-9 px-3" do %>
+          <%= form.radio_button :place_kind, kind, checked: kind == (params.dig(:occasion, :place_kind) || "bar"), class: "sr-only" %> <%= kind.humanize %>
         <% end %>
       <% end %>
     </div>
   </div>
 
-  <div class="my-5">
-    <%= form.label :occurred_on, "Date" %>
+  <div class="mb-6">
+    <%= form.label :occurred_on, "Date", class: "field-label" %>
     <%= form.date_field :occurred_on, class: input_class(occasion, :occurred_on) %>
   </div>
 
-  <fieldset class="my-5">
-    <legend>Who came</legend>
-    <div class="flex flex-wrap gap-x-6 gap-y-2 mt-2">
+  <fieldset class="mb-6">
+    <legend class="field-label">Who came</legend>
+    <div class="mt-2 flex flex-wrap gap-2">
       <%= form.collection_check_boxes :person_ids, Current.logbook.people.order(:name), :id, :name do |b| %>
-        <%= b.label(class: "flex items-center gap-2") { b.check_box + b.text } %>
+        <%= b.label(class: "chip") { b.check_box(class: "sr-only") + b.text } %>
       <% end %>
     </div>
   </fieldset>
 
-  <div class="my-5">
-    <%= form.label :notes %>
+  <div class="mb-6">
+    <%= form.label :notes, class: "field-label" %>
     <%= form.text_area :notes, rows: 3, class: input_class(occasion, :notes) %>
   </div>
 
-  <div class="inline">
+  <div class="actions mt-6">
     <%= form.submit class: "button-primary" %>
   </div>
 <% end %>

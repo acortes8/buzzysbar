@@ -3,7 +3,9 @@ class OccasionsController < ApplicationController
 
   # GET /occasions or /occasions.json
   def index
-    @occasions = Current.logbook.occasions.includes(:place, :people).order(occurred_on: :desc, created_at: :desc)
+    @occasions = Current.logbook.occasions
+      .includes(:place, :people, { photos: { image_attachment: :blob } }, tastings: [ :drink, :recipe, :ratings, { photo_attachment: :blob } ])
+      .order(occurred_on: :desc, created_at: :desc)
   end
 
   # GET /occasions/1 or /occasions/1.json
@@ -60,7 +62,7 @@ class OccasionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_occasion
-      @occasion = Current.logbook.occasions.includes(:place, :people, { photos: { image_attachment: :blob } }, tastings: [ :drink, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
+      @occasion = Current.logbook.occasions.includes(:place, :people, { photos: { image_attachment: :blob } }, tastings: [ :drink, :recipe, { ratings: :person }, { photo_attachment: :blob } ]).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through. The place is found or

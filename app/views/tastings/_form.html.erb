@@ -11,28 +11,28 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :drink_id %>
+  <div class="mb-6">
+    <%= form.label :drink_id, class: "field-label" %>
     <%= form.collection_select :drink_id, Current.logbook.drinks.order(:name), :id, :name, { prompt: "Choose a drink" }, class: input_class(tasting, :drink) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :recipe_id, "Recipe (optional)" %>
+  <div class="mb-6">
+    <%= form.label :recipe_id, "Recipe (optional)", class: "field-label" %>
     <% if (recipes = tasting.drink.recipes.order(:title)).any? %>
       <%= form.collection_select :recipe_id, recipes, :id, :title, { include_blank: "Not recorded" }, class: input_class(tasting, :recipe) %>
       <p class="text-sm text-muted mt-1">Recipes for <%= tasting.drink.name %>. If you change the drink, choose its recipe after saving.</p>
     <% else %>
-      <p class="text-sm mt-2">No recipes for <%= tasting.drink.name %> yet. <%= link_to "Add one", new_recipe_path(drink_id: tasting.drink), class: "underline" %>.</p>
+      <p class="hint">No recipes for <%= tasting.drink.name %> yet. <%= link_to "Add one", new_recipe_path(drink_id: tasting.drink), class: "underline" %>.</p>
     <% end %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :notes %>
+  <div class="mb-6">
+    <%= form.label :notes, class: "field-label" %>
     <%= form.text_area :notes, rows: 2, class: "input" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :photo %>
+  <div class="mb-6">
+    <%= form.label :photo, class: "field-label" %>
     <% if tasting.photo.attached? && tasting.photo.persisted? %>
       <div class="flex items-center gap-4 mt-2">
         <%= image_tag tasting.photo.variant(:thumb), alt: "Current photo", class: "w-24 h-24 object-cover rounded-md" %>
@@ -42,9 +42,9 @@
       </div>
     <% end %>
     <% if demo? %>
-      <p class="text-sm mt-2">Photo uploads are turned off in the demo.</p>
+      <p class="hint">Photo uploads are turned off in the demo.</p>
     <% else %>
-      <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "block mt-2" %>
+      <%= form.file_field :photo, accept: PhotoAttachments::CONTENT_TYPES.join(","), class: "input" %>
       <%= form.label :photo_published, class: "flex items-center gap-2 mt-3" do %>
         <%= form.check_box :photo_published %>
         Publish this photo on public pages. It shows the drink and no people.
@@ -53,16 +53,16 @@
     <% end %>
   </div>
 
-  <fieldset class="my-5">
-    <legend class="font-medium">Ratings</legend>
+  <fieldset class="mb-6">
+    <legend class="field-label">Ratings</legend>
     <% if tasting.ratings.empty? %>
-      <p class="text-sm mt-2">Nobody was recorded at this occasion, so there's no one to rate it.</p>
+      <p class="hint">Nobody was recorded at this occasion, so there's no one to rate it.</p>
     <% end %>
 
     <%= form.fields_for :ratings, tasting.ratings.sort_by { |rating| rating.person.name } do |rating_form| %>
       <div class="flex flex-wrap items-center gap-3 mt-3">
         <%= rating_form.hidden_field :person_id %>
-        <span class="w-28 font-medium"><%= rating_form.object.person.name %></span>
+        <span class="w-28 font-semibold"><%= rating_form.object.person.name %></span>
         <%= rating_form.select :score, score_options, { include_blank: "No rating" }, class: "input mt-0 w-auto", aria: { label: "#{rating_form.object.person.name}'s score" } %>
         <%= rating_form.text_field :notes, placeholder: "Notes", class: "input mt-0 flex-1 min-w-40 w-auto", aria: { label: "#{rating_form.object.person.name}'s notes" } %>
         <% if rating_form.object.persisted? %>
@@ -74,7 +74,7 @@
     <% end %>
   </fieldset>
 
-  <div class="inline">
+  <div class="actions mt-6">
     <%= form.submit class: "button-primary" %>
   </div>
 <% end %>
