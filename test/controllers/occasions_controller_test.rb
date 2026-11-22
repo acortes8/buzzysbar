@@ -24,11 +24,45 @@ class OccasionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create occasion" do
     assert_difference("Occasion.count") do
-      post occasions_url, params: { occasion: { place_id: places(:home).id, occurred_on: "2026-10-30", person_ids: [ people(:one).id, people(:guest).id ] } }
+      post occasions_url, params: { occasion: { place_name: places(:home).name.upcase, occurred_on: "2026-10-30", person_ids: [ people(:one).id, people(:guest).id ] } }
     end
 
     assert_redirected_to occasion_url(Occasion.last)
+    assert_equal places(:home), Occasion.last.place
     assert_equal [ people(:guest), people(:one) ], Occasion.last.people.order(:name).to_a
+  end
+
+  test "should create occasion at a new place" do
+    assert_difference [ "Occasion.count", "Place.count" ] do
+      post occasions_url, params: { occasion: { place_name: "  Grandma's   house ", place_kind: "home", occurred_on: "2026-10-30" } }
+    end
+
+    place = Occasion.last.place
+    assert_equal [ "Grandma's house", "home", logbooks(:family) ], [ place.name, place.kind, place.logbook ]
+  end
+
+  test "a new place is a bar unless chosen otherwise" do
+    post occasions_url, params: { occasion: { place_name: "Lava Room", occurred_on: "2026-10-30" } }
+    assert Occasion.last.place.bar?
+  end
+
+  test "the kind doesn't change an existing place" do
+    post occasions_url, params: { occasion: { place_name: places(:home).name, place_kind: "bar", occurred_on: "2026-10-30" } }
+    assert places(:home).reload.home?
+  end
+
+  test "should not create occasion without a place" do
+    assert_no_difference [ "Occasion.count", "Place.count" ] do
+      post occasions_url, params: { occasion: { place_name: " ", occurred_on: "2026-10-30" } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not add a place when the occasion is invalid" do
+    assert_no_difference "Place.count" do
+      post occasions_url, params: { occasion: { place_name: "Lava Room", occurred_on: "" } }
+    end
+    assert_response :unprocessable_entity
   end
 
   test "should show occasion" do

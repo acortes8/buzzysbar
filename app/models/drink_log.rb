@@ -41,8 +41,7 @@ class DrinkLog
 
   private
     def place
-      name = place_name.squish
-      logbook.places.where("lower(name) = ?", name.downcase).first || logbook.places.create!(name: name)
+      logbook.places.find_or_initialize_by_name(place_name).tap(&:save!)
     end
 
     def drink

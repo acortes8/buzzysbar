@@ -12,8 +12,21 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :place_id %>
-    <%= form.collection_select :place_id, Current.logbook.places.order(:name), :id, :name, { prompt: "Choose a place" }, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:place].none?, "border-red-400 focus:outline-red-600": occasion.errors[:place].any?}] %>
+    <%= form.label :place_name, "Place" %>
+    <%= form.text_field :place_name, list: "place-names", autocomplete: "off", placeholder: "Bar name, or Home", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:place].none?, "border-red-400 focus:outline-red-600": occasion.errors[:place].any?}] %>
+    <datalist id="place-names">
+      <% Current.logbook.places.order(:name).pluck(:name).each do |name| %>
+        <option value="<%= name %>"></option>
+      <% end %>
+    </datalist>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-elm">
+      <span>A new name adds the place, as a</span>
+      <% Place.kinds.each_key do |kind| %>
+        <%= form.label "place_kind_#{kind}", class: "flex items-center gap-1" do %>
+          <%= form.radio_button :place_kind, kind, checked: kind == (params.dig(:occasion, :place_kind) || "bar") %> <%= kind.humanize %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 
   <div class="my-5">
