@@ -8,7 +8,7 @@ Where the app is going is described in [`VISION.md`](VISION.md).
 
 ## Stack
 
-- Ruby 3.4.2, Rails 8.1, PostgreSQL 17
+- Ruby 3.4.13, Rails 8.1, PostgreSQL 17
 - Hotwire (Turbo, Stimulus), importmap, Propshaft, Tailwind CSS v4
 - Active Storage and Action Text
 - Solid Queue, Solid Cache, Solid Cable
