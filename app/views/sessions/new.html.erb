@@ -1,37 +1,42 @@
-<div class="mx-auto md:w-2/3 w-full">
+<% content_for :title, "Sign in" %>
+
+<div class="mx-auto max-w-md space-y-6">
   <% if alert = flash[:alert] %>
-    <p class="flash-alert mb-5" id="alert"><%= alert %></p>
+    <p class="flash-alert" id="alert"><%= alert %></p>
   <% end %>
-
   <% if notice = flash[:notice] %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
 
-  <h1 class="font-bold text-4xl">Sign in</h1>
-
-  <%= form_with url: session_url, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: "input" %>
+  <div class="card space-y-6">
+    <div>
+      <h1 class="page-title">Sign in</h1>
+      <p class="mt-1 text-muted">Accounts are invite-only.</p>
     </div>
 
-    <div class="my-5">
-      <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72, class: "input" %>
-    </div>
+    <%= form_with url: session_url, class: "space-y-5" do |form| %>
+      <div>
+        <%= form.label :email_address, "Email address", class: "field-label" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "you@example.com", value: params[:email_address], class: "input" %>
+      </div>
 
-    <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-      <div class="inline">
+      <div>
+        <%= form.label :password, class: "field-label" %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72, class: "input" %>
+      </div>
+
+      <div class="actions justify-between">
         <%= form.submit "Sign in", class: "button-primary" %>
+        <%= link_to "Forgot password?", new_password_path, class: "text-sm underline hover:no-underline" %>
       </div>
+    <% end %>
+  </div>
 
-      <div class="mt-4 text-sm text-muted sm:mt-0">
-        <%= link_to "Forgot password?", new_password_path, class: "underline hover:no-underline" %>
-      </div>
+  <div class="card space-y-3 border-accent/40">
+    <h2 class="section-title">Just looking?</h2>
+    <p class="text-muted">Try the demo: a logbook of made-up outings that resets every night. No account needed.</p>
+    <div class="actions">
+      <%= button_to "Try the demo", demo_path, class: "button-primary" %>
     </div>
-  <% end %>
-
-  <div class="mt-10 pt-6 border-t border-line">
-    <h2 class="font-bold text-2xl">Just looking?</h2>
-    <p class="my-2">Try the demo: a logbook of made-up outings that resets every night. No account needed.</p>
-    <%= button_to "Try the demo", demo_path, class: "button-primary" %>
   </div>
 </div>

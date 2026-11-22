@@ -1,37 +1,43 @@
 <% content_for :title, @recipe.title %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 mb-5 rounded-lg">
-  <h1 class="text-center font-bold text-4xl text-accent mb-2"><%= @recipe.title %></h1>
-  <p class="text-center text-muted">
-    A recipe for
-    <% if @recipe.drink.published? %>
-      <%= link_to @recipe.drink.name, ranking_path(@recipe.drink), class: "underline" %>
-    <% else %>
-      <%= @recipe.drink.name %>
-    <% end %>
-  </p>
-  <p class="text-center text-muted mb-5"><%= recipe_source(@recipe) %></p>
-  <%# Only published originals and riffs are named, since a private recipe's title could name someone. %>
-  <% if (original = Recipe.published.find_by(id: @recipe.based_on_id)) %>
-    <p class="text-center text-muted -mt-3 mb-5">A riff on <%= link_to original.title, cocktail_path(original), class: "underline" %></p>
-  <% end %>
+<div class="space-y-8">
+  <%= link_to "← All cocktails", cocktails_path, class: "text-sm text-muted hover:text-cream" %>
 
-  <% if @recipe.featured_image.attached? %>
-    <%= image_tag @recipe.featured_image.variant(:large), alt: @recipe.title, class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-lagoon-950 object-center shadow-lg shadow-black/25" %>
-  <% end %>
+  <header class="flex flex-wrap items-start gap-8">
+    <div class="min-w-0 flex-[999_1_28rem] space-y-4">
+      <p class="eyebrow">Cocktail</p>
+      <h1 class="page-title text-5xl"><%= @recipe.title %></h1>
+      <ul class="flex flex-wrap gap-2">
+        <li class="tag font-normal text-cream">
+          A recipe for
+          <% if @recipe.drink.published? %>
+            <%= link_to @recipe.drink.name, ranking_path(@recipe.drink), class: "underline" %>
+          <% else %>
+            <%= @recipe.drink.name %>
+          <% end %>
+        </li>
+        <li class="tag font-normal text-cream"><%= recipe_source(@recipe) %></li>
+        <%# Only published originals and riffs are named, since a private recipe's title could name someone. %>
+        <% if (original = Recipe.published.find_by(id: @recipe.based_on_id)) %>
+          <li class="tag font-normal text-cream">A riff on <%= link_to original.title, cocktail_path(original), class: "underline" %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% if @recipe.featured_image.attached? %>
+      <%= image_tag @recipe.featured_image.variant(:large), alt: @recipe.title, class: "max-h-[26rem] flex-[1_1_20rem] rounded-2xl object-cover" %>
+    <% end %>
+  </header>
 
   <%= render "recipes/sections", recipe: @recipe %>
 
   <% if (riffs = @recipe.riffs.published.order(:title)).any? %>
-    <section class="my-5">
-      <h2 class="font-bold text-2xl text-accent">Riffs</h2>
-      <ul id="riffs" class="list-disc ml-6 my-2">
+    <section class="space-y-3">
+      <h2 class="section-title">Riffs</h2>
+      <ul id="riffs" class="flex flex-wrap gap-2">
         <% riffs.each do |riff| %>
-          <li><%= link_to riff.title, cocktail_path(riff), class: "underline" %></li>
+          <li><%= link_to riff.title, cocktail_path(riff), class: "tag text-base text-cream hover:text-accent" %></li>
         <% end %>
       </ul>
     </section>
   <% end %>
-
-  <%= link_to "All cocktails", cocktails_path, class: "button-secondary" %>
 </div>

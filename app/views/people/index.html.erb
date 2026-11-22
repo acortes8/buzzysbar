@@ -1,29 +1,26 @@
 <% content_for :title, "People" %>
 
-<div class="w-full max-w-md mx-auto px-4 sm:px-6 md:max-w-2xl lg:max-w-4xl">
+<div class="space-y-7">
   <% if notice.present? %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex flex-wrap items-center justify-center sm:justify-between bg-lagoon-800 p-3 rounded-xl">
-    <h1 class="font-bold text-2xl sm:text-4xl text-accent w-full sm:w-auto text-center sm:text-left">People</h1>
-    <%= link_to "New person", new_person_path, class: "button-primary mt-2 sm:mt-0 sm:ml-4 mx-auto sm:mx-0" %>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="page-title">People</h1>
+      <p class="mt-1 text-muted">Everyone who's come along, with or without an account.</p>
+    </div>
+    <div class="actions">
+      <%= link_to "Accounts", users_path, class: "button-secondary" %>
+      <%= link_to "New person", new_person_path, class: "button-secondary" %>
+    </div>
   </div>
 
-  <div id="people" class="min-w-full px-5 divide-y divide-line space-y-5">
-    <% if @people.any? %>
-      <% @people.each do |person| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render person %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", person, class: "button-primary" %>
-            <%= link_to "Edit", edit_person_path(person), class: "button-secondary" %>
-            <%= button_to "Destroy", person, method: :delete, class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
-          </div>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No people found.</p>
-    <% end %>
-  </div>
+  <% if @people.any? %>
+    <ul id="people" class="card divide-y divide-line p-0">
+      <%= render @people %>
+    </ul>
+  <% else %>
+    <p class="card text-center text-muted">No people yet.</p>
+  <% end %>
 </div>

@@ -1,22 +1,52 @@
 <% content_for :title, @place.name %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+<div class="space-y-8">
+  <%= link_to "← All places", places_path, class: "text-sm text-muted hover:text-cream" %>
+
   <% if notice.present? %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
   <% if alert.present? %>
-    <p class="flash-alert mb-5" id="alert"><%= alert %></p>
+    <p class="flash-alert" id="alert"><%= alert %></p>
   <% end %>
 
-  <h1 class="font-bold text-accent text-4xl"><%= @place.name %></h1>
-  <% if @place.published? %>
-    <p class="mt-2 text-muted">Published: <%= link_to "see the public review", bar_path(@place), class: "underline" %></p>
+  <header class="flex flex-wrap items-start justify-between gap-6">
+    <div class="min-w-0 flex-[999_1_28rem] space-y-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <h1 class="page-title text-5xl"><%= @place.name %></h1>
+        <span class="tag <%= "tag-home" if @place.home? %>"><%= @place.kind.humanize %></span>
+      </div>
+      <% if @place.published? %>
+        <p><span class="tag tag-home font-normal">Published: <%= link_to "see the public review", bar_path(@place), class: "underline text-clay" %></span></p>
+      <% end %>
+    </div>
+    <div class="actions">
+      <%= link_to "Edit", edit_place_path(@place), class: "button-secondary" %>
+      <%= button_to "Delete", @place, method: :delete, class: "button-tertiary", data: { turbo_confirm: "Delete this place?" } %>
+    </div>
+  </header>
+
+  <% if @place.review.present? %>
+    <section class="space-y-3">
+      <h2 class="section-title">Our review</h2>
+      <div class="card text-lg leading-relaxed"><%= simple_format @place.review %></div>
+    </section>
   <% end %>
 
-  <div><%= render @place %>
-
-  <%= link_to "Edit this place", edit_place_path(@place), class: "button-primary" %>
-  <%= link_to "Back to places", places_path, class: "button-secondary" %>
-  <%= button_to "Destroy this place", @place, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
-  </div>
+  <section class="space-y-3">
+    <h2 class="section-title">Visits</h2>
+    <% occasions = @place.occasions.includes(:tastings).order(occurred_on: :desc) %>
+    <% if occasions.any? %>
+      <ul class="card divide-y divide-line p-0">
+        <% occasions.each do |occasion| %>
+          <li class="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-4 hover:bg-lagoon-700/50">
+            <%= link_to occasion.occurred_on.to_fs(:long_ordinal), occasion, class: "font-semibold text-cream after:absolute after:inset-0 hover:text-accent" %>
+            <span class="text-sm text-muted"><%= pluralize(occasion.tastings.size, "drink") %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">No visits yet.</p>
+    <% end %>
+  </section>
 </div>

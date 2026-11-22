@@ -14,7 +14,7 @@ class RankingsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#ranking li", 1
     assert_match "The Tiki Hut", response.body
     assert_match "October 2026", response.body
-    assert_match "4.5 / 5 from 1 rating", response.body
+    assert_select "#ranking li", text: %r{4\.5 / 5 from 1 rating}
   end
 
   test "never shows people, notes or exact dates" do

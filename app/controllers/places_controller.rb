@@ -3,7 +3,7 @@ class PlacesController < ApplicationController
 
   # GET /places or /places.json
   def index
-    @places = Current.logbook.places.order(:name)
+    @places = Current.logbook.places.includes(:occasions).order(:name)
   end
 
   # GET /places/1 or /places/1.json

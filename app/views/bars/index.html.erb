@@ -1,18 +1,22 @@
 <% content_for :title, "Bars" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
-  <h1 class="font-bold text-accent text-4xl">Bars</h1>
-  <p class="text-muted mt-2">Tiki bars we've been to, and what we thought.</p>
+<div class="mx-auto max-w-4xl space-y-7">
+  <div>
+    <p class="eyebrow">Bar reviews</p>
+    <h1 class="page-title mt-1">Bars</h1>
+    <p class="mt-1 text-muted">Tiki bars we've been to, and what we thought.</p>
+  </div>
 
-  <ul id="bars" class="divide-y divide-line mt-5">
-    <% @bars.each do |bar| %>
-      <li class="py-3 flex justify-between items-baseline gap-2">
-        <%= link_to bar.name, bar_path(bar), class: "text-xl font-bold text-accent hover:underline" %>
-        <span class="text-muted"><%= pluralize(bar.occasions.size, "visit") %></span>
-      </li>
-    <% end %>
-  </ul>
-  <% if @bars.empty? %>
-    <p class="my-5">Nothing here yet.</p>
+  <% if @bars.any? %>
+    <ul id="bars" class="card divide-y divide-line p-0">
+      <% @bars.each do |bar| %>
+        <li class="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-4 hover:bg-lagoon-700/50">
+          <%= link_to bar.name, bar_path(bar), class: "text-lg font-bold text-cream after:absolute after:inset-0 hover:text-accent" %>
+          <span class="text-sm text-muted"><%= pluralize(bar.occasions.size, "visit") %></span>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="card text-center text-muted">Nothing here yet.</p>
   <% end %>
 </div>

@@ -25,7 +25,7 @@ class UsersTest < ApplicationSystemTestCase
 
   test "should update user" do
     visit user_url(users(:two))
-    press "Edit this user"
+    press "Edit"
 
     enter "Name", with: "Renamed"
     enter "Password", with: "secret"
@@ -37,7 +37,7 @@ class UsersTest < ApplicationSystemTestCase
 
   test "should destroy user" do
     visit user_url(users(:two))
-    accept_confirm_dialog("Are you sure?") { press "Destroy this user" }
+    accept_confirm_dialog("Delete this user?") { press "Delete" }
 
     assert_text "User was successfully destroyed"
   end

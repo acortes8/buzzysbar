@@ -1,21 +1,27 @@
-<div class="mx-auto md:w-2/3 w-full">
+<% content_for :title, "Update your password" %>
+
+<div class="mx-auto max-w-md space-y-6">
   <% if alert = flash[:alert] %>
-    <p class="flash-alert mb-5" id="alert"><%= alert %></p>
+    <p class="flash-alert" id="alert"><%= alert %></p>
   <% end %>
 
-  <h1 class="font-bold text-4xl">Update your password</h1>
+  <div class="card space-y-6">
+    <h1 class="page-title">Update your password</h1>
 
-  <%= form_with url: password_path(params[:token]), method: :put, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter new password", maxlength: 72, class: "input" %>
-    </div>
+    <%= form_with url: password_path(params[:token]), method: :put, class: "space-y-5" do |form| %>
+      <div>
+        <%= form.label :password, "New password", class: "field-label" %>
+        <%= form.password_field :password, required: true, autocomplete: "new-password", maxlength: 72, class: "input" %>
+      </div>
 
-    <div class="my-5">
-      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat new password", maxlength: 72, class: "input" %>
-    </div>
+      <div>
+        <%= form.label :password_confirmation, "Repeat it", class: "field-label" %>
+        <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72, class: "input" %>
+      </div>
 
-    <div class="inline">
-      <%= form.submit "Save", class: "button-primary" %>
-    </div>
-  <% end %>
+      <div class="actions">
+        <%= form.submit "Save", class: "button-primary" %>
+      </div>
+    <% end %>
+  </div>
 </div>

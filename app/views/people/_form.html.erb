@@ -11,17 +11,17 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :name %>
+  <div class="mb-6">
+    <%= form.label :name, class: "field-label" %>
     <%= form.text_field :name, class: input_class(person, :name) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :user_id, "Account" %>
+  <div class="mb-6">
+    <%= form.label :user_id, "Account", class: "field-label" %>
     <%= form.collection_select :user_id, Current.logbook.users.order(:name), :id, :name, { include_blank: "No account" }, class: input_class(person, :user_id) %>
   </div>
 
-  <div class="inline">
+  <div class="actions">
     <%= form.submit class: "button-primary" %>
   </div>
 <% end %>

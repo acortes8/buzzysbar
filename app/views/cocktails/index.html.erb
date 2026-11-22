@@ -1,23 +1,31 @@
 <% content_for :title, "Cocktails" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg mb-5">
-  <h1 class="font-bold text-accent text-4xl">Cocktails</h1>
-  <p class="text-muted mt-2">Recipes of our own, and ones bartenders shared with us.</p>
-</div>
+<div class="space-y-7">
+  <div>
+    <p class="eyebrow">Recipes</p>
+    <h1 class="page-title mt-1">Cocktails</h1>
+    <p class="mt-1 text-muted">Recipes of our own, and ones bartenders shared with us.</p>
+  </div>
 
-<section id="cocktails" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-  <% @recipes.each do |recipe| %>
-    <%= link_to cocktail_path(recipe), class: "bg-lagoon-800 rounded-md shadow-lg hover:shadow-2xl transform hover:scale-[1.01] transition-transform duration-200 flex flex-col gap-4 overflow-hidden h-full" do %>
-      <% if recipe.featured_image.attached? %>
-        <%= image_tag recipe.featured_image.variant(:thumb), alt: recipe.title, class: "w-full aspect-square object-cover rounded-t-md shadow-xl" %>
+  <% if @recipes.any? %>
+    <div id="cocktails" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <% @recipes.each do |recipe| %>
+        <article class="card relative flex flex-col gap-2 overflow-hidden p-0 hover:border-line-strong">
+          <% if recipe.featured_image.attached? %>
+            <%= image_tag recipe.featured_image.variant(:thumb), alt: "", class: "aspect-[4/3] w-full object-cover" %>
+          <% else %>
+            <div class="flex aspect-[4/3] w-full items-center justify-center bg-lagoon-700 font-logo text-4xl text-line-strong" aria-hidden="true"><%= recipe.drink.name.first %></div>
+          <% end %>
+          <div class="px-5 pt-1 pb-5">
+            <h2 class="text-lg leading-snug font-bold">
+              <%= link_to recipe.title, cocktail_path(recipe), class: "text-cream after:absolute after:inset-0 hover:text-accent" %>
+            </h2>
+            <p class="mt-1 text-sm text-muted"><%= recipe_source(recipe) %></p>
+          </div>
+        </article>
       <% end %>
-      <div class="px-4 pb-4">
-        <h2 class="text-accent text-center text-xl tracking-tight font-bold leading-snug"><%= recipe.title %></h2>
-        <p class="text-muted text-center text-sm mt-1"><%= recipe_source(recipe) %></p>
-      </div>
-    <% end %>
+    </div>
+  <% else %>
+    <p class="card text-center text-muted">Nothing here yet.</p>
   <% end %>
-</section>
-<% if @recipes.empty? %>
-  <p class="text-center my-10 bg-lagoon-800 p-5 rounded-lg">Nothing here yet.</p>
-<% end %>
+</div>

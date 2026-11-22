@@ -11,29 +11,29 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :name %>
+  <div class="mb-6">
+    <%= form.label :name, class: "field-label" %>
     <%= form.text_field :name, class: input_class(place, :name) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :kind %>
+  <div class="mb-6">
+    <%= form.label :kind, class: "field-label" %>
     <%= form.select :kind, Place.kinds.keys.map { |kind| [ kind.humanize, kind ] }, {}, class: input_class(place, :kind) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :review, "Review (for bars, shown if published)" %>
+  <div class="mb-6">
+    <%= form.label :review, "Review (for bars, shown if published)", class: "field-label" %>
     <%= form.text_area :review, rows: 5, class: input_class(place, :review) %>
   </div>
 
   <% unless demo? %>
-    <div class="my-5 flex items-center gap-2">
+    <div class="mb-6 flex items-start gap-2">
       <%= form.check_box :published %>
       <%= form.label :published, "Publish a public review of this bar (shows the review, visit months and average scores, never names or notes)" %>
     </div>
   <% end %>
 
-  <div class="inline">
+  <div class="actions">
     <%= form.submit class: "button-primary" %>
   </div>
 <% end %>
