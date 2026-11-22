@@ -1,68 +1,106 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
+/* A dim tiki bar: deep lagoon teal, cream text, an orange accent and gold
+   scores. Pacifico is only for the logo; everything else is Inter. */
 @theme {
-  --color-neptune: #82bdbb;
-  --color-elm: #20767e;
-  --color-ablescent-white: #f5d8ce;
-  --color-parchment: #ddc2b9;
-  --color-punch: #dc4825;
+  --color-lagoon-950: #0b1b1e; /* header, footer and tab bar */
+  --color-lagoon-900: #0e2124; /* page background */
+  --color-lagoon-800: #142d31; /* cards */
+  --color-lagoon-700: #183a3f; /* raised: inputs, chips, the current nav item */
+  --color-lagoon-600: #1d4046; /* photo placeholders */
+  --color-line: #23464c;
+  --color-line-strong: #3b6a70;
+  --color-cream: #f4e4d4;
+  --color-muted: #a9c2bf;
+  --color-sea: #9fd3cf;
+  --color-accent: #f07a4a;
+  --color-ink: #22100a; /* text on the accent */
+  --color-gold: #f2c14e;
+  --color-clay: #f0c9a8;
+  --color-danger: #ff8a7a;
 
-
-  --font-heading: Pacifico, cursive;
-  --font-sans: InterVariable, sans-serif;
-  --drop-shadow-text: 0 1.2px 1.2px rgba(0,0,0,0.8);
+  --font-logo: Pacifico, cursive;
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
 }
-
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
-  }
-}
-
-*/
-
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 
 @layer base {
+  /* Tailwind v4 borders default to currentColor; ours default to the line color. */
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-line, currentColor);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  a {
+    @apply text-sea hover:text-cream;
   }
 }
 
 @layer components {
-  .header-link {
-    @apply text-punch font-heading tracking-tight antialiased hover:opacity-75;
+  .logo {
+    @apply font-logo text-3xl leading-tight text-accent hover:opacity-85;
+  }
+  .nav-link {
+    @apply rounded-lg px-3.5 py-2.5 font-medium text-muted hover:bg-lagoon-800 hover:text-cream;
+  }
+  .nav-link[aria-current="page"] {
+    @apply bg-lagoon-700 font-semibold text-cream;
+  }
+  .tab-link {
+    @apply flex min-h-12 flex-col items-center justify-center gap-0.5 text-xs text-muted hover:text-cream;
+  }
+  .tab-link[aria-current="page"] {
+    @apply font-bold text-accent;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-lagoon-800 p-6;
+  }
+  .tag {
+    @apply inline-block rounded-full bg-lagoon-700 px-3 py-0.5 text-sm font-semibold text-sea;
   }
   .body-link {
-    @apply text-punch font-bold text-lg tracking-tight hover:opacity-75;
+    @apply text-lg font-bold tracking-tight text-accent hover:opacity-75;
+  }
+
+  /* Buttons. The side margin lines up buttons placed next to each other. */
+  .button-primary,
+  .button-secondary,
+  .button-tertiary {
+    @apply mt-2 inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-full px-5 font-semibold sm:mt-0 sm:ml-2 sm:w-auto;
   }
   .button-primary {
-    @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 bg-punch hover:opacity-90 text-white inline-block font-medium cursor-pointer;
+    @apply bg-accent font-bold text-ink hover:bg-accent/90 hover:text-ink;
   }
   .button-secondary {
-    @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 bg-neutral-50 hover:opacity-90 text-black inline-block font-medium cursor-pointer;
+    @apply border-[1.5px] border-line-strong text-cream hover:bg-lagoon-700 hover:text-cream;
   }
   .button-tertiary {
-    @apply w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-full px-3.5 py-2.5 outline-4 -outline-offset-4 outline-punch bg-transparent hover:opacity-90 text-punch inline-block font-medium cursor-pointer;
+    @apply text-danger hover:bg-lagoon-700 hover:text-danger;
   }
-  .notice {
-    @apply py-2 px-3 bg-ablescent-white mb-5 text-elm text-xl font-bold rounded-lg inline-block
+
+  /* Form fields; input_class (ApplicationHelper) adds input-error. */
+  .input {
+    @apply mt-2 block w-full rounded-xl border-[1.5px] border-line-strong bg-lagoon-700 px-4 py-2.5 text-cream placeholder:text-muted/70 focus:border-accent focus:outline-none;
+  }
+  .input-error {
+    @apply border-danger focus:border-danger;
+  }
+
+  /* Flash messages and form errors. */
+  .flash-notice {
+    @apply inline-block rounded-lg border border-line bg-lagoon-700 px-3 py-2 font-medium text-sea;
+  }
+  .flash-alert {
+    @apply inline-block rounded-lg border border-danger/40 bg-lagoon-700 px-3 py-2 font-medium text-danger;
   }
   .error-explanation {
-    @apply bg-ablescent-white outline-1 -outline-offset-1 text-punch px-3 py-2 font-bold rounded-lg mt-3
+    @apply mt-3 rounded-lg border border-danger/40 bg-lagoon-700 px-4 py-3 font-semibold text-danger;
   }
 }

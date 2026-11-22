@@ -1,8 +1,8 @@
 <% content_for :title, @recipe.title %>
 
-<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 mb-5 rounded-lg">
-  <h1 class="text-center font-bold text-4xl text-punch mb-2"><%= @recipe.title %></h1>
-  <p class="text-center text-elm">
+<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 mb-5 rounded-lg">
+  <h1 class="text-center font-bold text-4xl text-accent mb-2"><%= @recipe.title %></h1>
+  <p class="text-center text-muted">
     A recipe for
     <% if @recipe.drink.published? %>
       <%= link_to @recipe.drink.name, ranking_path(@recipe.drink), class: "underline" %>
@@ -10,21 +10,21 @@
       <%= @recipe.drink.name %>
     <% end %>
   </p>
-  <p class="text-center text-elm mb-5"><%= recipe_source(@recipe) %></p>
+  <p class="text-center text-muted mb-5"><%= recipe_source(@recipe) %></p>
   <%# Only published originals and riffs are named, since a private recipe's title could name someone. %>
   <% if (original = Recipe.published.find_by(id: @recipe.based_on_id)) %>
-    <p class="text-center text-elm -mt-3 mb-5">A riff on <%= link_to original.title, cocktail_path(original), class: "underline" %></p>
+    <p class="text-center text-muted -mt-3 mb-5">A riff on <%= link_to original.title, cocktail_path(original), class: "underline" %></p>
   <% end %>
 
   <% if @recipe.featured_image.attached? %>
-    <%= image_tag @recipe.featured_image.variant(:large), alt: @recipe.title, class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-white object-center shadow-lg shadow-black/25" %>
+    <%= image_tag @recipe.featured_image.variant(:large), alt: @recipe.title, class: "mx-auto max-h-96 max-w-full mb-5 rounded-lg object-contain bg-lagoon-950 object-center shadow-lg shadow-black/25" %>
   <% end %>
 
   <%= render "recipes/sections", recipe: @recipe %>
 
   <% if (riffs = @recipe.riffs.published.order(:title)).any? %>
     <section class="my-5">
-      <h2 class="font-bold text-2xl text-punch">Riffs</h2>
+      <h2 class="font-bold text-2xl text-accent">Riffs</h2>
       <ul id="riffs" class="list-disc ml-6 my-2">
         <% riffs.each do |riff| %>
           <li><%= link_to riff.title, cocktail_path(riff), class: "underline" %></li>

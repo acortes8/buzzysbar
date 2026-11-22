@@ -1,9 +1,9 @@
 <% content_for :title, @bar.name %>
 
-<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
-  <h1 class="font-bold text-punch text-4xl"><%= @bar.name %></h1>
+<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+  <h1 class="font-bold text-accent text-4xl"><%= @bar.name %></h1>
   <% if @bar.occasions.any? %>
-    <p class="text-elm mt-2">
+    <p class="text-muted mt-2">
       <%= pluralize(@bar.occasions.size, "visit") %>, most recently <%= @bar.occasions.map(&:occurred_on).max.strftime("%B %Y") %>
     </p>
   <% end %>
@@ -13,21 +13,21 @@
   <% end %>
 
   <section class="mt-5">
-    <h2 class="font-bold text-2xl text-punch">What we had</h2>
-    <ol id="drinks" class="divide-y divide-gray-200">
+    <h2 class="font-bold text-2xl text-accent">What we had</h2>
+    <ol id="drinks" class="divide-y divide-line">
       <% @bar.drink_scores.each do |score| %>
         <li class="py-3 flex flex-wrap justify-between items-baseline gap-2">
           <div>
             <% if score.drink.published? %>
-              <%= link_to score.drink.name, ranking_path(score.drink), class: "text-xl font-bold text-punch hover:underline" %>
+              <%= link_to score.drink.name, ranking_path(score.drink), class: "text-xl font-bold text-accent hover:underline" %>
             <% else %>
-              <span class="text-xl font-bold text-punch"><%= score.drink.name %></span>
+              <span class="text-xl font-bold text-accent"><%= score.drink.name %></span>
             <% end %>
             <% if score.tastings_count > 1 %>
-              <span class="text-elm ml-2"><%= score.tastings_count %> times</span>
+              <span class="text-muted ml-2"><%= score.tastings_count %> times</span>
             <% end %>
           </div>
-          <span class="text-elm font-semibold">
+          <span class="text-muted font-semibold">
             <%= score.average_score ? "#{format_score(score.average_score)} / 5" : "Not rated" %>
           </span>
         </li>
@@ -42,7 +42,7 @@
   <% decor_photos = @bar.occasions.flat_map(&:photos).select(&:published?) %>
   <% if tastings_with_photos.any? || decor_photos.any? %>
     <section class="mt-5">
-      <h2 class="font-bold text-2xl text-punch">Photos</h2>
+      <h2 class="font-bold text-2xl text-accent">Photos</h2>
       <div id="photos" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
         <% tastings_with_photos.each do |tasting| %>
           <%= link_to tasting.public_photo.variant(:large), target: "_blank" do %>

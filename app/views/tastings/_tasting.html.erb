@@ -4,25 +4,25 @@
     <%= link_to tasting.photo.variant(:large), target: "_blank", class: "shrink-0" do %>
       <%= image_tag tasting.photo.variant(:thumb), alt: "Photo of #{tasting.drink.name}", class: "w-24 h-24 object-cover rounded-md shadow" %>
       <% if tasting.photo_published? %>
-        <span class="block text-xs text-center text-elm mt-1">Public</span>
+        <span class="block text-xs text-center text-muted mt-1">Public</span>
       <% end %>
     <% end %>
   <% end %>
 
   <div class="flex-1">
     <div class="flex flex-wrap items-baseline justify-between gap-2">
-      <h3 class="text-xl font-bold text-punch"><%= heading %></h3>
+      <h3 class="text-xl font-bold text-accent"><%= heading %></h3>
       <% if tasting.average_score %>
-        <span class="text-elm font-semibold">Average <%= format_score(tasting.average_score) %> / 5</span>
+        <span class="text-muted font-semibold">Average <%= format_score(tasting.average_score) %> / 5</span>
       <% end %>
     </div>
 
     <% if tasting.recipe %>
-      <p class="text-elm mt-1">Made with <%= link_to tasting.recipe.title, tasting.recipe, class: "underline" %></p>
+      <p class="text-muted mt-1">Made with <%= link_to tasting.recipe.title, tasting.recipe, class: "underline" %></p>
     <% end %>
 
     <% if tasting.notes.present? %>
-      <p class="text-elm mt-1"><%= tasting.notes %></p>
+      <p class="text-muted mt-1"><%= tasting.notes %></p>
     <% end %>
 
     <% if tasting.ratings.any? %>
@@ -31,7 +31,7 @@
           <li>
             <span class="font-medium"><%= rating.person.name %>:</span>
             <%= format_score(rating.score) %>
-            <% if rating.notes.present? %><span class="text-elm">— <%= rating.notes %></span><% end %>
+            <% if rating.notes.present? %><span class="text-muted">— <%= rating.notes %></span><% end %>
           </li>
         <% end %>
       </ul>
