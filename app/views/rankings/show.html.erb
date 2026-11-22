@@ -1,12 +1,12 @@
 <% content_for :title, "#{@drink.name} ranking" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
-  <h1 class="font-bold text-punch text-4xl"><%= @drink.name %></h1>
+<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+  <h1 class="font-bold text-accent text-4xl"><%= @drink.name %></h1>
   <% if @drink.description.present? %>
-    <div class="text-elm mt-2"><%= simple_format @drink.description %></div>
+    <div class="text-muted mt-2"><%= simple_format @drink.description %></div>
   <% end %>
 
-  <ol id="ranking" class="divide-y divide-gray-200 mt-5">
+  <ol id="ranking" class="divide-y divide-line mt-5">
     <% @drink.ranked_tastings.each do |tasting| %>
       <li id="<%= dom_id tasting %>" class="py-3 flex flex-wrap justify-between items-center gap-2">
         <div class="flex items-center gap-4">
@@ -19,16 +19,16 @@
             <%# Homes aren't named in public, since a home's name can identify someone. %>
             <% place = tasting.occasion.place %>
             <% if place.home? %>
-              <span class="text-xl font-bold text-punch">At home</span>
+              <span class="text-xl font-bold text-accent">At home</span>
             <% elsif place.published? %>
-              <%= link_to place.name, bar_path(place), class: "text-xl font-bold text-punch hover:underline" %>
+              <%= link_to place.name, bar_path(place), class: "text-xl font-bold text-accent hover:underline" %>
             <% else %>
-              <span class="text-xl font-bold text-punch"><%= place.name %></span>
+              <span class="text-xl font-bold text-accent"><%= place.name %></span>
             <% end %>
-            <span class="text-elm ml-2"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></span>
+            <span class="text-muted ml-2"><%= tasting.occasion.occurred_on.strftime("%B %Y") %></span>
           </div>
         </div>
-        <span class="text-elm font-semibold">
+        <span class="text-muted font-semibold">
           <% if tasting.average_score %>
             <%= format_score(tasting.average_score) %> / 5 from <%= pluralize(tasting.ratings.size, "rating") %>
           <% else %>

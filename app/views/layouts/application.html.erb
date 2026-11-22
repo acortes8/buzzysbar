@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= content_for(:title) || "Buzzysbar" %></title>
+    <title><%= content_for(:title) || "Buzzy's Bar" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0b1b1e">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Include various Google fonts %>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
@@ -21,76 +20,101 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="flex flex-col min-h-screen bg-neptune">
-    
-    <header class="bg-neptune sticky top-0 z-10 pt-4 px-4 mb-8">
-      <div class="flex justify-around items-center p-4 bg-ablescent-white rounded-full shadow-lg relative">
+  <body class="flex min-h-screen flex-col bg-lagoon-900 font-sans text-cream antialiased <%= "pb-24 lg:pb-0" if authenticated? %>">
+    <header class="border-b border-line bg-lagoon-950">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-7 gap-y-3 px-4 py-3.5 sm:px-6">
+        <%= link_to "Buzzy's Bar", root_path, class: "logo" %>
 
-        <h1 class="text-4xl header-link">
-          <%= link_to "Buzzy's Bar", root_path %>
-        </h1>
-
-        <button id="mobile-menu-btn" class="xl:hidden text-punch cursor-pointer hover:opacity-75 relative z-20">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24  24" xmlns="https://www.w3.org/2000/svg">
-            <path class="" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-
-        <nav class="hidden xl:flex gap-6" aria-label="main">
-          <% if authenticated? %>
-            <%= link_to "Log a drink", new_log_path, class: "text-2xl header-link" %>
-            <%= link_to "Occasions", occasions_path, class: "text-2xl header-link" %>
-            <%= link_to "Drinks", drinks_path, class: "text-2xl header-link" %>
-            <%= link_to "Recipes", recipes_path, class: "text-2xl header-link" %>
-            <%= link_to "People", people_path, class: "text-2xl header-link" %>
-            <%= link_to "Places", places_path, class: "text-2xl header-link" %>
-          <% end %>
-          <%= link_to "Rankings", rankings_path, class: "text-2xl header-link" %>
-          <%= link_to "Bars", bars_path, class: "text-2xl header-link" %>
-          <%= link_to "Cocktails", cocktails_path, class: "text-2xl header-link" %>
-          <%= (link_to "Login", new_session_path, class: "text-2xl header-link") unless authenticated?%>
-          <%= (button_to "Log out", session_path, class: "text-2xl header-link", method: :delete) if authenticated?%>
-        </nav>
-
-      </div>
-
-      <div id="mobile-menu" class="absolute top-full right-4 max-h-0 opacity-0 bg-ablescent-white items-center overflow-hidden xl:hidden flex flex-col gap-4 px-4 py-2  mt-2 rounded-2xl shadow-lg transition-all duration-300 ease-in-out">
         <% if authenticated? %>
-          <%= link_to "Log a drink", new_log_path, class: "text-3xl header-link" %>
-          <%= link_to "Occasions", occasions_path, class: "text-3xl header-link" %>
-          <%= link_to "Drinks", drinks_path, class: "text-3xl header-link" %>
-          <%= link_to "Recipes", recipes_path, class: "text-3xl header-link" %>
-          <%= link_to "People", people_path, class: "text-3xl header-link" %>
-          <%= link_to "Places", places_path, class: "text-3xl header-link" %>
+          <%# Phones get the tab bar below instead. %>
+          <nav aria-label="Logbook" class="hidden grow flex-wrap gap-1 lg:flex">
+            <%= nav_link_to "Occasions", occasions_path, current: request.path == root_path || request.path.start_with?(occasions_path), class: "nav-link" %>
+            <%= nav_link_to "Drinks", drinks_path, class: "nav-link" %>
+            <%= nav_link_to "Recipes", recipes_path, class: "nav-link" %>
+            <%= nav_link_to "Places", places_path, class: "nav-link" %>
+            <%= nav_link_to "People", people_path, class: "nav-link" %>
+          </nav>
+          <div class="hidden items-center gap-2 lg:flex">
+            <%= link_to "Public pages", rankings_path, class: "nav-link" %>
+            <%= button_to "Log out", session_path, method: :delete, class: "nav-link cursor-pointer" %>
+            <%= link_to new_log_path, class: "button-primary" do %>
+              <svg aria-hidden="true" class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              Log a drink
+            <% end %>
+          </div>
+        <% else %>
+          <nav aria-label="Public" class="flex grow flex-wrap gap-1">
+            <%= nav_link_to "Rankings", rankings_path, class: "nav-link" %>
+            <%= nav_link_to "Bars", bars_path, class: "nav-link" %>
+            <%= nav_link_to "Cocktails", cocktails_path, class: "nav-link" %>
+          </nav>
+          <%= link_to "Sign in", new_session_path, class: "nav-link" unless controller_name == "sessions" %>
         <% end %>
-        <%= link_to "Rankings", rankings_path, class: "text-3xl header-link" %>
-        <%= link_to "Bars", bars_path, class: "text-3xl header-link" %>
-        <%= link_to "Cocktails", cocktails_path, class: "text-3xl header-link" %>
-        <%= (link_to "Login", new_session_path, class: "text-3xl header-link") unless authenticated?%>
-        <%= (button_to "Log out", session_path, class: "text-3xl header-link", method: :delete) if authenticated?%>
       </div>
-
-
     </header>
-    
+
     <% if demo? %>
-      <p class="mx-16 mb-6 py-2 px-4 bg-ablescent-white text-elm font-medium rounded-lg text-center" id="demo-banner">
-        You're in the demo. It's shared with other visitors and resets every night.
+      <p class="mx-auto mt-6 w-full max-w-6xl px-4 sm:px-6" id="demo-banner">
+        <span class="block rounded-xl border border-line bg-lagoon-800 px-4 py-2 text-center font-medium text-muted">
+          You're in the demo. It's shared with other visitors and resets every night.
+        </span>
       </p>
     <% end %>
 
-    <main class="flex-grow mx-16 space-y-8">
+    <main class="mx-auto w-full max-w-6xl grow space-y-8 px-4 py-8 sm:px-6">
       <%= yield %>
     </main>
 
-    <div class="bg-ablescent-white text-center text-sm text-punch py-6 mt-8">
-      &copy 2025 Buzzy's Bar. All rights reserved.
-    </div>
+    <footer class="border-t border-line bg-lagoon-950">
+      <div class="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 px-4 py-6 text-sm text-muted sm:px-6">
+        <span>Buzzy's Bar · a family tiki logbook</span>
+        <span class="flex gap-5">
+          <%= link_to "Rankings", rankings_path %>
+          <%= link_to "Bars", bars_path %>
+          <%= link_to "Cocktails", cocktails_path %>
+        </span>
+      </div>
+    </footer>
+
+    <% if authenticated? %>
+      <nav aria-label="Main" class="fixed inset-x-0 bottom-0 z-20 grid grid-cols-5 border-t border-line bg-lagoon-950 px-1 pt-1.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
+        <%= nav_link_to occasions_path, current: request.path == root_path || request.path.start_with?(occasions_path), class: "tab-link" do %>
+          <svg aria-hidden="true" class="size-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Occasions
+        <% end %>
+        <%= nav_link_to drinks_path, class: "tab-link" do %>
+          <svg aria-hidden="true" class="size-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14l-6 8v6l-2 2v-8z"/></svg>
+          Drinks
+        <% end %>
+        <%= nav_link_to new_log_path, class: "tab-link" do %>
+          <span class="-mt-4 flex size-10 items-center justify-center rounded-full bg-accent text-ink">
+            <svg aria-hidden="true" class="size-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+          Log
+        <% end %>
+        <%= nav_link_to recipes_path, class: "tab-link" do %>
+          <svg aria-hidden="true" class="size-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h11a1 1 0 0 1 1 1v17l-6-3-6 3V4a1 1 0 0 1 0-1z"/></svg>
+          Recipes
+        <% end %>
+        <details class="group relative">
+          <summary class="tab-link cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <svg aria-hidden="true" class="size-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            More
+          </summary>
+          <div class="absolute right-1 bottom-full mb-3 flex w-52 flex-col rounded-2xl border border-line bg-lagoon-800 p-2 shadow-xl shadow-black/40">
+            <%= nav_link_to "Places", places_path, class: "nav-link" %>
+            <%= nav_link_to "People", people_path, class: "nav-link" %>
+            <%= nav_link_to "Rankings", rankings_path, class: "nav-link" %>
+            <%= nav_link_to "Bars", bars_path, class: "nav-link" %>
+            <%= nav_link_to "Cocktails", cocktails_path, class: "nav-link" %>
+            <%= button_to "Log out", session_path, method: :delete, class: "nav-link w-full cursor-pointer text-left" %>
+          </div>
+        </details>
+      </nav>
+    <% end %>
   </body>
 </html>

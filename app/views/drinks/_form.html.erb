@@ -13,12 +13,12 @@
 
   <div class="my-5">
     <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": drink.errors[:name].none?, "border-red-400 focus:outline-red-600": drink.errors[:name].any?}] %>
+    <%= form.text_field :name, class: input_class(drink, :name) %>
   </div>
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.text_area :description, rows: 3, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": drink.errors[:description].none?, "border-red-400 focus:outline-red-600": drink.errors[:description].any?}] %>
+    <%= form.text_area :description, rows: 3, class: input_class(drink, :description) %>
   </div>
 
   <% unless demo? %>

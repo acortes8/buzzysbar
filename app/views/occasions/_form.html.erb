@@ -13,13 +13,13 @@
 
   <div class="my-5">
     <%= form.label :place_name, "Place" %>
-    <%= form.text_field :place_name, list: "place-names", autocomplete: "off", placeholder: "Bar name, or Home", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:place].none?, "border-red-400 focus:outline-red-600": occasion.errors[:place].any?}] %>
+    <%= form.text_field :place_name, list: "place-names", autocomplete: "off", placeholder: "Bar name, or Home", class: input_class(occasion, :place) %>
     <datalist id="place-names">
       <% Current.logbook.places.order(:name).pluck(:name).each do |name| %>
         <option value="<%= name %>"></option>
       <% end %>
     </datalist>
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-elm">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-muted">
       <span>A new name adds the place, as a</span>
       <% Place.kinds.each_key do |kind| %>
         <%= form.label "place_kind_#{kind}", class: "flex items-center gap-1" do %>
@@ -31,7 +31,7 @@
 
   <div class="my-5">
     <%= form.label :occurred_on, "Date" %>
-    <%= form.date_field :occurred_on, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:occurred_on].none?, "border-red-400 focus:outline-red-600": occasion.errors[:occurred_on].any?}] %>
+    <%= form.date_field :occurred_on, class: input_class(occasion, :occurred_on) %>
   </div>
 
   <fieldset class="my-5">
@@ -45,7 +45,7 @@
 
   <div class="my-5">
     <%= form.label :notes %>
-    <%= form.text_area :notes, rows: 3, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": occasion.errors[:notes].none?, "border-red-400 focus:outline-red-600": occasion.errors[:notes].any?}] %>
+    <%= form.text_area :notes, rows: 3, class: input_class(occasion, :notes) %>
   </div>
 
   <div class="inline">

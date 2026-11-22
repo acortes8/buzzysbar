@@ -1,14 +1,14 @@
 <% content_for :title, "Rankings" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
-  <h1 class="font-bold text-punch text-4xl">Rankings</h1>
-  <p class="text-elm mt-2">Every version of a drink we've tried, best first.</p>
+<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+  <h1 class="font-bold text-accent text-4xl">Rankings</h1>
+  <p class="text-muted mt-2">Every version of a drink we've tried, best first.</p>
 
-  <ul id="rankings" class="divide-y divide-gray-200 mt-5">
+  <ul id="rankings" class="divide-y divide-line mt-5">
     <% @drinks.each do |drink| %>
       <li class="py-3 flex justify-between items-baseline gap-2">
-        <%= link_to drink.name, ranking_path(drink), class: "text-xl font-bold text-punch hover:underline" %>
-        <span class="text-elm"><%= pluralize(drink.tastings.size, "tasting") %></span>
+        <%= link_to drink.name, ranking_path(drink), class: "text-xl font-bold text-accent hover:underline" %>
+        <span class="text-muted"><%= pluralize(drink.tastings.size, "tasting") %></span>
       </li>
     <% end %>
   </ul>

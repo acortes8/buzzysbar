@@ -1,22 +1,22 @@
 <% content_for :title, @drink.name %>
 
-<div class="mx-auto md:w-2/3 w-full bg-ablescent-white p-5 rounded-lg">
+<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-ablescent-white mb-5 text-elm font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
   <% end %>
   <% if alert.present? %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md inline-block" id="alert"><%= alert %></p>
+    <p class="flash-alert mb-5" id="alert"><%= alert %></p>
   <% end %>
 
-  <h1 class="font-bold text-punch text-4xl"><%= @drink.name %></h1>
+  <h1 class="font-bold text-accent text-4xl"><%= @drink.name %></h1>
   <% if @drink.published? %>
-    <p class="mt-2 text-elm">Published: <%= link_to "see the public ranking", ranking_path(@drink), class: "underline" %></p>
+    <p class="mt-2 text-muted">Published: <%= link_to "see the public ranking", ranking_path(@drink), class: "underline" %></p>
   <% end %>
 
   <div><%= render @drink %>
 
   <section class="my-5">
-    <h2 class="font-bold text-2xl text-punch">Recipes</h2>
+    <h2 class="font-bold text-2xl text-accent">Recipes</h2>
     <ul id="recipes" class="list-disc ml-6 my-2">
       <% @drink.recipes.sort_by(&:title).each do |recipe| %>
         <li><%= link_to recipe.title, recipe, class: "underline" %></li>
@@ -26,8 +26,8 @@
   </section>
 
   <section class="my-5">
-    <h2 class="font-bold text-2xl text-punch">Every time we've had it</h2>
-    <div class="divide-y divide-gray-200">
+    <h2 class="font-bold text-2xl text-accent">Every time we've had it</h2>
+    <div class="divide-y divide-line">
       <% @drink.tastings.sort_by { |tasting| tasting.occasion.occurred_on }.reverse_each do |tasting| %>
         <%= render tasting, heading: link_to(tasting.occasion.title, tasting.occasion) %>
       <% end %>
