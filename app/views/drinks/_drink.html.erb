@@ -1,12 +1,16 @@
-<div id="<%= dom_id drink %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= drink.name %>
-  </div>
-  <% if drink.description.present? %>
-    <div>
-      <strong class="block font-medium mb-1">Description:</strong>
-      <%= simple_format drink.description %>
+<%# A drink's row on the drinks list. %>
+<li id="<%= dom_id drink %>" class="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-4 hover:bg-lagoon-700/50">
+  <div class="min-w-0 flex-[999_1_20rem]">
+    <div class="flex flex-wrap items-center gap-2">
+      <%# The link covers the whole row. %>
+      <%= link_to drink.name, drink, class: "text-lg font-bold text-cream after:absolute after:inset-0 hover:text-accent" %>
+      <% if drink.published? %><span class="tag tag-home text-xs">Public</span><% end %>
     </div>
-  <% end %>
-</div>
+    <% if drink.description.present? %>
+      <p class="text-muted"><%= drink.description %></p>
+    <% end %>
+  </div>
+  <p class="text-sm text-muted">
+    <%= pluralize(drink.tastings.size, "time") %> · <%= pluralize(drink.recipes.size, "recipe") %>
+  </p>
+</li>

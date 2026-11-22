@@ -3,7 +3,7 @@ class DrinksController < ApplicationController
 
   # GET /drinks or /drinks.json
   def index
-    @drinks = Current.logbook.drinks.order(:name)
+    @drinks = Current.logbook.drinks.includes(:tastings, :recipes).order(:name)
   end
 
   # GET /drinks/1 or /drinks/1.json

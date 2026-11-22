@@ -1,32 +1,35 @@
 <% content_for :title, "Editing book" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
-  <h1 class="font-bold text-4xl text-accent">Editing book</h1>
+<div class="mx-auto max-w-2xl space-y-6">
+  <%= link_to "← Back to the book", @book, class: "text-sm text-muted hover:text-cream" %>
+  <h1 class="page-title">Editing book</h1>
 
-  <%= form_with(model: @book, class: "contents") do |form| %>
-    <% if @book.errors.any? %>
-      <div id="error_explanation" class="error-explanation">
-        <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
-        <ul class="list-disc ml-6">
-          <% @book.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
+  <div class="card">
+    <%= form_with(model: @book, class: "contents") do |form| %>
+      <% if @book.errors.any? %>
+        <div id="error_explanation" class="error-explanation mb-6">
+          <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
+          <ul class="ml-6 list-disc">
+            <% @book.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-6">
+        <%= form.label :title, class: "field-label" %>
+        <%= form.text_field :title, class: input_class(@book, :title) %>
+      </div>
+
+      <div class="mb-6">
+        <%= form.label :author, class: "field-label" %>
+        <%= form.text_field :author, class: "input" %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit class: "button-primary" %>
       </div>
     <% end %>
-
-    <div class="my-5">
-      <%= form.label :title %>
-      <%= form.text_field :title, class: input_class(@book, :title) %>
-    </div>
-
-    <div class="my-5">
-      <%= form.label :author %>
-      <%= form.text_field :author, class: "input" %>
-    </div>
-
-    <%= form.submit class: "button-primary" %>
-  <% end %>
-
-  <%= link_to "Show this book", @book, class: "button-secondary mt-3" %>
+  </div>
 </div>

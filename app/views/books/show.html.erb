@@ -1,29 +1,35 @@
 <% content_for :title, @book.title %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 rounded-lg">
+<div class="space-y-8">
+  <%= link_to "← All books", books_path, class: "text-sm text-muted hover:text-cream" %>
+
   <% if notice.present? %>
-    <p class="flash-notice mb-5" id="notice"><%= notice %></p>
+    <p class="flash-notice" id="notice"><%= notice %></p>
   <% end %>
   <% if alert.present? %>
-    <p class="flash-alert mb-5" id="alert"><%= alert %></p>
+    <p class="flash-alert" id="alert"><%= alert %></p>
   <% end %>
 
-  <h1 class="font-bold text-accent text-4xl"><%= @book.title %></h1>
-  <% if @book.author.present? %>
-    <p class="text-muted mt-2">by <%= @book.author %></p>
-  <% end %>
-  <p class="text-muted mt-2">Recipes from books stay private.</p>
+  <header class="flex flex-wrap items-start justify-between gap-6">
+    <div class="space-y-2">
+      <h1 class="page-title text-5xl"><%= @book.title %></h1>
+      <% if @book.author.present? %>
+        <p class="text-lg text-muted">by <%= @book.author %></p>
+      <% end %>
+      <p class="text-sm text-muted">Recipes from books stay private.</p>
+    </div>
+    <div class="actions">
+      <%= link_to "Edit", edit_book_path(@book), class: "button-secondary" %>
+      <%= button_to "Delete", @book, method: :delete, class: "button-tertiary", data: { turbo_confirm: "Delete this book?" } %>
+    </div>
+  </header>
 
-  <ul id="recipes" class="divide-y divide-line my-5">
+  <ul id="recipes" class="card divide-y divide-line p-0">
     <% @book.recipes.includes(:drink).sort_by { |recipe| [ recipe.page || Float::INFINITY, recipe.title ] }.each do |recipe| %>
-      <li class="py-3 flex justify-between items-baseline gap-2">
-        <%= link_to recipe.title, recipe, class: "text-xl font-bold text-accent hover:underline" %>
-        <% if recipe.page %><span class="text-muted">page <%= recipe.page %></span><% end %>
+      <li class="relative flex items-baseline justify-between gap-3 px-6 py-4 hover:bg-lagoon-700/50">
+        <%= link_to recipe.title, recipe, class: "text-lg font-bold text-cream after:absolute after:inset-0 hover:text-accent" %>
+        <% if recipe.page %><span class="text-sm text-muted">page <%= recipe.page %></span><% end %>
       </li>
     <% end %>
   </ul>
-
-  <%= link_to "Edit this book", edit_book_path(@book), class: "button-primary" %>
-  <%= link_to "Back to books", books_path, class: "button-secondary" %>
-  <%= button_to "Destroy this book", @book, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "button-tertiary", data: { turbo_confirm: "Are you sure?" } %>
 </div>

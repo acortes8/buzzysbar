@@ -11,7 +11,7 @@ class RecipesTest < ApplicationSystemTestCase
     assert_text @recipe.title
 
     visit recipe_url(@recipe)
-    assert_selector "p", text: @recipe.title
+    assert_selector "h1", text: @recipe.title
   end
 
   test "should create recipe for a new drink" do
@@ -31,7 +31,7 @@ class RecipesTest < ApplicationSystemTestCase
   test "should update recipe" do
     sign_in_as users(:one)
     visit recipe_url(@recipe)
-    press "Edit this recipe"
+    press "Edit"
 
     enter "Title", with: "Mai Tai (1944)"
     press "Update Recipe"
@@ -43,7 +43,7 @@ class RecipesTest < ApplicationSystemTestCase
   test "should destroy recipe" do
     sign_in_as users(:one)
     visit recipe_url(@recipe)
-    accept_confirm_dialog("Are you sure?") { press "Destroy this recipe" }
+    accept_confirm_dialog("Delete this recipe?") { press "Delete" }
 
     assert_text "Recipe was successfully destroyed"
     assert_no_selector "h1", exact_text: @recipe.title

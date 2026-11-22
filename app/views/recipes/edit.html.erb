@@ -1,10 +1,9 @@
 <% content_for :title, "Editing recipe" %>
 
-<div class="mx-auto md:w-2/3 w-full bg-lagoon-800 p-5 mb-5 rounded-lg">
-  <h1 class="font-bold text-4xl text-accent">Editing recipe</h1>
-
-  <%= render "form", recipe: @recipe %>
-
-  <%= link_to "Show this recipe", @recipe, class: "button-secondary" %>
-  <%= link_to "Back to recipes", recipes_path, class: "button-secondary" %>
+<div class="mx-auto max-w-3xl space-y-6">
+  <%= link_to "← Back to the recipe", @recipe, class: "text-sm text-muted hover:text-cream" %>
+  <h1 class="page-title">Editing recipe</h1>
+  <div class="card">
+    <%= render "form", recipe: @recipe %>
+  </div>
 </div>
