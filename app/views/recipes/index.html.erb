@@ -4,7 +4,7 @@
 <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
 <% if notice.present? %>
-  <p class="notice" id="notice"><%= notice %></p>
+  <p class="flash-notice mb-5" id="notice"><%= notice %></p>
 <% end %>
 
 <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
