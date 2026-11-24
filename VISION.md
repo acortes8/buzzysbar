@@ -88,7 +88,7 @@ This is an ongoing hobby. Each phase should be usable on its own.
 - **Public recipes:** opt-in like everything else, and a recipe whose source is a book can never be published. Existing recipes start unpublished. *(2026-11-13)*
 - **Recipe sources:** a `Book` record (title, author) with a page number, or a credit for a bartender or bar, or "ours". *(2026-11-13)*
 - **Required recipe fields:** title, drink, ingredients and instructions. The photo and description are optional. *(2026-11-13)*
-- **Old `/beverages` links** redirect to `/recipes`. *(2026-11-13)*
+- **Old `/beverages` links** redirect to the public `/cocktails` pages (a `/beverages/:id` link goes to `/cocktails/:id`), since those links were public. *(2026-11-13)*
 
 ## Open questions
 
