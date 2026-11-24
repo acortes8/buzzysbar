@@ -37,10 +37,11 @@ registry:
   password:
     - KAMAL_REGISTRY_PASSWORD
 
-# Configure builder setup.
+# Configure builder setup. Images build locally with Docker Desktop (emulating
+# amd64 on Apple silicon), not on the server: compiling gems there next to the
+# running app ran the 2 GB server out of memory and took the site down.
 builder:
   arch: amd64
-  remote: ssh://alex@178.156.213.87:12444
   args:
     RAILS_ENV: production
   cache:
